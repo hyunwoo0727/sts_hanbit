@@ -1,0 +1,6 @@
+@CHARSET "UTF-8";+
+#container{width: 100%; text-align: center;}
+.formbox{padding:20px; border: 1px solid #999999; display: block;margin: 0 auto;}
+.databox{padding:20px; border: 1px solid #999999; display: block;margin: 0 auto;}
+#name, #height, #weight {width: 200px;}
+.databox > div{padding: 5px; border-bottom: 1px solid #999999;}
