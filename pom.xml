@@ -265,6 +265,16 @@
 		    <artifactId>tiles-jsp</artifactId>
 		    <version>${tiles-core-version}</version>
 		</dependency>	
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-template</artifactId>
+			<version>${tiles-core-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-el</artifactId>
+		<version>${tiles-core-version}</version>
+	</dependency>
 		<!-- EL -->
 		<dependency>
 		    <groupId>commons-el</groupId>
