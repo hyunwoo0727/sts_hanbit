@@ -19,10 +19,10 @@ var douglas = (function() {
 	var context = sessionStorage.getItem("context");
 	return {
 		init : function() {
-			document.querySelector('#bt_bom').addEventListener('click',function(){util.move('douglas','bom')},false);
-			document.querySelector('#bt_dom').addEventListener('click',function(){util.move('douglas','dom')},false);
-			document.querySelector('#bt_kaup').addEventListener('click',function(){util.move('douglas','kaup')},false);
-			document.querySelector('#bt_account').addEventListener('click',function(){util.move('douglas','account')},false);	
+			$('#bt_bom').click(function(){util.move('douglas','bom')});
+			$('#bt_dom').click(function(){util.move('douglas','dom')});
+			$('#bt_kaup').click(function(){util.move('douglas','kaup')});
+			$('#bt_account').click(function(){util.move('douglas','account')});	
 		}
 	};
 })();
@@ -39,36 +39,36 @@ var account = (function() {
 		setMoney : setMoney,
 		getMoney : getMoney,
 		creator_init : function() {
-			document.querySelector("#bt_spec_show").addEventListener('click',member.spec,false);
-			document.querySelector("#bt_make_account").addEventListener('click',this.open,false);
-			document.querySelector("#bt_deposit").addEventListener('click',this.deposit,false);
-			document.querySelector("#bt_withdraw").addEventListener('click',this.withdraw,false);
+			$("#bt_spec_show").click(member.spec);
+			$("#bt_make_account").click(account.open);
+			$("#bt_deposit").click(account.deposit);
+			$("#bt_withdraw").click(account.withdraw);
 		},
 		open : function() {
 			setAccountNo(Math.floor((Math.random()*899999)+100001));
 			setMoney(0);
-			document.querySelector("#account").innerHTML = getAccountNo();
-			document.querySelector(".databox #money").innerHTML = getMoney();
+			$("#account").innerHTML = getAccountNo();
+			$(".databox #money").innerHTML = getMoney();
 		},
 		deposit : function() {
 			if(!util.isNumber(getAccountNo())){
 				alert('통장부터 만드셈');
 				
 			}
-			setMoney(getMoney() + Number(document.querySelector("input[id=money]").value));
-			document.querySelector(".databox #money").innerHTML = getMoney();
+			setMoney(getMoney() + Number($("input[id=money]").value));
+			$(".databox #money").innerHTML = getMoney();
 		},
 		withdraw : function() {
 			if(!util.isNumber(getAccountNo())){
 				alert('통장부터 만드셈');
 				return;
 			}
-			var withdraw_money = Number(document.querySelector("input[id=money]").value);	
+			var withdraw_money = Number($("input[id=money]").value);	
 			if(getMoney() < withdraw_money){
 				alert('출금액이 더 큼');
 			}else{
 				setMoney(getMoney() - withdraw_money);
-				document.querySelector(".databox #money").innerHTML = getMoney();
+				$(".databox #money").innerHTML = getMoney();
 			}
 		}
 	};
@@ -95,8 +95,8 @@ var member = (function() {
 		getAge : getAge,
 		
 		spec : function() {
-			setName(document.querySelector(".formbox #name").value);
-			setSsn(document.querySelector("#ssn").value);
+			setName($(".formbox #name").value);
+			setSsn($("#ssn").value);
 			var scode = Number(getSsn().split("-")[1]);
 			var ageYear = Number(getSsn().substring(0,2));
 			var gen = (scode+2)%2==0? '여':'남';
@@ -116,44 +116,15 @@ var member = (function() {
 				break;
 			}
 			
-			document.querySelector('.databox #name').innerHTML = getName();
-			document.querySelector('#age').innerHTML = getAge();
-			document.querySelector('#gender').innerHTML = getGender();
+			$('.databox #name').innerHTML = getName();
+			$('#age').innerHTML = getAge();
+			$('#gender').innerHTML = getGender();
 		}
 	};
 })();
 
 // ==================
 
-var kaup = (function() {
-	return {
-		init : function() {
-			document.querySelector("#bt_kaup_calc").addEventListener('click',this.calc,false)
-		},
-		calc : function() {
-			var names = document.querySelector('#name').value;
-			var height = document.getElementById('height').value;
-			var weight = document.getElementById('weight').value;
-			var result = '';
-			var kaup = weight / ( height / 100) / (height / 100);
-			if (kaup < 18.5) {
-		         result = "저체중";
-		    } else if (kaup >= 18.5 && kaup < 23) {
-		         result = "정상체중" ;
-		    } else if (kaup >= 23 && kaup < 25) {
-		         result = "위험체중" ;
-		    } else if (kaup >= 25 && kaup < 30) {
-		         result = "비만 1단계" ;
-		    } else if (kaup >= 30 && kaup < 40) {
-		         result = "비만 2단계" ;
-		    }
-		     if (kaup >= 40) {
-		         result = "비만 3단계" ;
-		    }
-		     document.querySelector("#result").innerHTML=names +"은 BMI지수는 "+kaup+"이고," +result +"이다.";
-		}
-	};
-})();
 
 //==================grade==================================
 

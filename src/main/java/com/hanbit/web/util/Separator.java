@@ -1,4 +1,4 @@
-package com.hanbit.web.global;
+package com.hanbit.web.util;
 
 import java.util.ArrayList;
 import java.util.Enumeration;

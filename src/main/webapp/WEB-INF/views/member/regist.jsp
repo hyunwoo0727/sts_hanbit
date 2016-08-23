@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<jsp:include page="../global/top.jsp" />
-<jsp:include page="../global/header.jsp" />
+    pageEncoding="UTF-8"%> 
 	<div class="box" style="width: 700px;">
 		<form action="${context}/member.do" method="post">
 			<input type="hidden" name="action" value="regist" />
@@ -29,5 +27,3 @@
 			<input class="btn" type="reset" value="취 소"/>
 		</form> 
 	</div>
-<jsp:include page="../global/footer.jsp" />
-<jsp:include page="../global/end.jsp" />

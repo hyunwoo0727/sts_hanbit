@@ -66,4 +66,4 @@ div.memberClass{
 	text-align: center;
 }
 input.btn{height:50px; width: 200px;background-color: black;color: white;font-size: x-large;font-weight: bold;}
-span.meta{width: 200px; background-color: powderblue; text-align: center;}
+span.meta{width: 200px;background-color: powderblue;float: left;text-align: center;}

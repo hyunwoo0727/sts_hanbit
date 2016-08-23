@@ -4,7 +4,7 @@ var admin = (function() {
 	var setPass = function(pass) { this._pass = pass; };
 	return {
 		init : function() {
-			document.querySelector("#a_admin").addEventListener('click',this.checkAdmin,false);
+			$("#a_admin").click(admin.checkAdmin);
 		},
 		setPass : setPass,
 		getPass : getPass,

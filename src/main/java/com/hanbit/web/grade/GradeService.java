@@ -1,6 +1,6 @@
 package com.hanbit.web.grade;
 
-import com.hanbit.web.global.CommonService;
+import com.hanbit.web.util.CommonService;
 
 
 

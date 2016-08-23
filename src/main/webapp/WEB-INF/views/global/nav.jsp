@@ -11,19 +11,4 @@
 		<li><a href="#" id="a_school">학교소개</a></li>
 	</ul>
 </div>
-<!-- <script type="text/javascript">
-	$(function() {
-		$('#nav a').click(function(e) {
-			var aid = e.target.getAttribute('id');
-			var ctx = sessionStorage.getItem("context");
-			switch (aid) {
-				case "a_school":
-					location.href = ctx + "/global.do?page=school_info";
-					break;
-				default:
-					location.href = ctx + "/"+aid.split("_")[1]+".do";
-					break;
-			}
-		});
-	})
-</script> -->
+ 
