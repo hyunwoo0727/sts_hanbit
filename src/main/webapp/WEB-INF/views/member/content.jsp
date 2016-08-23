@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>   <!-- 줄 -->
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>   <!-- 줄 -->
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 	<div class="box">
 		<div style="width: 300px; margin: 0 auto; text-align: left;">
 		<h1>회원관리</h1> <br />

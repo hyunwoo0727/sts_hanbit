@@ -32,9 +32,9 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
-		model.addAttribute("names", "test");
+	
 		
-		return "tiles_view";
+		return "global/content.tiles";
 	}
 	
 }
