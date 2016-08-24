@@ -63,11 +63,11 @@ public class MemberController {
 		
 		return "member/list.tiles";
 	} 
-	@RequestMapping("/find_by")
-	public String moveFindBy(Locale locale, Model model) {
-		logger.info("MemberController moveFindBy locale is {}.", locale);
+	@RequestMapping("/search")
+	public String moveSearch(Locale locale, Model model) {
+		logger.info("MemberController moveSearch locale is {}.", locale);
 		
-		return "member/find_by.tiles";
+		return "member/search.tiles";
 	} 
 	@RequestMapping("/count")
 	public String moveCount(Locale locale, Model model) {

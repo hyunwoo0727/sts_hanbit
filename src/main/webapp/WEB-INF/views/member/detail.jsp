@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="${css}/member.css" />
 	<div class="box" style="width: 70%;">
 		<h1>회원 정보</h1>
-		<table id="member_detail">
+		<table id="member_details">
 			<tr>
 				<td rowspan="6" style="width: 30%;"><img src="${img}/member/${user.profileImg}" width="300" height="300" /></td>
 				<td class="fontBold bg_color_yellow" style="width: 20%;">ID</td>
