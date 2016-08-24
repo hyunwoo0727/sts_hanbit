@@ -19,7 +19,7 @@ public class MemberController {
 	public String moveMain(Locale locale, Model model) {
 		logger.info("MemberController moveMain() locale is {}.", locale);
 		
-		return "member/content.tiles";
+		return "admin:member/content.tiles";
 	} 
 	@RequestMapping("/regist")
 	public String moveRegist(Locale locale, Model model) {

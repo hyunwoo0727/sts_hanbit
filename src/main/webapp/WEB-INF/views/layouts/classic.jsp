@@ -18,10 +18,6 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="${css}/application.css" type="text/css"/>
-	<script src="${js}/app.js?ver=1.1"></script>
-	<script src="${js}/douglas.js"></script>
-	<script src="${js}/member.js"></script>
-	<script src="${js}/resig.js"></script>
 </head>
 <body>
 	<header>
@@ -41,10 +37,11 @@
 		 <tiles:insertAttribute name="footer" /> 
 	</footer>
 </body>
+<script src="${js}/app.js?ver=1.2"></script>
 <script>
-app.init('${pageContext.request.contextPath}');
-member.init();
-douglas.init();
-grade.init()
+	app.init('${pageContext.request.contextPath}');
+	member.init();
+	douglas.init();
+	grade.init()
 </script>
 </html>

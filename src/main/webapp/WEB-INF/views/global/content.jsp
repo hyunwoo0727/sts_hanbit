@@ -4,6 +4,6 @@
 			<h2></h2>
 			<a id="member_regist"></a><br/>
 			<a id="member_login"></a><br/>
-			<a id="a_admin"></a>
+			<a id="admin_main"></a>
 		</article>
 </section>
