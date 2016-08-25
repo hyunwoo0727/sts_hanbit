@@ -40,8 +40,6 @@
 <script src="${js}/app.js?ver=1.2"></script>
 <script>
 	app.init('${pageContext.request.contextPath}');
-	member.init();
-	douglas.init();
-	grade.init()
+	
 </script>
 </html>

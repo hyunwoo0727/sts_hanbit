@@ -34,11 +34,8 @@
 		 <tiles:insertAttribute name="footer" /> 
 	</footer>
 </body>
-<script src="${js}/app.js?ver=1.2"></script>
+<script src="${js}/app.js?ver=1.3"></script>
 <script>
 	app.init('${pageContext.request.contextPath}');
-	member.init();
-	douglas.init();
-	grade.init()
 </script>
 </html>

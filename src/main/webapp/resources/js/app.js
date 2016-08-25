@@ -1,71 +1,53 @@
 var app = (function() {  // ( ) 안에서만 살 수 있음.. 밖에선 인식 안됨.
-	var getContextPath = function() {
-		return sessionStorage.getItem("context");
-	}
-	var js = function() {
-		return sessionStorage.getItem('js');
-	}
-	var css = function() {
-		return sessionStorage.getItem('css');
-	}
-	var img = function() {
-		return sessionStorage.getItem('img');
-	}
 	var init = function(param) {
-		sessionStorage.setItem('context',param); 
-		sessionStorage.setItem('js',param+'/resources/js');
-		sessionStorage.setItem('css',param+'/resources/css');
-		sessionStorage.setItem('img',param+'/resources/img');
-		$('#img_home').attr('src',app.img()+'/home.png').attr('alt','home').css('width','50').css('height','50');
-		$('#img_logout').attr('src',app.img()+'/logout.png').attr('alt','logout').css('width','50').css('height','50');
+		session.init(param);
+		user.init();
+		account.init();
+		member.init();
+		grade.init();
+		this.onCreate();
+	}
+	var setContentView = function() {
+		// layout & global
+		$('#footer').addClass('bottom');
+		$('#nav').css('width','100%').css('padding','0px');
 		$('#content').addClass('box').addClass('font_large');
 		$('#content > article').css('width','300px').addClass('el_center').addClass('text_left');
-		
-		
 		$('#global_content').addClass('box');
-		$('#global_content h2').text('서비스를 이용하시려면 회원가입을 하셔야 합니다');
+		$('#global_content h2').append('<small>서비스를 이용하시려면</small> 회원가입<small>을 하셔야 합니다</small>');
+		$('#global_content #member_login').addClass('btn btn-primary').css('margin-bottom','10px');
+		$('#global_content #member_regist').addClass('btn btn-primary').css('margin-bottom','10px');
 		$('#admin_main').text('ADMIN MODE');
 		$('.box a').addClass('pointer');
-		app.move();
 	}
-	var move = function() {
+	var onCreate = function() {
+		this.setContentView();
 		$('#header').click(function() {
-			util.home();
+			controller.home();
 		});
 		$('#nav a').click(function(e) {
-			util.move(e.target.getAttribute('id').split("_")[1],"main");
+			controller.move(e.target.getAttribute('id').split("_")[1],"main");
 		});
 		$('.box article a').click(function(e){
 			var aid = e.target.getAttribute('id').split("_");
 			if(aid.includes("admin")&&!admin.checkAdmin()){
 				return;
 			}
-			util.move(aid[0],aid[1]);
+			controller.move(aid[0],aid[1]);
 		});
-		$('#img_home').click(function() {
-			util.home();
-		})
-		$('#img_logout').click(function() {
-			util.move('member','logout');
-		})
+		$('#bt_bom').click(function(){controller.move('douglas','bom')});
+		$('#bt_dom').click(function(){controller.move('douglas','dom')});
+		$('#bt_kaup').click(function(){controller.move('douglas','kaup')});
+		$('#bt_account').click(function(){controller.move('douglas','account')});
 	}
-	return {
-		init : init,
-		getContextPath : getContextPath,
-		move : move,
-		js : js,
-		css : css,
-		img : img
-	};	
+	return {init : init,setContentView : setContentView, onCreate : onCreate};	
 })();
 
 var admin = (function() {
 	var _pass;
 	var getPass = function() { return this._pass };
 	var setPass = function(pass) { this._pass = pass; };
-	return {
-		setPass : setPass,
-		getPass : getPass,
+	return {setPass : setPass,getPass : getPass,
 		checkAdmin : function() {
 			var isAdmin = confirm('관리자셈?');
 			if(!isAdmin){
@@ -82,50 +64,68 @@ var admin = (function() {
 		}
 	};
 })();
-
-
-
 var user = (function() {
+	var init = function(){
+		this.onCreate();
+	}
+	var setContentView = function(){
+		$('#img_home').attr('src',session.getImgPath()+'/home.png').attr('alt','home').css('width','50').css('height','50');
+		$('#img_logout').attr('src',session.getImgPath()+'/logout.png').attr('alt','logout').css('width','50').css('height','50');
+	}
+	var onCreate = function(){
+		this.setContentView();
+		$('#img_logout').click(function() {
+			controller.move('member','logout');
+		})
+		$('#img_home').click(function() {
+			controller.home();
+		})
+	};
 	return {
-		init : function() {
-			$('#bt_bom').click(function(){util.move('douglas','bom')});
-			$('#bt_dom').click(function(){util.move('douglas','dom')});
-			$('#bt_kaup').click(function(){util.move('douglas','kaup')});
-			$('#bt_account').click(function(){util.move('douglas','account')});	
-		}
+		init : init,
+		setContentView : setContentView,
+		onCreate : onCreate
 	};
 })();
-
 var account = (function() {
 	var _account_no,_money;
 	var setAccountNo = function(account_no){this._account_no = account_no;}
 	var getAccountNo = function(){return this._account_no;}
 	var setMoney = function(money){this._money=money;}
 	var getMoney = function(){return this._money;}
+	var init = function(){
+		this.onCreate();
+	}
+	var setContentView = function(){
+		$('#account_content').siblings("h1").text('ACCOUNT MANAGEMENT');
+	}
+	var onCreate = function(){
+		this.setContentView();
+		$("#bt_spec_show").click(member.spec);
+		$("#bt_make_account").click(account.open);
+		$("#bt_deposit").click(account.deposit);
+		$("#bt_withdraw").click(account.withdraw);
+	};
 	return {
 		setAccountNo : setAccountNo,
 		getAccountNo : getAccountNo,
 		setMoney : setMoney,
 		getMoney : getMoney,
-		creator_init : function() {
-			$("#bt_spec_show").click(member.spec);
-			$("#bt_make_account").click(account.open);
-			$("#bt_deposit").click(account.deposit);
-			$("#bt_withdraw").click(account.withdraw);
-		},
+		init : init,
+		setContentView : setContentView,
+		onCreate : onCreate,
 		open : function() {
-			setAccountNo(Math.floor((Math.random()*899999)+100001));
-			setMoney(0);
-			$("#account").innerHTML = getAccountNo();
-			$(".databox #money").innerHTML = getMoney();
+			this.setAccountNo(Math.floor((Math.random()*899999)+100001));
+			this.setMoney(0);
+			$("#account").innerHTML = this.getAccountNo();
+			$(".databox #money").innerHTML = this.getMoney();
 		},
 		deposit : function() {
-			if(!util.isNumber(getAccountNo())){
+			if(!util.isNumber(this.getAccountNo())){
 				alert('통장부터 만드셈');
-				
 			}
-			setMoney(getMoney() + Number($("input[id=money]").value));
-			$(".databox #money").innerHTML = getMoney();
+			setMoney(this.getMoney() + Number($("input[id=money]").value));
+			$(".databox #money").innerHTML = this.getMoney();
 		},
 		withdraw : function() {
 			if(!util.isNumber(getAccountNo())){
@@ -133,11 +133,11 @@ var account = (function() {
 				return;
 			}
 			var withdraw_money = Number($("input[id=money]").value);	
-			if(getMoney() < withdraw_money){
+			if(this.getMoney() < withdraw_money){
 				alert('출금액이 더 큼');
 			}else{
-				setMoney(getMoney() - withdraw_money);
-				$(".databox #money").innerHTML = getMoney();
+				this.setMoney(this.getMoney() - withdraw_money);
+				$(".databox #money").innerHTML = this.getMoney();
 			}
 		}
 	};
@@ -153,6 +153,36 @@ var member = (function() {
 	var getGender = function(){return this._gender;}
 	var setAge = function(age){this._age=age;}
 	var getAge = function(){return this._age;}
+	var init = function(){
+		this.onCreate();
+	}
+	var setContentView = function(){
+		$('#member_content').siblings("h1").text('MEMBER MANAGEMENT');
+		$('#member_content_ol > li:first > a').text('SIGN UP').addClass('remove_underline');
+		$('#member_content_ol > li:nth-child(2) > a').text('LIST').addClass('remove_underline');
+		$('#member_content_ol > li:nth-child(3) > a').text('DETAIL').addClass('remove_underline');
+		$('#member_content_ol > li:nth-child(4) > a').text('UPDATE').addClass('remove_underline');
+		$('#member_content_ol > li:nth-child(5) > a').text('DELETE').addClass('remove_underline');
+		$('#member_content_ol > li:nth-child(6) > a').text('SEARCH').addClass('remove_underline');
+		$('#member_content_ol > li:nth-child(7) > a').text('COUNT').addClass('remove_underline');
+		$('#member_regist').text('REGIST');
+		$('#member_login').text('LOGIN');
+		$('#member_regist_content').addClass('box').css('width','50%');
+		$('#member_regist_content span').addClass('float_left').addClass('text_left').addClass('font_bold').css('width','200px');
+		$('#member_regist_content #bt_join').addClass('btn').addClass('btn-primary');
+		$('#member_regist_content #bt_cancel').addClass('btn').addClass('btn-danger');
+		$('#member_regist_form').addClass('form-horizontal');
+		$('#member_regist_form > div:nth-child(8) > div > div').addClass('checkbox');
+		$('#member_regist_form > div').addClass('form-group');
+		$('#member_regist_form div:nth-child(7) label:gt(0)').addClass('radio-inline');
+		$('#member_regist_form div:nth-child(8) label:gt(0)').addClass('checkbox-inline');
+		$('.form-group > div').addClass('col-sm-10');
+		$('.form-group > label').addClass('col-sm-2').addClass('control-label');
+		$('.col-sm-10 > input').addClass('form-control');
+	}
+	var onCreate = function(){
+		this.setContentView();
+	}
 	return {
 		setName : setName,
 		getName : getName,
@@ -162,60 +192,84 @@ var member = (function() {
 		getGender : getGender,
 		setAge : setAge,
 		getAge : getAge,
-		
+		init : init,
+		setContentView : setContentView,
+		onCreate : onCreate,
 		spec : function() {
-			setName($(".formbox #name").value);
-			setSsn($("#ssn").value);
-			var scode = Number(getSsn().split("-")[1]);
-			var ageYear = Number(getSsn().substring(0,2));
+			this.setName($(".formbox #name").value);
+			this.setSsn($("#ssn").value);
+			var scode = Number(this.getSsn().split("-")[1]);
+			var ageYear = Number(this.getSsn().substring(0,2));
 			var gen = (scode+2)%2==0? '여':'남';
-			console.log('gender',gen);
-			setGender(gen);
-			console.log('gender',getGender());			
+			this.setGender(gen);
 			var nowYear = new Date().getFullYear();
 			switch (scode) {
 			case 1:	case 2:	case 5:	case 6:
-				setAge(nowYear - (1900 + ageYear) + 1);
+				this.setAge(nowYear - (1900 + ageYear) + 1);
 				break;
 			case 9:	case 0:
-				setAge(nowYear - (1800 + ageYear) + 1);
+				this.setAge(nowYear - (1800 + ageYear) + 1);
 				break;
 			default:
-				setAge(nowYear - (2000 + ageYear) + 1);
+				this.setAge(nowYear - (2000 + ageYear) + 1);
 				break;
 			}
-			
-			$('.databox #name').innerHTML = getName();
-			$('#age').innerHTML = getAge();
-			$('#gender').innerHTML = getGender();
-		}
-	};
-})();
-var member = (function() {	
-	return{
-		init : function() {
-			$('#member_content').siblings("h1").text('MEMBER MANAGEMENT');
-			$('#member_content_ol > li:first > a').text('SIGN UP').addClass('remove_underline');
-			$('#member_content_ol > li:nth-child(2) > a').text('LIST').addClass('remove_underline');
-			$('#member_content_ol > li:nth-child(3) > a').text('DETAIL').addClass('remove_underline');
-			$('#member_content_ol > li:nth-child(4) > a').text('UPDATE').addClass('remove_underline');
-			$('#member_content_ol > li:nth-child(5) > a').text('DELETE').addClass('remove_underline');
-			$('#member_content_ol > li:nth-child(6) > a').text('SEARCH').addClass('remove_underline');
-			$('#member_content_ol > li:nth-child(7) > a').text('COUNT').addClass('remove_underline');
-			$('#member_regist').text('REGIST');
-			$('#member_login').text('LOGIN');
+			$('.databox #name').innerHTML = this.getName();
+			$('#age').innerHTML = this.getAge();
+			$('#gender').innerHTML = this.getGender();
 		}
 	};
 })();
 var grade = (function(){
+	var init = function(){
+		this.onCreate();
+	}
+	var setContentView = function(){
+		// grade style
+		$('#grade_content').siblings("h1").text('GRADE MANAGEMENT');
+		$('#grade_content_ol > li:first > a').text('REGIST').addClass('remove_underline');
+		$('#grade_content_ol > li:nth-child(2) > a').text('UPDATE').addClass('remove_underline');
+		$('#grade_content_ol > li:nth-child(3) > a').text('DELETE').addClass('remove_underline');
+		$('#grade_content_ol > li:nth-child(4) > a').text('LIST').addClass('remove_underline');
+		$('#grade_content_ol > li:nth-child(5) > a').text('COUNT').addClass('remove_underline');
+		$('#grade_content_ol > li:nth-child(6) > a').text('SEARCH').addClass('remove_underline');
+	}
+	var onCreate = function(){
+		this.setContentView();
+	};
+	
 	return {
-		init : function() {
-			
-		}
+		init : init,
+		setContentView : setContentView,
+		onCreate : onCreate
 	};
 })();
 
-var util = (function() {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var controller = (function() {
 	var _page,_directory;
 	var setPage = function(page) {this._page = page;}
 	var getPage = function() {	return this._page;	}
@@ -223,17 +277,48 @@ var util = (function() {
 	var getDirectory = function() {	return this._directory;	}
 	return {
 		move : function(directory,page) {
-			util.setDirectory(directory);
-			util.setPage(page);
-			location.href = app.getContextPath() + '/'+util.getDirectory()+'/'+util.getPage();
+			this.setDirectory(directory);
+			this.setPage(page);
+			location.href = session.getContext() + '/'+this.getDirectory()+'/'+this.getPage();
 		},
-		isNumber : function isNumber(value) {
-			  return typeof value === 'number' && isFinite(value);
-		},
-		home : function() { location.href = app.getContextPath() + "/"; },
+		home : function() { location.href = session.getContext() + "/"; },
 		setPage : setPage,
 		getPage : getPage,
 		setDirectory : setDirectory,
 		getDirectory : getDirectory
 	};	
+})();
+var util = (function() {
+	return {
+		isNumber : function isNumber(value) {
+			  return typeof value === 'number' && isFinite(value);
+		}
+	};
+})();
+var session = (function() {
+	var _context,_js,_css,_img;
+	var setContext = function(context){this._context=context;}
+	var getContext = function(){return this._context;}
+	var setJsPath = function(js){this._js=js;}
+	var getJsPath = function(){return this._js;}
+	var setCssPath = function(css){this._css=css;}
+	var getCssPath = function(){return this._css;}
+	var setImgPath = function(img){this._img=img;}
+	var getImgPath = function(){return this._img;}
+	return {
+		init : function(param) {
+			this.setContext(param);
+			this.setJsPath(param+'/resources/js');
+			this.setCssPath(param+'/resources/css');
+			this.setImgPath(param+'/resources/img');
+		},
+		setContext : setContext,
+		getContext : getContext,
+		setJsPath : setJsPath,
+		getJsPath : getJsPath,
+		setCssPath : setCssPath,
+		getCssPath : getCssPath,
+		setImgPath : setImgPath,
+		getImgPath : getImgPath
+	}
 })();

@@ -25,7 +25,7 @@ public class MemberController {
 	public String moveRegist(Locale locale, Model model) {
 		logger.info("MemberController moveRegitst() locale is {}.", locale);
 		
-		return "member/regist.tiles";
+		return "public:member/regist.tiles";
 	} 
 	@RequestMapping("/detail")
 	public String moveDetail(Locale locale, Model model) {
@@ -49,7 +49,7 @@ public class MemberController {
 	public String moveLogin(Locale locale, Model model) {
 		logger.info("MemberController moveLogin locale is {}.", locale);
 		
-		return "member/login.tiles";
+		return "public:member/login.tiles";
 	} 
 	@RequestMapping("/logout")
 	public String moveLogout(Locale locale, Model model) {

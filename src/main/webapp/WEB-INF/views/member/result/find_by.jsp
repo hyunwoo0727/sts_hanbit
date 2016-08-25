@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:include page="../../global/header.jsp" />
-<jsp:include page="../../global/nav.jsp" />
 	<style>
 	table {
 		font-family: arial, sans-serif;
@@ -30,5 +28,3 @@
 		<a href="${context}/global.do"><img src="${img}/home.png" alt="home" width="50" height="50"/></a>
 		<a href="${context}/member.do?action=logout"><img src="${img}/logout.png" alt="home" width="50" height="50"/></a>
 	</div>
-<jsp:include page="../../global/footer.jsp" />
-<jsp:include page="../../global/end.jsp" />
