@@ -1,7 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%> 
-	<div class="box">
-	<h2>현재 회원은 ${cnt } 명 입니다</h2>  <br />
-	<a href="${context}/global.do"><img src="${img}/home.png" alt="home" width="50" height="50"/></a>
-	<a href="${context}/member.do?action=logout"><img src="${img}/logout.png" alt="home" width="50" height="50"/></a>
-	</div>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<section id="content">
+	<article style="width: 100%;text-align: center;">
+		<ul class="list-group">
+		  <li class="list-group-item">
+		    <span class="badge">14</span>
+		    총 학 생 수
+		  </li>
+		  <li class="list-group-item">
+		    <span class="badge">12</span>
+		    남 학 생 수
+		  </li>
+		  <li class="list-group-item">
+		    <span class="badge">11</span>
+		    여 학 생 수
+		  </li>
+		</ul>
+		<a href="#"><img id="img_admin_home"/></a>
+		<a href="#"><img id="img_logout"/></a>
+	</article>
+</section>

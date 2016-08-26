@@ -2,8 +2,11 @@
 <section id="global_content">
 		<article>
 			<h2></h2>
-			<a id="member_regist"></a><br/>
-			<a id="member_login"></a><br/>
-			<a id="admin_main"></a>
+			<ul>
+				<li><a id="member_regist"></a></li>
+				<li><a id="member_login"></a></li>
+				<li><a id="admin_main"></a></li>
+			</ul>
 		</article>
 </section>
+

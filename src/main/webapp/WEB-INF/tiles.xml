@@ -15,8 +15,8 @@
     
     <definition name="user" template="/WEB-INF/views/layouts/user.jsp">
        	<put-attribute name="title" value="사용자 화면"></put-attribute>
-        <put-attribute name="header" value="/WEB-INF/views/global/header.jsp" />
-        <put-attribute name="menu" value="/WEB-INF/views/global/nav.jsp" />
+        <put-attribute name="header" value="/WEB-INF/views/user/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/views/user/nav.jsp" />
         <put-attribute name="body" value=""></put-attribute>
         <put-attribute name="footer" value="/WEB-INF/views/global/footer.jsp" />
     </definition>
@@ -27,8 +27,8 @@
     
     <definition name="admin" template="/WEB-INF/views/layouts/admin.jsp">
        	<put-attribute name="title" value="관리자 화면"></put-attribute>
-        <put-attribute name="header" value="/WEB-INF/views/global/header.jsp" />
-        <put-attribute name="menu" value="/WEB-INF/views/global/nav.jsp" />
+        <put-attribute name="header" value="/WEB-INF/views/admin/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/views/admin/nav.jsp" />
         <put-attribute name="body" value=""></put-attribute>
         <put-attribute name="footer" value="/WEB-INF/views/global/footer.jsp" />
     </definition>

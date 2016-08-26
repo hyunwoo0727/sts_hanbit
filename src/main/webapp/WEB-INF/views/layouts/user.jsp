@@ -28,11 +28,7 @@
 	<nav>
 		 <tiles:insertAttribute name="menu" /> 
 	</nav>
-	<section>
-		<article>
-		 	<tiles:insertAttribute name="body" /> 
-		</article>
-	</section>
+	<tiles:insertAttribute name="body" /> 
 	<footer>
 		 <tiles:insertAttribute name="footer" /> 
 	</footer>

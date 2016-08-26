@@ -25,11 +25,7 @@
 		 <tiles:insertAttribute name="header" /> 	
 		</div>
 	</header>
-	<section>
-		<article>
-		 	<tiles:insertAttribute name="body" /> 
-		</article>
-	</section>
+	<tiles:insertAttribute name="body" /> 
 	<footer>
 		 <tiles:insertAttribute name="footer" /> 
 	</footer>

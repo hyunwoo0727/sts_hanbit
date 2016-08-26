@@ -31,19 +31,19 @@ public class MemberController {
 	public String moveDetail(Locale locale, Model model) {
 		logger.info("MemberController moveDetail() locale is {}.", locale);
 		
-		return "member/detail.tiles";
+		return "admin:member/detail.tiles";
 	} 
 	@RequestMapping("/update")
 	public String moveUpdate(Locale locale, Model model) {
 		logger.info("MemberController moveUpdate locale is {}.", locale);
 		
-		return "member/update.tiles";
+		return "admin:member/update.tiles";
 	}
 	@RequestMapping("/delete")
 	public String moveDelete(Locale locale, Model model) {
 		logger.info("MemberController moveDelete locale is {}.", locale);
 		
-		return "member/delete.tiles";
+		return "admin:member/open.tiles";
 	} 
 	@RequestMapping("/login")
 	public String moveLogin(Locale locale, Model model) {
@@ -55,24 +55,24 @@ public class MemberController {
 	public String moveLogout(Locale locale, Model model) {
 		logger.info("MemberController moveLogout locale is {}.", locale);
 		
-		return "member/logout.tiles";
+		return "user:member/logout.tiles";
 	} 
 	@RequestMapping("/list")
 	public String moveList(Locale locale, Model model) {
 		logger.info("MemberController moveList locale is {}.", locale);
 		
-		return "member/list.tiles";
+		return "admin:member/list.tiles";
 	} 
 	@RequestMapping("/search")
 	public String moveSearch(Locale locale, Model model) {
 		logger.info("MemberController moveSearch locale is {}.", locale);
 		
-		return "member/search.tiles";
+		return "admin:member/search.tiles";
 	} 
 	@RequestMapping("/count")
 	public String moveCount(Locale locale, Model model) {
 		logger.info("MemberController moveCount locale is {}.", locale);
 		
-		return "member/count.tiles";
+		return "admin:member/count.tiles";
 	}
 }

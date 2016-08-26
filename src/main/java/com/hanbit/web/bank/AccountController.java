@@ -20,10 +20,10 @@ public class AccountController {
 		logger.info("AccountController moveMain() locale is {}.", locale);
 		return "admin:account/content.tiles";
 	}
-	@RequestMapping("/regist")
-	public String moveRegist(Locale locale, Model model){
-		logger.info("AccountController moveRegist() locale is {}.", locale);
-		return "admin:account/regist.tiles";
+	@RequestMapping("/open")
+	public String moveOpen(Locale locale, Model model){
+		logger.info("AccountController moveOpen() locale is {}.", locale);
+		return "admin:account/open.tiles";
 	}
 	@RequestMapping("/deposit")
 	public String moveDeposit(Locale locale, Model model){

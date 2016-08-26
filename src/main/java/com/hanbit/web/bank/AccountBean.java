@@ -15,7 +15,7 @@ public class AccountBean implements Serializable {
 	
 		private static final long serialVersionUID = 1L;
 		private String id;
-		private int    money;
+		private int    money,pw;
 		private int    accountNo;
 	
 		public AccountBean() {
@@ -41,6 +41,12 @@ public class AccountBean implements Serializable {
 		}
 		public void setAccountNo(int accountNo) {
 			this.accountNo = accountNo;
+		}
+		public int getPw() {
+			return pw;
+		}
+		public void setPw(int pw) {
+			this.pw = pw;
 		}
 		@Override
 		public String toString() {
