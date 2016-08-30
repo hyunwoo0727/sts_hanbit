@@ -7,67 +7,75 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.stereotype.Service;
+
 import com.hanbit.web.bank.AccountService;
 import com.hanbit.web.bank.AccountServiceImp;
-import com.hanbit.web.subject.SubjectBean;
-import com.hanbit.web.subject.SubjectDAO;
-import com.hanbit.web.subject.SubjectMember;
+import com.hanbit.web.subject.SubjectVO;
+import com.hanbit.web.subject.SubjectDAOImpl;
+import com.hanbit.web.subject.SubjectMemberVO;
 
-
+@Service
 public class MemberServiceImpl implements MemberService{
-	private Map<String,MemberBean> map;
-	private MemberDAO dao =  MemberDAO.getInstance();
-	private SubjectDAO sdao = SubjectDAO.getInstance();
+	private Map<String,MemberVO> map;
+	private MemberDAOImpl mDao;
+	private SubjectDAOImpl sdao = SubjectDAOImpl.getInstance();
 	
-	AccountService accService = AccountServiceImp.getInstance();
+	AccountService accService;
 	
-	private static MemberServiceImpl instance = new MemberServiceImpl();
+	private static MemberServiceImpl instance = MemberServiceImpl.getInstance();
 	
 	private MemberServiceImpl() {
+		mDao = MemberDAOImpl.getInstance();
+		accService=AccountServiceImp.getInstance();
 	}
 	public static MemberServiceImpl getInstance() {
+		if(instance==null){
+			instance = new MemberServiceImpl();
+		}
 		return instance;
 	}
 	@Override
-	public SubjectMember login(MemberBean mBean) {
-		SubjectMember sm = null;
-		if(this.checkLogin(mBean)){	
+	public SubjectMemberVO login(MemberVO mVO) {
+		SubjectMemberVO sm = null;
+		if(this.checkLogin(mVO)){	
 			this.map();
 			accService.map();
-			sm = new SubjectMember();
-			SubjectBean sb = sdao.findById(mBean.getId());
-			MemberBean mb = map.get(mBean.getId());
+			sm = new SubjectMemberVO();
+			SubjectVO sb = sdao.findByPk(1005);
+			MemberVO mb = map.get(mVO.getId());
 			sm = this.makeSM(mb, sb);
 		}
 		return sm;
 	}
 	@Override
-	public Map<?, ?> map() {
-		this.map = new HashMap<String,MemberBean>(); 
-		map = dao.selectMap();
+	public Map<String, MemberVO> map() {
+		this.map = new HashMap<String,MemberVO>(); 
+		map = mDao.selectMap();
+		System.out.println(map.size()+"ㅋㅋㅋ");
 		return map;
 	}
 	@Override
-	public int regist(MemberBean mBean) {
-		if(dao.findByPK(mBean.getId())==null){
-			return dao.insert(mBean);
+	public int regist(MemberVO mVO) {
+		if(mDao.findByPK(mVO.getId())==null){
+			return mDao.insert(mVO);
 		}
 		return 0;
 	}
 	@Override
-	public int update(MemberBean mBean) {
-		int result = dao.updatePw(mBean);
+	public int update(MemberVO mVO) {
+		int result = mDao.updatePw(mVO);
 		if(result==1){
-			this.map.replace(mBean.getId(), dao.findByPK(mBean.getId()));
+			this.map.replace(mVO.getId(), mDao.findByPK(mVO.getId()));
 		}
 		return result;
 	}
 	@Override
-	public int delete(MemberBean mBean) {
+	public int delete(MemberVO mVO) {
 		int result = 0;
-		MemberBean temp = (MemberBean) map.get(mBean.getId());
-		if(temp.getPw().equals(mBean.getPw())){
-			result = dao.deleteMember(mBean.getId());
+		MemberVO temp = (MemberVO) map.get(mVO.getId());
+		if(temp.getPw().equals(mVO.getPw())){
+			result = mDao.deleteMember(mVO.getId());
 		}
 		return result;
 	}
@@ -76,16 +84,17 @@ public class MemberServiceImpl implements MemberService{
 		return map.values().size();
 	}
 	@Override
-	public MemberBean findById(String id) {
-		return dao.findByPK(id);
+	public MemberVO findById(String id) {
+		
+		return mDao.findByPK(id);
 	}
 	@Override
-	public List<MemberBean> findBy(String word) {
-		List<MemberBean> findList = new ArrayList<MemberBean>();
+	public List<MemberVO> findBy(String word) {
+		List<MemberVO> findList = new ArrayList<MemberVO>();
 		Set<?> keys = map.keySet();
 		Iterator<?> it = keys.iterator();
 		while(it.hasNext()){
-			MemberBean tempBean = (MemberBean) map.get(it.next());
+			MemberVO tempBean = (MemberVO) map.get(it.next());
 			if(tempBean.getName().contains(word)){
 				findList.add(tempBean);
 			}
@@ -93,25 +102,25 @@ public class MemberServiceImpl implements MemberService{
 		return findList;
 	}
 	@Override
-	public ArrayList<MemberBean> list() {
-		ArrayList<MemberBean> allList = new ArrayList<MemberBean>();
+	public ArrayList<MemberVO> list() {
+		ArrayList<MemberVO> allList = new ArrayList<MemberVO>();
 		Set<?> keys = map.keySet();
 		Iterator<?> it = keys.iterator();
 		while(it.hasNext()){
-			allList.add((MemberBean) this.map.get(it.next()));
+			allList.add((MemberVO) this.map.get(it.next()));
 		}
 		return allList;
 	}
-	public boolean checkLogin(MemberBean mBean) {
+	public boolean checkLogin(MemberVO mVO) {
 		boolean loginOk = false;
-		MemberBean m = dao.findByPK(mBean.getId());
-		if(m!=null && m.getPw().equals(mBean.getPw())){
+		MemberVO m = mDao.findByPK(mVO.getId());
+		if(m!=null && m.getPw().equals(mVO.getPw())){
 			loginOk = true;
 		}
 		return loginOk;
 	}
-	public SubjectMember makeSM(MemberBean mb,SubjectBean sb){
-		SubjectMember sm = new SubjectMember();
+	public SubjectMemberVO makeSM(MemberVO mb,SubjectVO sb){
+		SubjectMemberVO sm = new SubjectMemberVO();
 		sm.setId(mb.getId());
 		sm.setPw(mb.getPw());
 		sm.setName(mb.getName());
@@ -125,11 +134,9 @@ public class MemberServiceImpl implements MemberService{
 		return sm;
 	}
 	@Override
-	public SubjectMember findSmById(String id) {
-		MemberBean mb = dao.findByPK(id);
-		SubjectBean sb = sdao.findById(id);
+	public SubjectMemberVO findSmById(String id) {
+		MemberVO mb = mDao.findByPK(id);
+		SubjectVO sb = sdao.findByPk(sdao.findById(id));
 		return this.makeSM(mb, sb);
 	}
-	
-
 }

@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @story  :
 */
 
-public class AccountMemberBean implements Serializable{
+public class AccountMemberVO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	private String id,pw,name,regDate,ssn,birth,gender;

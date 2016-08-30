@@ -3,7 +3,7 @@
 	<h1>회원 정보</h1>
 	<table id="member_details">
 		<tr>
-			<td rowspan="6" style="width: 30%;"><img src="${img}/member/${user.profileImg}" width="300" height="300" /></td>
+			<td rowspan="6" style="width: 30%;"><img id="profile_img" width="300" height="300" /></td>
 			<td class="fontBold bg_color_yellow" style="width: 20%;">ID</td>
 			<td style="width: 40%;">${user.id}</td>
 		</tr>
@@ -40,6 +40,11 @@
 			<td colspan="2">${user.regDate }</td>
 		</tr>
 	</table>	
-	<a href="${context}/global.do"><img src="${img}/home.png" alt="home" width="50" height="50"/></a>
-	<a href="${context}/member.do?action=logout"><img src="${img}/logout.png" alt="home" width="50" height="50"/></a>	
-</section>
+	<a href="#"><img id="img_home"/></a>
+	<a href="#"><img id="img_logout"/></a>	
+</section>	
+<script type="text/javascript">
+$(function() {
+	$('#profile_img').attr('src',session.getImgPath()+'/member/${user.profileImg}');
+})
+</script>

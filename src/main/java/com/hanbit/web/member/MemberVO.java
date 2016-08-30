@@ -13,12 +13,11 @@ import java.util.Date;
  * @file : Student.java
  * @story : 학생클라스
  */
-public class MemberBean implements Serializable {
+public class MemberVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String id, pw, name, gender, regDate, ssn, profileImg, email, birth,phone;
-	private int age;
 
-	public MemberBean() {
+	public MemberVO() {
 	}
 
 	public void setId(String id) {
@@ -49,14 +48,11 @@ public class MemberBean implements Serializable {
 		return ssn;
 	}
 
-	public int getage() {
-		return age;
-	}
 
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setSsn(String ssn) {
 		int sCode = Integer.parseInt(ssn.split("-")[1]);
 		this.gender = (sCode + 10) % 2 == 0 ? "여" : "남";
@@ -64,13 +60,13 @@ public class MemberBean implements Serializable {
 		int ageYear = Integer.parseInt(ssn.substring(0, 2));
 		switch (sCode) {
 		case 1:	case 2:	case 5:	case 6:
-			this.age = nowYear - (1900 + ageYear) + 1;
+	//		this.age = nowYear - (1900 + ageYear) + 1;
 			break;
 		case 9:	case 0:
-			this.age = nowYear - (1800 + ageYear) + 1;
+		//	this.age = nowYear - (1800 + ageYear) + 1;
 			break;
 		default:
-			this.age = nowYear - (2000 + ageYear) + 1;
+			//this.age = nowYear - (2000 + ageYear) + 1;
 			break;
 		}
 		this.birth = ssn.split("-")[0];
@@ -114,12 +110,15 @@ public class MemberBean implements Serializable {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public int getAge() {
-		return age;
+	
+	
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
-	@Override
-	public String toString() {
-		return "MemberBean [id=" + id + ", pw=" + pw + ", name=" + name + ", gender=" + gender + ", regDate=" + regDate
-				+ ", ssn=" + ssn + ", proflieImg=" + profileImg + ", email=" + email + ", age=" + age + "]";
+
+	public void setBirth(String birth) {
+		this.birth = birth;
 	}
+
+	
 }

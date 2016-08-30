@@ -8,6 +8,6 @@ package com.hanbit.web.subject;
 */
 
 public interface SubjectService {
-	public void insert(SubjectBean subBean);
-	public SubjectBean findById(String id);
+	public void insert(SubjectVO subBean);
+	public SubjectVO findByPk(int subjSeq);
 }

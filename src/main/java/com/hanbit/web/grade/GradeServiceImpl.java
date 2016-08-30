@@ -1,41 +1,49 @@
 package com.hanbit.web.grade;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+@Service
 public class GradeServiceImpl implements GradeService{
-	GradeDAO dao = GradeDAO.getInstance();
-	private static GradeServiceImpl instance = new GradeServiceImpl();
+	private static GradeServiceImpl instance = GradeServiceImpl.getInstance();
+	private Map<Integer, GradeVO> map;
+	private GradeDAOImpl gDao;
 	
 	private GradeServiceImpl() {
-		// TODO Auto-generated constructor stub
+		this.gDao = GradeDAOImpl.getInstance();
+		this.map = this.map();
 	}
 	public static GradeServiceImpl getInstance() {
+		if(instance==null){
+			instance = new GradeServiceImpl();
+		}
 		return instance;
 	}
 	@Override
-	public String insert(GradeBean grade) {
+	public String insert(GradeVO grade) {
 		// TODO Auto-generated method stub
 		grade.setGrade(getGrade(grade));
-		return dao.insert(grade)!=0?"입력 완료":"입력 실패";
+		return gDao.insert(grade)!=0?"입력 완료":"입력 실패";
 	}
 	@Override
 	public String delete(String seq) {
 		// TODO Auto-generated method stub
-		return dao.delete(seq)!=0?"삭제 성공":"삭제 실패 시퀀스를 확인바랍니다";
+		return gDao.delete(seq)!=0?"삭제 성공":"삭제 실패 시퀀스를 확인바랍니다";
 	}
 	@Override
-	public List<GradeBean> list() {
+	public List<GradeVO> list() {
 		// TODO Auto-generated method stub
-		return dao.list();
+		return null;
 	}
 
 	@Override
 	public int count() {
 		// TODO Auto-generated method stub
-		return dao.count("");
+		return map.size();
 	}
-	public static String getGrade(GradeBean bean){
+	public static String getGrade(GradeVO bean){
 		String grade = "";
 		switch ((bean.getJava()+bean.getSql()+bean.getHtml()+bean.getJavascript())/4/10) {
 		case 10:
@@ -64,27 +72,30 @@ public class GradeServiceImpl implements GradeService{
 				return "0에서 100사이 점수만 입력 가능";
 			}
 		}
-		GradeBean gdBean = new GradeBean(scores[5], scores[4], scores[0], scores[1], scores[2], scores[3]);
+		GradeVO gdBean = new GradeVO();
 		return this.insert(gdBean);
 		
 	}
 	@Override
-	public GradeBean findBySeq(String seq) {
-		return dao.findBySeq(seq);
+	public GradeVO findBySeq(int seq) {
+		return gDao.findByPk(seq);
 	}
 	@Override
-	public List<GradeBean> findBy(String id) {
+	public List<GradeVO> findBy(String id) {
 		// TODO Auto-generated method stub
-		return dao.findById(id);
+		return null;
 	}
 	@Override
 	public String update(String sData) {
-		// TODO Auto-generated method stub
-		return dao.update(sData.split(","))!=0 ? "수정 완료" : "수정 실패";
+		HashMap<String, Object> tempMap = new HashMap<String,Object>();
+		String[] arData = sData.split(",");
+		tempMap.put("subject", arData[0]);
+		tempMap.put("score", Integer.parseInt(arData[1]));
+		tempMap.put("seq", Integer.parseInt(arData[2]));
+		return gDao.update(tempMap)!=0 ? "수정 완료" : "수정 실패";
 	}
 	@Override
-	public Map<?, ?> map() {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<Integer, GradeVO> map() {
+		return gDao.selectAll();
 	}
 }

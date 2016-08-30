@@ -14,11 +14,11 @@ import com.hanbit.web.util.CommonService;
 public interface AccountService extends CommonService {
 
 	public String openAccount(String id);
-	public String deposit(AccountMemberBean accBean);
-	public AccountMemberBean findByAccountNo(String accNo);
-	public String withdraw(AccountMemberBean withBean);
+	public String deposit(AccountMemberVO accBean);
+	public AccountMemberVO findByAccountNo(String accNo);
+	public String withdraw(AccountMemberVO withBean);
 	public int count();
 	public String closeAccount(String accNo);
-	public String updateAccount(AccountMemberBean uptBean);
+	public String updateAccount(AccountMemberVO uptBean);
 	
 }

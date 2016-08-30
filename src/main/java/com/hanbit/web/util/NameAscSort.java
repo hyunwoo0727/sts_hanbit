@@ -4,7 +4,7 @@ package com.hanbit.web.util;
 
 import java.util.Comparator;
 
-import com.hanbit.web.bank.AccountMemberBean;
+import com.hanbit.web.bank.AccountMemberVO;
 
 
 
@@ -15,10 +15,10 @@ import com.hanbit.web.bank.AccountMemberBean;
  * @story  :
 */
 
-public class NameAscSort implements Comparator<AccountMemberBean> {
+public class NameAscSort implements Comparator<AccountMemberVO> {
 	
 	@Override
-	public int compare(AccountMemberBean first, AccountMemberBean second) {
+	public int compare(AccountMemberVO first, AccountMemberVO second) {
 		// TODO Auto-generated method stub
 		return first.getName().compareTo(second.getName());
 	}

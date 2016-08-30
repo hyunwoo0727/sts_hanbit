@@ -294,6 +294,8 @@ var member = (function() {
 	}
 	var onCreate = function() {
 		setContentView();
+	/*	$('#member_find_form input[type=hidden').attr('name','context').attr('value',session.getContext());*/
+		$('#btn_search').attr('formaction',session.getContext()+'/member/find');
 	}
 	return {
 		setName : setName,

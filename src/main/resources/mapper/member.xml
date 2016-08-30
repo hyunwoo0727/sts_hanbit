@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.member">
+	
+	<select id="findByPK" parameterType="string" resultType="com.hanbit.web.member.MemberVO">
+		SELECT ID,PW,NAME,REGDATE,SSN,EMAIL,PROFILE_IMG AS PROFILEIMG,PHONE FROM MEMBER WHERE ID=#{pk}
+	</select>
+	<select id="selectAll" resultType="com.hanbit.web.member.MemberVO">
+		SELECT ID,PW,NAME,REGDATE,SSN,EMAIL,PROFILE_IMG AS PROFILEIMG,PHONE FROM MEMBER
+	</select>
+	<insert id="insert" parameterType="com.hanbit.web.member.MemberVO">
+		INSERT INTO MEMBER(ID,PW,NAME,REGDATE,SSN,EMAIL,PROFILE_IMG,PHONE) VALUES(#{id},#{pw},#{name},#{regDate},#{ssn},#{email},#{profileImg},#{phone})
+	</insert>
+	<update id="updatePw" parameterType="com.hanbit.web.member.MemberVO">
+		UPDATE MEMBER SET PW=#{pw},EMAIL=#{email} WHERE ID=#{id}
+	</update>
+	<delete id="deleteMember" parameterType="string">
+		DELETE FROM MEMBER WHERE ID=#{id}
+	</delete>	
+</mapper>

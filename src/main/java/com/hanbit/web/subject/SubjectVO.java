@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @story  :
 */
 
-public class SubjectBean implements Serializable{
+public class SubjectVO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String id,major,subjects;
 	private int subjSeq;

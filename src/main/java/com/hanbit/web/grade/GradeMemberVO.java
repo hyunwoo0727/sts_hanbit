@@ -7,6 +7,6 @@ package com.hanbit.web.grade;
  * @story  :
 */
 
-public class GradeMemberBean {
+public class GradeMemberVO {
 		
 }
