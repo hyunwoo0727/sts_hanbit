@@ -7,12 +7,15 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @date : 2016. 6. 16.
  * @author : HyunWoo Lee
  * @file : Student.java
  * @story : 학생클라스
  */
+@Component
 public class MemberVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String id, pw, name, gender, regDate, ssn, profileImg, email, birth,phone;
@@ -120,5 +123,12 @@ public class MemberVO implements Serializable {
 		this.birth = birth;
 	}
 
+	@Override
+	public String toString() {
+		return "MemberVO [id=" + id + ", pw=" + pw + ", name=" + name + ", gender=" + gender + ", regDate=" + regDate
+				+ ", ssn=" + ssn + ", profileImg=" + profileImg + ", email=" + email + ", birth=" + birth + ", phone="
+				+ phone + "]";
+	}
+	
 	
 }

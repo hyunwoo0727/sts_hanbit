@@ -3,7 +3,6 @@
 	<h1></h1>
 	<article id="member_content">
 		<ol id="member_content_ol">
-			<li><a id="member_regist"></a></li>
 			<li><a id="member_list"></a></li>
 			<li><a id="member_detail"></a></li>
 			<li><a id="member_update"></a></li>

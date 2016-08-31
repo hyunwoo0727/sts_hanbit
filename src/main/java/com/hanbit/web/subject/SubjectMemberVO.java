@@ -2,13 +2,15 @@ package com.hanbit.web.subject;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @date   :2016. 7. 26.
  * @author :HyunWoo Lee
  * @file   :SubjectMemberBean.java
  * @story  :
 */
-
+@Component
 public class SubjectMemberVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String id,pw,name,regDate,ssn,email,profileImg,phone,major,subjects,gender,birth;
@@ -113,5 +115,11 @@ public class SubjectMemberVO implements Serializable {
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "SubjectMemberVO [id=" + id + ", pw=" + pw + ", name=" + name + ", regDate=" + regDate + ", ssn=" + ssn
+				+ ", email=" + email + ", profileImg=" + profileImg + ", phone=" + phone + ", major=" + major
+				+ ", subjects=" + subjects + ", gender=" + gender + ", birth=" + birth + "]";
+	}
 }

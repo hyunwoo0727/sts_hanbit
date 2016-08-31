@@ -28,12 +28,11 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		return "public:global/content.tiles";
+		return "public:public/content.tiles";
 	}
 	@RequestMapping("/school/main")
 	public String schoolInfo(){
-		
-		return "public:global/school_info.tiles";
+		return "public:public/school_info.tiles";
 	}
 	
 }

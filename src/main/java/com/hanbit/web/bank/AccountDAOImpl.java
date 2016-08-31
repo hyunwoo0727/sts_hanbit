@@ -18,6 +18,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.hanbit.web.member.MemberDAOImpl;
 import com.hanbit.web.util.Constants;
@@ -31,7 +32,7 @@ import com.hanbit.web.util.Vendor;
  * @file   :BankDao.java
  * @story  :
 */
-
+@Repository
 public class AccountDAOImpl implements AccountDAO{
 	private static AccountDAOImpl instance = AccountDAOImpl.getInstance();
 	private static final String NAMESPACE = "mapper.account.";

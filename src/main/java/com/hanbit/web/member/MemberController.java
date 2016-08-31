@@ -2,7 +2,7 @@ package com.hanbit.web.member;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +22,29 @@ public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	@Autowired 
 	private MemberServiceImpl mService;
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@RequestParam("context") String ctp,@RequestParam("userid") String id,
+			@RequestParam("userpw") String pw, Locale locale,Model model,
+			HttpSession session) {
+		logger.info("MemberController login locale is {}.", locale);
+		logger.info("ID : {}", id);
+		logger.info("PW : {}", pw);
+		MemberVO memVO = new MemberVO();
+		memVO.setId(id);
+		memVO.setPw(pw);
+		SubjectMemberVO smVO = mService.login(memVO);
+		if(smVO!=null){
+			session.setAttribute("user", smVO);	
+			model.addAttribute("img", ctp+"/resources/img");
+			model.addAttribute("css", ctp+"/resources/css");
+			model.addAttribute("js", ctp+"/resources/js");
+			model.addAttribute("font", ctp+"/resources/fonts");
+			System.out.println(ctp+"ㅋㅋㅋㅋ");
+			return "user:user/content.tiles";
+		}
+		return "public:member/login.tiles";
+	}
 	
 	@RequestMapping("/find")
 	public String find(@RequestParam("keyword") String keyword,
@@ -70,17 +93,17 @@ public class MemberController {
 		
 		return "admin:member/open.tiles";
 	} 
-	@RequestMapping("/login")
+	@RequestMapping("/moveLogin")
 	public String moveLogin(Locale locale, Model model) {
 		logger.info("MemberController moveLogin locale is {}.", locale);
 		
 		return "public:member/login.tiles";
 	} 
 	@RequestMapping("/logout")
-	public String moveLogout(Locale locale, Model model) {
+	public String moveLogout(HttpSession session, Locale locale, Model model) {
 		logger.info("MemberController moveLogout locale is {}.", locale);
-		
-		return "user:member/logout.tiles";
+		session.removeAttribute("user");
+		return "public:public/content.tiles";
 	} 
 	@RequestMapping("/list")
 	public String moveList(Locale locale, Model model) {

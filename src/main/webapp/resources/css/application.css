@@ -7,11 +7,12 @@ footer {width: 100%;height: 50px;margin-top: 10px;}
 /*color*/
 .bg_white{background-color: white;}
 .bg_powderblue {background-color: powderblue;}
+.bg_gray{background-color: #EAEAEA;}
 .black{color: black;}
 .white{color: white;}
 /*component*/
 .header {width: 100%;background-color: black;color: white;text-align: center;padding: 5px;}
-.footer {background-color: black;color: white;clear: both;text-align: center;padding: 5px;}
+.footer {background-color: #222;color: white;clear: both;text-align: center;padding: 5px;}
 .border_collapse{border-collapse: collapse;}
 .box {padding-top: 50px;margin: 0 auto;width: 70%;text-align: center;height: 50%;}
 .box li {font-weight: bold;}
@@ -19,7 +20,7 @@ footer {width: 100%;height: 50px;margin-top: 10px;}
 .databox>div{padding: 5px;border-bottom: 1px solid #999999;}
 .remove_underline{text-decoration: none;}
 /*effective*/
-.active {background-color: black;}
+.active {background-color: #222;}
 .list_style_none{list-style-type: none;}
 .over_hidden{overflow: hidden;}
 .pointer {cursor: pointer;}

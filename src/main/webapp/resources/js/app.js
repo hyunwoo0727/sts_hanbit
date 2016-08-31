@@ -14,9 +14,13 @@ var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 �
 		// $('#header').addClass('header');
 		$('ul').addClass('list_style_none');
 		$("#header_brand").addClass('pointer').attr('src',
-				session.getImgPath() + '/hanbit.gif').attr('alt', 'hanbit')
-				.css('width', '80px').css('height', '55px').css(
+				session.getImgPath() + '/default/hanbit.png').attr('alt', 'hanbit')
+				.css('width','80px').css('height','70px').css(
 						'padding-bottom', '5px');
+		$('#user_menu>li>a').css('padding','0px');
+		$('#user_menu>li>a').css('padding','0px');
+		$('#user_menu > li').css('margin-top','10px').css('margin-right','5px');
+		$('#header .dropdown-toggle').css('color','white');
 		$('#footer').addClass('footer');
 		$('#footer').addClass('bottom');
 		$('#content').addClass('box').addClass('font_large');
@@ -25,12 +29,13 @@ var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 �
 		$('#global_content').addClass('box');
 		$('#global_content h2').append(
 				'<small>서비스를 이용하시려면</small> 회원가입<small>을 하셔야 합니다</small>');
-		$('#global_content #member_login').addClass('btn btn-primary').css(
+		$('#global_content #member_moveLogin').addClass('btn btn-primary').css(
 				'margin-bottom', '10px');
 		$('#global_content #member_regist').addClass('btn btn-primary').css(
 				'margin-bottom', '10px');
 		$('#admin_main').text('ADMIN MODE');
 		$('.box a').addClass('pointer');
+		
 	}
 	var onCreate = function() {
 		setContentView();
@@ -90,13 +95,16 @@ var admin = (function() {
 				.text(
 						'A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.');
 		$('#admin_content h3:last').text('Grade Management');
-		$('#img_admin_home').attr('src', session.getImgPath() + '/home.png')
+		$('#img_admin_home').attr('src', session.getImgPath() + '/default/home.png')
 				.attr('alt', 'home').css('width', '50').css('height', '50');
 	}
 	var onCreate = function() {
 		setContentView();
 		$('#img_admin_home').click(function() {
 			controller.move('admin','main');
+		})
+		$('#btn_exit').click(function() {
+			controller.move('member','logout');
 		})
 	}
 	return {
@@ -124,9 +132,9 @@ var user = (function() {
 		onCreate();
 	}
 	var setContentView = function() {
-		$('#img_home').attr('src', session.getImgPath() + '/home.png').attr(
+		$('#img_home').attr('src', session.getImgPath() + '/default/home.png').attr(
 				'alt', 'home').css('width', '50').css('height', '50');
-		$('#img_logout').attr('src', session.getImgPath() + '/logout.png')
+		$('#img_logout').attr('src', session.getImgPath() + '/default/logout.png')
 				.attr('alt', 'logout').css('width', '50').css('height', '50');
 	}
 	var onCreate = function() {
@@ -259,7 +267,7 @@ var member = (function() {
 		$('#member_content_ol > li:nth-child(7) > a').text('COUNT').addClass(
 				'remove_underline');
 		$('article #member_regist').text('REGIST');
-		$('article #member_login').text('LOGIN');
+		$('article #member_moveLogin').text('LOGIN');
 		$('#member_regist_content').addClass('box').css('width', '50%');
 		$('#member_regist_content span').addClass('float_left').addClass(
 				'text_left').addClass('font_bold').css('width', '200px');
@@ -278,7 +286,6 @@ var member = (function() {
 		$('.form-group > div').addClass('col-sm-10');
 		$('.form-group > label').addClass('col-sm-2').addClass('control-label');
 		$('.col-sm-10 > input').addClass('form-control');
-
 		$('#member_details').addClass('el_center').addClass('border_collapse')
 				.css('border', '3px solid gray').css('width', '70%').css(
 						'height', '300px');
@@ -286,6 +293,7 @@ var member = (function() {
 				'15%');
 		$('#member_details tr td').addClass('font_xlarge').css('border',
 				'1px solid gray');
+		$('#member_details tr > td:odd').addClass('bg_gray');
 		$('#member_list').addClass('border_collapse').css('witdh', '100%').css(
 				'font-family', 'arial, sans-serif');
 		$('#member_list td, th').addClass('text_left').css('border',
@@ -296,6 +304,11 @@ var member = (function() {
 		setContentView();
 	/*	$('#member_find_form input[type=hidden').attr('name','context').attr('value',session.getContext());*/
 		$('#btn_search').attr('formaction',session.getContext()+'/member/find');
+		$('#member_login_form').attr('action',session.getContext()+'/member/login');
+		$('#member_login_form input[type=hidden]').attr('name','context').attr('value',session.getContext());
+		$('#member_login_form > button').click(function() {
+			$('#member_login_form').submit();
+		});
 	}
 	return {
 		setName : setName,
@@ -371,17 +384,6 @@ var nav = (function() {
 	var setContentView = function() {
 		$('#nav').css('width', '100%').css('padding', '0px');
 		$('#nav').css('border-bottom', '1px solid gray');
-		/*
-		 * $('#nav
-		 * ul').addClass('list_style_none').addClass('over_hidden').css('margin','0').css('padding','0').css('background-color','#333');
-		 * $('#nav li').addClass('float_left').css('border-right','1px solid
-		 * #bbb'); $('#nav li:last-child').css('border-right','none'); $('#nav
-		 * li
-		 * a').addClass('display_bl').addClass('white').addClass('text_center').addClass('remove_underline').css('padding','14px
-		 * 16px'); $('#nav li
-		 * a:hover:not(.active)').addClass('bg_white').addClass('black').addClass('font_bold');
-		 */
-
 	}
 	var onCreate = function() {
 		setContentView();

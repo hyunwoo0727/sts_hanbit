@@ -13,6 +13,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 /**
  * @date   :2016. 7. 1.
@@ -20,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * @file   :GradeDao.java
  * @story  :
 */
-
+@Repository
 public class GradeDAOImpl implements GradeDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(GradeDAOImpl.class);

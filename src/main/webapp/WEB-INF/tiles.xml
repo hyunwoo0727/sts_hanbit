@@ -4,35 +4,29 @@
   <!-- 페이지 템플릿(레이아웃)과 템플릿을 구성하는 각 부분을 모두 이름을 붙여 선언한다 -->
     <definition name="public" template="/WEB-INF/views/layouts/public.jsp">
        	<put-attribute name="title" value="한빛"></put-attribute>
-        <put-attribute name="header" value="/WEB-INF/views/global/header.jsp" />
+        <put-attribute name="header" value="/WEB-INF/views/public/header.jsp" />
         <put-attribute name="body" value=""></put-attribute>
-        <put-attribute name="footer" value="/WEB-INF/views/global/footer.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/public/footer.jsp" />
     </definition>
-   
     <definition name="public:*/*.tiles" extends="public">
     	<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
     </definition>
-    
     <definition name="user" template="/WEB-INF/views/layouts/user.jsp">
        	<put-attribute name="title" value="사용자 화면"></put-attribute>
         <put-attribute name="header" value="/WEB-INF/views/user/header.jsp" />
-        <put-attribute name="menu" value="/WEB-INF/views/user/nav.jsp" />
         <put-attribute name="body" value=""></put-attribute>
-        <put-attribute name="footer" value="/WEB-INF/views/global/footer.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/user/footer.jsp" />
     </definition>
-   
     <definition name="user:*/*.tiles" extends="user">
     	<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
     </definition>
-    
     <definition name="admin" template="/WEB-INF/views/layouts/admin.jsp">
        	<put-attribute name="title" value="관리자 화면"></put-attribute>
         <put-attribute name="header" value="/WEB-INF/views/admin/header.jsp" />
         <put-attribute name="menu" value="/WEB-INF/views/admin/nav.jsp" />
         <put-attribute name="body" value=""></put-attribute>
-        <put-attribute name="footer" value="/WEB-INF/views/global/footer.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/user/footer.jsp" />
     </definition>
-   
     <definition name="admin:*/*.tiles" extends="admin">
     	<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
     </definition>

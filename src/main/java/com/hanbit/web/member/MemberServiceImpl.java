@@ -1,33 +1,33 @@
 package com.hanbit.web.member;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hanbit.web.bank.AccountService;
-import com.hanbit.web.bank.AccountServiceImp;
 import com.hanbit.web.subject.SubjectVO;
 import com.hanbit.web.subject.SubjectDAOImpl;
 import com.hanbit.web.subject.SubjectMemberVO;
 
 @Service
 public class MemberServiceImpl implements MemberService{
-	private Map<String,MemberVO> map;
 	private MemberDAOImpl mDao;
-	private SubjectDAOImpl sdao = SubjectDAOImpl.getInstance();
-	
-	AccountService accService;
-	
+	private SubjectDAOImpl sDao;
+	@Autowired private AccountService accService;
 	private static MemberServiceImpl instance = MemberServiceImpl.getInstance();
-	
+	private Map<String,MemberVO> map;
+	@Autowired private SubjectMemberVO sm;
 	private MemberServiceImpl() {
 		mDao = MemberDAOImpl.getInstance();
-		accService=AccountServiceImp.getInstance();
+		sDao = SubjectDAOImpl.getInstance();
+		//accService=AccountServiceImp.getInstance();
 	}
 	public static MemberServiceImpl getInstance() {
 		if(instance==null){
@@ -37,23 +37,18 @@ public class MemberServiceImpl implements MemberService{
 	}
 	@Override
 	public SubjectMemberVO login(MemberVO mVO) {
-		SubjectMemberVO sm = null;
 		if(this.checkLogin(mVO)){	
-			this.map();
-			accService.map();
-			sm = new SubjectMemberVO();
-			SubjectVO sb = sdao.findByPk(1005);
+			this.map = this.map();
+		//	accService.map();
+			SubjectVO sb = sDao.findByPk(sDao.findById(mVO.getId()));
 			MemberVO mb = map.get(mVO.getId());
-			sm = this.makeSM(mb, sb);
+			return this.makeSM(mb, sb);
 		}
-		return sm;
+		return null;
 	}
 	@Override
 	public Map<String, MemberVO> map() {
-		this.map = new HashMap<String,MemberVO>(); 
-		map = mDao.selectMap();
-		System.out.println(map.size()+"ㅋㅋㅋ");
-		return map;
+		return mDao.selectMap();
 	}
 	@Override
 	public int regist(MemberVO mVO) {
@@ -81,7 +76,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 	@Override
 	public int count() {
-		return map.values().size();
+		return map.size();
 	}
 	@Override
 	public MemberVO findById(String id) {
@@ -90,9 +85,9 @@ public class MemberServiceImpl implements MemberService{
 	}
 	@Override
 	public List<MemberVO> findBy(String word) {
-		List<MemberVO> findList = new ArrayList<MemberVO>();
 		Set<?> keys = map.keySet();
 		Iterator<?> it = keys.iterator();
+		List<MemberVO> findList = new ArrayList<MemberVO>();
 		while(it.hasNext()){
 			MemberVO tempBean = (MemberVO) map.get(it.next());
 			if(tempBean.getName().contains(word)){
@@ -102,14 +97,14 @@ public class MemberServiceImpl implements MemberService{
 		return findList;
 	}
 	@Override
-	public ArrayList<MemberVO> list() {
-		ArrayList<MemberVO> allList = new ArrayList<MemberVO>();
+	public List<MemberVO> list() {
 		Set<?> keys = map.keySet();
 		Iterator<?> it = keys.iterator();
+		List<MemberVO> findList = new ArrayList<MemberVO>();
 		while(it.hasNext()){
-			allList.add((MemberVO) this.map.get(it.next()));
+			findList.add((MemberVO) this.map.get(it.next()));
 		}
-		return allList;
+		return findList;
 	}
 	public boolean checkLogin(MemberVO mVO) {
 		boolean loginOk = false;
@@ -120,7 +115,6 @@ public class MemberServiceImpl implements MemberService{
 		return loginOk;
 	}
 	public SubjectMemberVO makeSM(MemberVO mb,SubjectVO sb){
-		SubjectMemberVO sm = new SubjectMemberVO();
 		sm.setId(mb.getId());
 		sm.setPw(mb.getPw());
 		sm.setName(mb.getName());
@@ -136,7 +130,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public SubjectMemberVO findSmById(String id) {
 		MemberVO mb = mDao.findByPK(id);
-		SubjectVO sb = sdao.findByPk(sdao.findById(id));
+		SubjectVO sb = sDao.findByPk(sDao.findById(id));
 		return this.makeSM(mb, sb);
 	}
 }

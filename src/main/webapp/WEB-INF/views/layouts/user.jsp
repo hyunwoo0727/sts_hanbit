@@ -25,9 +25,6 @@
 		 <tiles:insertAttribute name="header" /> 	
 		</div>
 	</header>
-	<nav>
-		 <tiles:insertAttribute name="menu" /> 
-	</nav>
 	<tiles:insertAttribute name="body" /> 
 	<footer>
 		 <tiles:insertAttribute name="footer" /> 

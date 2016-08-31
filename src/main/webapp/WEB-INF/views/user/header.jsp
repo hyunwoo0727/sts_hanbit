@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-<nav class="navbar navbar-inverse" style="height: 60px;">
+<nav id="header" class="navbar navbar-inverse" style="height: 15%;">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -12,42 +12,59 @@
       </button>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
+    <div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-haspopup="true"
+					aria-expanded="false">성적 정보<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">성적 목록</a></li>
+						<li><a href="#">성적 조회</a></li>
+						<li role="separator" class="divider"></li>
+					
+					</ul>
+				</li>
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-haspopup="true"
+					aria-expanded="false">계좌 정보<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">성적 목록</a></li>
+						<li><a href="#">성적 조회</a></li>
+						<li role="separator" class="divider"></li>
+					</ul>
+				</li>
+			</ul>
+			<form class="navbar-form navbar-left">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Search">
+				</div>
+				<button type="submit" class="btn btn-default">과목별 조회</button>
+			</form>
+			<ul id="user_menu" class="nav navbar-nav navbar-right">
+				<li>
+					<div style="font-weight: bold; font-size: x-large;height: 49px;color: white;">
+ 					${user.name }님 환영합니다
+ 					</div>
+				</li>
+				<li>
+					<button id="btn_exit" type="button" class="btn btn-default btn-lg" style="height: 40px;">
+						<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+					</button>
+				</li>
+				<li class="dropdown" style="height: 60px;">
+					<a href="#"	class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<button type="button" class="btn btn-default btn-lg" style="height: 40px;">
+							<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+						</button>
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="#">비밀번호 변경</a></li>
+						<li role="separator" class="divider"></li>
+					</ul>
+				</li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

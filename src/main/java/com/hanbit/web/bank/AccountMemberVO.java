@@ -2,13 +2,15 @@
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @date   :2016. 7. 6.
  * @author :HyunWoo Lee
  * @file   :AccountMemberBean.java
  * @story  :
 */
-
+@Component
 public class AccountMemberVO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
