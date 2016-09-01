@@ -9,4 +9,8 @@
 			</ul>
 		</article>
 </section>
-
+<script type="text/javascript">
+$(function() {
+	$('#footer').css('position','fixed');
+})
+</script>

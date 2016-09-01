@@ -1,5 +1,7 @@
 package com.hanbit.web.home;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -27,11 +29,12 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
+		logger.info("Welcome home! {}.", DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG,locale).format(new Date()));
 		return "public:public/content.tiles";
 	}
 	@RequestMapping("/school/main")
 	public String schoolInfo(){
+		logger.info("GO TO {}","school main");
 		return "public:public/school_info.tiles";
 	}
 	
