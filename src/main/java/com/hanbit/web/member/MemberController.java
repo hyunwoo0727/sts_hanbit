@@ -19,7 +19,7 @@ import com.hanbit.web.subject.SubjectMemberVO;
 
 
 @Controller
-@SessionAttributes("user")
+@SessionAttributes({"user","ctp"})
 @RequestMapping("/member")
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
@@ -39,6 +39,7 @@ public class MemberController {
 		SubjectMemberVO smVO = mService.login(memVO);
 		if(smVO!=null){
 			model.addAttribute("user", smVO);	
+			model.addAttribute("ctp", ctp);
 			model.addAttribute("img", ctp+"/resources/img");
 			model.addAttribute("css", ctp+"/resources/css");
 			model.addAttribute("js", ctp+"/resources/js");
@@ -95,9 +96,9 @@ public class MemberController {
 		logger.info("GO TO : {}","delete");
 		return "admin:member/open.tiles";
 	} 
-	@RequestMapping("/moveLogin")
-	public String moveLogin(Locale locale, Model model) {
-		logger.info("GO TO : {}","moveLogin");
+	@RequestMapping("/login")
+	public String login(Locale locale, Model model) {
+		logger.info("GO TO : {}","login");
 		return "public:member/login.tiles";
 	} 
 	@RequestMapping("/logout")

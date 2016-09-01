@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <div id="content">
-	<form id="member_login_form" class="form-signin" method="post">
+	<form id="member_login_form" class="form-signin">
 		<h2 class="form-signin-heading">Please sign in</h2>
 		<label for="inputEmail" class="sr-only"></label> 
 		<input type="text" name="userid" class="form-control"	placeholder="USER ID" required autofocus>

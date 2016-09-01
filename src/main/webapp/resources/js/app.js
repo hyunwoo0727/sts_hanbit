@@ -20,7 +20,8 @@ var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 �
 		$('#user_menu>li>a').css('padding','0px');
 		$('#user_menu>li>a').css('padding','0px');
 		$('#user_menu > li').css('margin-top','10px').css('margin-right','5px');
-		$('#header .dropdown-toggle').css('color','white');
+		$('.container-fluid li a').css('color','white');
+		$('.dropdown li a').css('color','black');
 		$('#footer').addClass('footer');
 		$('#footer').addClass('bottom');
 		$('#content').addClass('box').addClass('font_large');
@@ -29,7 +30,7 @@ var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 �
 		$('#global_content').addClass('box');
 		$('#global_content h2').append(
 				'<small>서비스를 이용하시려면</small> 회원가입<small>을 하셔야 합니다</small>');
-		$('#global_content #member_moveLogin').addClass('btn btn-primary').css(
+		$('#global_content #member_login').addClass('btn btn-primary').css(
 				'margin-bottom', '10px');
 		$('#global_content #member_regist').addClass('btn btn-primary').css(
 				'margin-bottom', '10px');
@@ -267,7 +268,7 @@ var member = (function() {
 		$('#member_content_ol > li:nth-child(7) > a').text('COUNT').addClass(
 				'remove_underline');
 		$('article #member_regist').text('REGIST');
-		$('article #member_moveLogin').text('LOGIN');
+		$('article #member_login').text('LOGIN');
 		$('#member_regist_content').addClass('box').css('width', '50%');
 		$('#member_regist_content span').addClass('float_left').addClass(
 				'text_left').addClass('font_bold').css('width', '200px');
@@ -304,7 +305,7 @@ var member = (function() {
 		setContentView();
 	/*	$('#member_find_form input[type=hidden').attr('name','context').attr('value',session.getContext());*/
 		$('#btn_search').attr('formaction',session.getContext()+'/member/find');
-		$('#member_login_form').attr('action',session.getContext()+'/member/login');
+		$('#member_login_form').attr('method','post').attr('action',session.getContext()+'/member/login');
 		$('#member_login_form input[type=hidden]').attr('name','context').attr('value',session.getContext());
 		$('#member_login_form > button').click(function() {
 			$('#member_login_form').submit();
