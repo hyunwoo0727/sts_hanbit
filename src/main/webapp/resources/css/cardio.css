@@ -110,7 +110,7 @@ ul.white-list li:before {
 }
 
 .icon-bar {
-	background: #bbb;
+	background: #bbb ;
 }
 /* Buttons */
 
@@ -459,7 +459,6 @@ ul.white-list li:before {
 
 .pricings .pricing .box-main,
 .pricings .pricing .box-second {
-	
 	left: 25%;
 	display: inline-block;
 	width: 50%;
