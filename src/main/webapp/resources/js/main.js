@@ -145,7 +145,7 @@ jQuery(function($) {
 		}
 	});
 
-	function centerModal() {
+	/*function centerModal() {
 		$(this).css('display', 'block');
 		var $dialog = $(this).find(".modal-dialog"),
 			offset = ($(window).height() - $dialog.height()) / 2,
@@ -156,16 +156,11 @@ jQuery(function($) {
 		// the bottom margin of the modal
 		if (offset < bottomMargin) offset = bottomMargin;
 		$dialog.css("margin-top", offset);
-	}
+	}*/
 
-	$('.modal').on('show.bs.modal', centerModal);
-
-	$('.modal-popup .close-link').click(function(event){
-		event.preventDefault();
-		$('#modal1').modal('hide');
-	});
+/*	$('.modal').on('show.bs.modal', centerModal);
 
 	$(window).on("resize", function() {
 		$('.modal:visible').each(centerModal);
-	});
+	});*/
 });

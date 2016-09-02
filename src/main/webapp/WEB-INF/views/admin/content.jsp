@@ -28,10 +28,3 @@
 		</div>
 	</div>
 </section>
-<script>
-$(function() {
-	$('#img_admin_member').attr('src',session.getImgPath()+'/default/member_mng.png').css('width','100px').css('height','100px');
-	$('#img_admin_account').attr('src',session.getImgPath()+'/default/account_mng.png').css('width','100px').css('height','100px');
-	$('#img_admin_grade').attr('src',session.getImgPath()+'/default/grade_mng.png').css('width','100px').css('height','100px');
-});
-</script>

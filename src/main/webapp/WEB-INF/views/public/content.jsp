@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<jsp:include page="${context}/WEB-INF/views/public/slider.jsp"></jsp:include>
 <section id="global_content">
 		<article>
 			<h2></h2>

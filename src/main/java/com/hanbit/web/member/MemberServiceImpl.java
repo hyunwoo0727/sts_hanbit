@@ -129,8 +129,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 	@Override
 	public SubjectMemberVO findSmById(String id) {
-		MemberVO mb = mDao.findByPK(id);
-		SubjectVO sb = sDao.findByPk(sDao.findById(id));
-		return this.makeSM(mb, sb);
+		MemberVO mVO = mDao.findByPK(id);
+		SubjectVO sVO = sDao.findByPk(sDao.findById(mVO.getId()));
+		return this.makeSM(mVO, sVO);
 	}
 }

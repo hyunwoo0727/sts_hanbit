@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.hanbit.web.subject.SubjectMemberVO;
@@ -44,7 +43,6 @@ public class MemberController {
 			model.addAttribute("css", ctp+"/resources/css");
 			model.addAttribute("js", ctp+"/resources/js");
 			model.addAttribute("font", ctp+"/resources/fonts");
-			System.out.println(ctp+"ㅋㅋㅋㅋ");
 			return "user:user/content.tiles";
 		}
 		return "public:member/login.tiles";
@@ -68,10 +66,14 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/main", method = RequestMethod.GET)
-	public String moveMain(Locale locale, Model model) {
+	public String moveMain(HttpSession session,Locale locale, Model model) {
 		logger.info("GO TO : {}","main");
-		
-		return "admin:member/content.tiles";
+		String ctp = (String) session.getAttribute("ctp");
+		model.addAttribute("img", ctp+"/resources/img");
+		model.addAttribute("css", ctp+"/resources/css");
+		model.addAttribute("js", ctp+"/resources/js");
+		model.addAttribute("font", ctp+"/resources/fonts");
+		return "user:user/content.tiles";
 	} 
 	@RequestMapping("/regist")
 	public String moveRegist(Locale locale, Model model) {
@@ -83,18 +85,25 @@ public class MemberController {
 	public String moveDetail(Locale locale, Model model) {
 		logger.info("GO TO : {}","detail");
 		
-		return "admin:member/detail.tiles";
+		return "user:member/detail.tiles";
+	} 
+	@RequestMapping("/a_detail")
+	public String moveAdminDetail(@RequestParam("key") String key, Locale locale, Model model) {
+		logger.info("GO TO : {}","admin detail");
+		SubjectMemberVO smVO = mService.findSmById(key);
+		model.addAttribute("user", smVO);
+		return "admin:admin/detail.tiles";
 	} 
 	@RequestMapping("/update")
 	public String moveUpdate(Locale locale, Model model) {
 		logger.info("GO TO : {}","update");
 		
-		return "admin:member/update.tiles";
+		return "user:member/update.tiles";
 	}
 	@RequestMapping("/delete")
 	public String moveDelete(Locale locale, Model model) {
 		logger.info("GO TO : {}","delete");
-		return "admin:member/open.tiles";
+		return "user:member/delete.tiles";
 	} 
 	@RequestMapping("/login")
 	public String login(Locale locale, Model model) {
@@ -121,5 +130,30 @@ public class MemberController {
 	public String moveCount(Locale locale, Model model) {
 		logger.info("GO TO : {}","count");
 		return "admin:member/count.tiles";
+	}
+	@RequestMapping("/rsp")
+	public String moveRsp(Locale locale, Model model) {
+		logger.info("GO TO : {}","rsp");
+		return "user:user/rsp.tiles";
+	}
+	@RequestMapping("/lotto")
+	public String moveLotto(Locale locale, Model model) {
+		logger.info("GO TO : {}","lotto");
+		return "user:user/lotto.tiles";
+	}
+	@RequestMapping("/kaup")
+	public String moveKaup(Locale locale, Model model) {
+		logger.info("GO TO : {}","kaup");
+		return "user:user/kaup.tiles";
+	}
+	@RequestMapping("/content")
+	public String moveUserContent(HttpSession session,Model model) {
+		logger.info("GO TO : {}","content");
+		String ctp = (String) session.getAttribute("ctp");
+		model.addAttribute("img", ctp+"/resources/img");
+		model.addAttribute("css", ctp+"/resources/css");
+		model.addAttribute("js", ctp+"/resources/js");
+		model.addAttribute("font", ctp+"/resources/fonts");
+		return "user:user/content.tiles";
 	}
 }

@@ -1,7 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-<link rel="stylesheet" href="${css}/douglas.css" />
-<div id="container" style="width: 100%">
-<h1 style="margin: 0 atuo;widows: ;dth: 250px;">Creator 학습장</h1>
 <section class="formbox">
 	<p>회원정보 입력</p>
 	이름 : <input type="text" id="name" name="name" value="" /> <br />
@@ -23,4 +20,3 @@
 	<button id="bt_deposit">입금</button>
 	<button id="bt_withdraw">출금</button>
 </section>
-</div>

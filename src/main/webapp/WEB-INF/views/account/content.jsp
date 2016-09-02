@@ -14,5 +14,4 @@
 		</ol>
 	</article>
 	<a href="#"><img id="img_home"/></a>
-	<a href="#"><img id="img_logout"/></a>
 </section>

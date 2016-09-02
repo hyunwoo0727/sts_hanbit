@@ -37,5 +37,14 @@ public class HomeController {
 		logger.info("GO TO {}","school main");
 		return "public:public/school_info.tiles";
 	}
-	
+	@RequestMapping("/public/contact")
+	public String moveContact(){
+		logger.info("GO TO {}","contact");
+		return "public:public/contact.tiles";
+	}
+	@RequestMapping("/public/freeboard")
+	public String moveFreeboard(){
+		logger.info("GO TO {}","freeboard");
+		return "public:public/freeboard.tiles";
+	}
 }

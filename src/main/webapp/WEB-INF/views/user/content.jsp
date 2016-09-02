@@ -33,7 +33,7 @@
 		</div>
 		<div class="row services">
 			<div class="col-md-4">
-				<div class="service">
+				<div id="kaup" class="service">
 					<div class="icon-holder">
 						<img src="${img}/icons/kaup.png" alt="" class="icon">
 					</div>
@@ -44,7 +44,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<div class="service">
+				<div id="rsp" class="service">
 					<div class="icon-holder">
 						<img src="${img}/icons/rsp.png" alt="" class="icon">
 					</div>
@@ -55,7 +55,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<div class="service">
+				<div id="lotto" class="service">
 					<div class="icon-holder">
 						<img src="${img}/icons/lotto.png" alt="" class="icon">
 					</div>
@@ -90,8 +90,9 @@
 						<h4>Java</h4>
 						<h5 class="muted regular">Server Program Language</h5>
 					</div>
-					<button data-toggle="modal" data-target="#modal1"
-						class="btn btn-blue-fill">Sign Up Now</button>
+					<button id="major_subject_1" data-toggle="modal" data-target="#modal1"
+						class="btn btn-blue-fill">과목 정보 보기</button>
+					<input type="hidden" value="java">
 				</div>
 			</div>
 			<div class="col-md-4">
@@ -106,10 +107,11 @@
 					<img src="${img}/team/team2.jpg" alt="Team Image" class="avatar">
 					<div class="title">
 						<h4>Javascript</h4>
-						<h5 class="muted regular">Javascript</h5>
+						<h5 class="muted regular">UI Programming language</h5>
 					</div>
-					<a href="#" data-toggle="modal" data-target="#modal1"
-						class="btn btn-blue-fill ripple">Sign Up Now</a>
+					<button id="major_subject_2" data-toggle="modal" data-target="#modal1"
+						class="btn btn-blue-fill ripple">과목 정보 보기</button>
+					<input type="hidden" value="javascript">	
 				</div>
 			</div>
 			<div class="col-md-4">
@@ -126,8 +128,9 @@
 						<h4>SQL</h4>
 						<h5 class="muted regular">Database Language</h5>
 					</div>
-					<a href="#" data-toggle="modal" data-target="#modal1"
-						class="btn btn-blue-fill ripple">Sign Up Now</a>
+					<button id="major_subject_3" data-toggle="modal" data-target="#modal1"
+						class="btn btn-blue-fill ripple">과목 정보 보기</button>
+					<input type="hidden" value="sql">
 				</div>
 			</div>
 		</div>
@@ -153,26 +156,6 @@
 							class="info-icon icon_question"></i>
 					</div>
 					<div class="box-second active">
-						<ul class="white-list text-left">
-							<li>One Personal Trainer</li>
-							<li>Big gym space for training</li>
-							<li>Free tools &amp; props</li>
-							<li>Free locker</li>
-							<li>Free before / after shower</li>
-						</ul>
-					</div>
-				</div>
-				<div class="pricing">
-					<div class="box-main" data-img="img/pricing2.jpg">
-						<h4 class="white">Cardio Training</h4>
-						<h4 class="white regular light">
-							$100.00 <span class="small-font">/ year</span>
-						</h4>
-						<a href="#" data-toggle="modal" data-target="#modal1"
-							class="btn btn-white-fill">Sign Up Now</a> <i
-							class="info-icon icon_question"></i>
-					</div>
-					<div class="box-second">
 						<ul class="white-list text-left">
 							<li>One Personal Trainer</li>
 							<li>Big gym space for training</li>
@@ -214,7 +197,7 @@
 		</div>
 	</div>
 </section>
-<div class="modal fade" id="modal1" tabindex="-1" role="dialog"
+<!-- <div class="modal fade" id="modal1" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content modal-popup">
@@ -251,9 +234,28 @@
 			</form>
 		</div>
 	</div>
-</div>
+</div> -->
 <script src="${js}/owl.carousel.min.js"></script>
 <script src="${js}/wow.min.js"></script>
 <script src="${js}/typewriter.js"></script>
 <script src="${js}/jquery.onepagenav.js"></script>
 <script src="${js}/main.js"></script>
+<script type="text/javascript">
+$(function() {
+	$('#kaup').addClass('pointer').click(function(){controller.move('member','kaup')});
+	$('#rsp').addClass('pointer').click(function(){controller.move('member','rsp')});
+	$('#lotto').addClass('pointer').click(function(){controller.move('member','lotto')});
+	$('#team .col-md-4 button').click(function() {
+		controller.moveWithKey('subject','detail',$(this).siblings('input[type=hidden]').attr('value'));
+	})	
+})
+
+	
+	/* $('.modal-popup .close-link').click(function(event){
+		event.preventDefault();
+		$('#modal1').modal('hide');
+	}); */
+/* 	$('#major_subject_1').click(function() {controller.moveWithKey('subject','detail')});
+	$('#major_subject_2').click(function() {});
+	$('#major_subject_3').click(function() {}); */
+</script>

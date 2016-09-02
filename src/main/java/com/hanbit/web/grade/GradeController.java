@@ -17,37 +17,42 @@ public class GradeController {
 
 	@RequestMapping("/main")
 	public String moveMain(Locale locale, Model model){
-		logger.info("GradeController moveMain() locale is {}.", locale);
+		logger.info("GO TO: {}","main");
 		return "admin:grade/content.tiles";
 	}
 	@RequestMapping("/regist")
 	public String moveRegist(Locale locale, Model model){
-		logger.info("GradeController moveRegist() locale is {}.", locale);
+		logger.info("GO TO: {}","regist");
 		return "admin:grade/regist.tiles";
 	}
 	@RequestMapping("/update")
 	public String moveUpdate(Locale locale, Model model){
-		logger.info("GradeController moveUpdate() locale is {}.", locale);
+		logger.info("GO TO: {}","update");
 		return "admin:grade/update.tiles";
 	}
 	@RequestMapping("/delete")
 	public String moveDelete(Locale locale, Model model){
-		logger.info("GradeController moveDelete() locale is {}.", locale);
+		logger.info("GO TO: {}","delete");
 		return "admin:grade/delete.tiles";
 	}
 	@RequestMapping("/list")
 	public String moveList(Locale locale, Model model){
-		logger.info("GradeController moveList() locale is {}.", locale);
+		logger.info("GO TO: {}","list");
 		return "admin:grade/list.tiles";
 	}
 	@RequestMapping("/count")
 	public String moveCount(Locale locale, Model model){
-		logger.info("GradeController moveCount() locale is {}.", locale);
+		logger.info("GO TO: {}","count");
 		return "admin:grade/count.tiles";
 	}
 	@RequestMapping("/search")
 	public String moveSearch(Locale locale, Model model){
-		logger.info("GradeController moveSearch() locale is {}.", locale);
-		return "admin:grade/search.tiles";
+		logger.info("GO TO: {}","search");
+		return "user:grade/search.tiles";
+	}
+	@RequestMapping("/detail")
+	public String moveDetail(Locale locale, Model model){
+		logger.info("GO TO: {}","detail");
+		return "user:grade/detail.tiles";
 	}
 }

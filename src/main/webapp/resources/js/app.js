@@ -1,10 +1,10 @@
 var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 안됨.
 	var init = function(param) {
 		session.init(param);
+		grade.init();
 		user.init();
 		account.init();
 		member.init();
-		grade.init();
 		nav.init();
 		admin.init();
 		onCreate();
@@ -13,7 +13,7 @@ var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 �
 		// layout & global
 		// $('#header').addClass('header');
 		$('ul').addClass('list_style_none');
-		$("#header_brand").addClass('pointer').attr('src',
+		$("#public_header_brand,#admin_header_brand,#user_header_brand").addClass('pointer').attr('src',
 				session.getImgPath() + '/default/hanbit.png').attr('alt', 'hanbit')
 				.css('width','80px').css('height','70px').css(
 						'padding-bottom', '5px');
@@ -28,8 +28,6 @@ var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 �
 		$('#content > article').css('width', '300px').addClass('el_center')
 				.addClass('text_left');
 		$('#global_content').addClass('box');
-		$('#global_content h2').append(
-				'<small>서비스를 이용하시려면</small> 회원가입<small>을 하셔야 합니다</small>');
 		$('#global_content #member_login').addClass('btn btn-primary').css(
 				'margin-bottom', '10px');
 		$('#global_content #member_regist').addClass('btn btn-primary').css(
@@ -40,18 +38,28 @@ var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 �
 	}
 	var onCreate = function() {
 		setContentView();
-		$('#header_brand').click(function() {
+		$('#public_header_brand').click(function() {
 			controller.home();
 		});
+		$('#user_header_brand').click(function() {
+			controller.move('member','main');
+		});
+		$('#admin_header_brand').click(function() {
+			controller.move('admin','main');
+		});
 		$('#nav a').click(function(e) {
-			controller.move(e.target.getAttribute('id').split("_")[1], "main");
+			if(e.target.getAttribute('id')!=null){
+				controller.move(e.target.getAttribute('id').split("_")[1], "main");
+			}
 		});
 		$('li a').click(function(e) {
-			var aid = e.target.getAttribute('id').split("_");
-			if (aid.includes("admin") && !admin.checkAdmin()) {
-				return;
+			if(e.target.getAttribute('id')!=null){
+				var aid = e.target.getAttribute('id').split("_");
+				if (aid.includes("admin") && !admin.checkAdmin()) {
+					return;
+				}
+				controller.move(aid[0],aid[1]);
 			}
-			controller.move(aid[0], aid[1]);
 		});
 		$('#bt_bom').click(function() {
 			controller.move('douglas', 'bom')
@@ -98,6 +106,11 @@ var admin = (function() {
 		$('#admin_content h3:last').text('Grade Management');
 		$('#img_admin_home').attr('src', session.getImgPath() + '/default/home.png')
 				.attr('alt', 'home').css('width', '50').css('height', '50');
+		$('#img_admin_member').attr('src',session.getImgPath()+'/default/member_mng.png').css('width','100px').css('height','100px');
+		$('#img_admin_account').attr('src',session.getImgPath()+'/default/account_mng.png').css('width','100px').css('height','100px');
+		$('#img_admin_grade').attr('src',session.getImgPath()+'/default/grade_mng.png').css('width','100px').css('height','100px');
+		$('#profile_img').attr('src',session.getImgPath()+'/member/${user.profileImg}');
+		
 	}
 	var onCreate = function() {
 		setContentView();
@@ -135,14 +148,10 @@ var user = (function() {
 	var setContentView = function() {
 		$('#img_home').attr('src', session.getImgPath() + '/default/home.png').attr(
 				'alt', 'home').css('width', '50').css('height', '50');
-		$('#img_logout').attr('src', session.getImgPath() + '/default/logout.png')
-				.attr('alt', 'logout').css('width', '50').css('height', '50');
 	}
 	var onCreate = function() {
 		setContentView();
-		$('#img_logout').click(function() {
-			controller.move('member', 'logout');
-		})
+	
 		$('#img_home').click(function() {
 			controller.home();
 		})
@@ -169,6 +178,7 @@ var account = (function() {
 		onCreate();
 	}
 	var setContentView = function() {
+		
 		$('#account_content').siblings("h1").text('ACCOUNT MANAGEMENT');
 	}
 	var onCreate = function() {
@@ -310,6 +320,24 @@ var member = (function() {
 		$('#member_login_form > button').click(function() {
 			$('#member_login_form').submit();
 		});
+		$('#ul_grade li:eq(0)').click(function name() {
+			controller.move('grade','detail');	
+		})
+		$('#ul_grade li:eq(1)').click(function name() {
+			controller.move('grade','search');	
+		})
+		$('#ul_account li:eq(0)').click(function name() {
+			controller.move('account','detail');	
+		})
+		$('#ul_account li:eq(1)').click(function name() {
+			controller.move('account','open');	
+		})
+		$('#ul_account li:eq(2)').click(function name() {
+			controller.move('account','transaction');	
+		})
+		$('#ul_account li:eq(3)').click(function name() {
+			controller.move('account','delete');	
+		})
 	}
 	return {
 		setName : setName,
@@ -369,6 +397,18 @@ var grade = (function() {
 				'remove_underline');
 		$('#grade_content_ol > li:nth-child(6) > a').text('SEARCH').addClass(
 				'remove_underline');
+		$('#grade_regist_content').addClass('box').css('width', '50%');
+		$('#grade_regist_content span').addClass('float_left').addClass(
+				'text_left').addClass('font_bold').css('width', '200px');
+		$('#grade_regist_content #bt_send').addClass('btn').addClass(
+				'btn-primary');
+		$('#grade_regist_content #bt_cancel').addClass('btn').addClass(
+				'btn-danger');
+		$('#grade_regist_form').addClass('form-horizontal');
+		$('#grade_regist_form > div:nth-child(8) > div > div').addClass(
+				'checkbox');
+		$('#grade_regist_form > div').addClass('form-group');
+		$('.form-group > label').addClass('col-sm-2').addClass('control-label');
 	}
 	var onCreate = function() {
 		setContentView();
@@ -395,7 +435,7 @@ var nav = (function() {
 })();
 
 var controller = (function() {
-	var _page, _directory;
+	var _page, _directory,_key;
 	var setPage = function(page) {
 		this._page = page;
 	}
@@ -408,6 +448,12 @@ var controller = (function() {
 	var getDirectory = function() {
 		return this._directory;
 	}
+	var setKey = function(key) {
+		this._key = key;
+	}
+	var getKey = function() {
+		return this._key;
+	}
 	return {
 		move : function(directory, page) {
 			setDirectory(directory);
@@ -415,13 +461,22 @@ var controller = (function() {
 			location.href = session.getContext() + '/' + getDirectory() + '/'
 					+ getPage();
 		},
+		moveWithKey : function(directory, page, key) {
+			setDirectory(directory);
+			setPage(page);
+			setKey(key);
+			location.href = session.getContext() + '/' + getDirectory() + '/'
+					+ getPage()+'?key='+getKey();
+		},
 		home : function() {
 			location.href = session.getContext() + "/";
 		},
 		setPage : setPage,
 		getPage : getPage,
 		setDirectory : setDirectory,
-		getDirectory : getDirectory
+		getDirectory : getDirectory,
+		setKey : setKey,
+		getKey : getKey
 	};
 })();
 var util = (function() {

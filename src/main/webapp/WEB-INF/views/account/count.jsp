@@ -8,6 +8,5 @@
 		  </li>
 		</ul>
 		<a href="#"><img id="img_admin_home"/></a>
-		<a href="#"><img id="img_logout"/></a>
 	</article>
 </section>

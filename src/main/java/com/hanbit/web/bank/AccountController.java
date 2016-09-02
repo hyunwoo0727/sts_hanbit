@@ -17,47 +17,47 @@ public class AccountController {
 
 	@RequestMapping("/main")
 	public String moveMain(Locale locale, Model model){
-		logger.info("AccountController moveMain() locale is {}.", locale);
+		logger.info("GO TO {}", "main");
 		return "admin:account/content.tiles";
+	}
+	@RequestMapping("/detail")
+	public String moveDetail(Locale locale, Model model){
+		logger.info("GO TO {}", "detail");
+		return "user:account/detail.tiles";
 	}
 	@RequestMapping("/open")
 	public String moveOpen(Locale locale, Model model){
-		logger.info("AccountController moveOpen() locale is {}.", locale);
-		return "admin:account/open.tiles";
+		logger.info("GO TO {}", "open");
+		return "user:account/open.tiles";
 	}
-	@RequestMapping("/deposit")
+	@RequestMapping("/transaction")
 	public String moveDeposit(Locale locale, Model model){
-		logger.info("AccountController moveDeposit() locale is {}.", locale);
-		return "admin:account/deposit.tiles";
-	}
-	@RequestMapping("/withdraw")
-	public String moveWithdraw(Locale locale, Model model){
-		logger.info("AccountController moveWithdraw() locale is {}.", locale);
-		return "admin:account/withdraw.tiles";
+		logger.info("GO TO {}", "transaction");
+		return "user:account/transaction.tiles";
 	}
 	@RequestMapping("/update")
 	public String moveUpdate(Locale locale, Model model){
-		logger.info("AccountController moveUpdate() locale is {}.", locale);
+		logger.info("GO TO {}", "update");
 		return "admin:account/update.tiles";
 	}
 	@RequestMapping("/delete")
 	public String moveDelete(Locale locale, Model model){
-		logger.info("AccountController moveDelete() locale is {}.", locale);
-		return "admin:account/delete.tiles";
+		logger.info("GO TO {}", "delete");
+		return "user:account/open.tiles";
 	}
 	@RequestMapping("/list")
 	public String moveList(Locale locale, Model model){
-		logger.info("AccountController moveList() locale is {}.", locale);
+		logger.info("GO TO {}", "list");
 		return "admin:account/list.tiles";
 	}
 	@RequestMapping("/search")
 	public String moveSearch(Locale locale, Model model){
-		logger.info("AccountController moveSearch() locale is {}.", locale);
+		logger.info("GO TO {}", "search");
 		return "admin:account/search.tiles";
 	}
 	@RequestMapping("/count")
 	public String moveCount(Locale locale, Model model){
-		logger.info("AccountController moveCount() locale is {}.", locale);
+		logger.info("GO TO {}", "count");
 		return "admin:account/count.tiles";
 	}
 }

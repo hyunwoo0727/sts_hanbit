@@ -9,8 +9,6 @@
 					<option value="gender">NAME</option>
 				</select>
 			<input type="text" name="keyword" class="form-control" placeholder="Search" style="width: 50%;">
-			<input type="hidden" name="action" value="find_by_id" />
-			<input type="hidden" name="page" value="detail" />		
 			<button type="submit" class="btn btn-primary">SEARCH</button>
 			</div>	
 		</div>

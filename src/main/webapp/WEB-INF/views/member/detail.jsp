@@ -41,10 +41,4 @@
 		</tr>
 	</table>	
 	<a href="#"><img id="img_home"/></a>
-	<a href="#"><img id="img_logout"/></a>	
 </section>	
-<script type="text/javascript">
-$(function() {
-	$('#profile_img').attr('src',session.getImgPath()+'/member/${user.profileImg}');
-})
-</script>
