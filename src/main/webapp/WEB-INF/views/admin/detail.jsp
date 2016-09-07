@@ -3,7 +3,7 @@
 	<h1>회원 정보</h1>
 	<table id="member_details">
 		<tr>
-			<td rowspan="6" style="width: 30%;"><img id="profile_img" width="300" height="300" /></td>
+			<td rowspan="6" style="width: 30%;"><img id="profile_img" src="${ctp}/resources/img/member/${user.profileImg}" width="300" height="300" /></td>
 			<td style="width: 20%;">ID</td>
 			<td style="width: 40%;">${user.id}</td>
 		</tr>

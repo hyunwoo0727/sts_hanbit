@@ -13,10 +13,7 @@ var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 �
 		// layout & global
 		// $('#header').addClass('header');
 		$('ul').addClass('list_style_none');
-		$("#public_header_brand,#admin_header_brand,#user_header_brand").addClass('pointer').attr('src',
-				session.getImgPath() + '/default/hanbit.png').attr('alt', 'hanbit')
-				.css('width','80px').css('height','70px').css(
-						'padding-bottom', '5px');
+		$("#public_header_brand,#admin_header_brand,#user_header_brand").addClass('pointer').attr('src',session.getImgPath()+'/default/hanbit.png').attr('alt','hanbit').css('width','80px').css('height','70px').css('padding-bottom','5px');
 		$('#user_menu>li>a').css('padding','0px');
 		$('#user_menu>li>a').css('padding','0px');
 		$('#user_menu > li').css('margin-top','10px').css('margin-right','5px');
@@ -25,33 +22,19 @@ var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 �
 		$('#footer').addClass('footer');
 		$('#footer').addClass('bottom');
 		$('#content').addClass('box').addClass('font_large');
-		$('#content > article').css('width', '300px').addClass('el_center')
-				.addClass('text_left');
+		$('#content > article').css('width','300px').addClass('el_center').addClass('text_left');
 		$('#global_content').addClass('box');
-		$('#global_content #member_login').addClass('btn btn-primary').css(
-				'margin-bottom', '10px');
-		$('#global_content #member_regist').addClass('btn btn-primary').css(
-				'margin-bottom', '10px');
+		$('#global_content #member_login').addClass('btn btn-primary').css('margin-bottom','10px');
+		$('#global_content #member_regist').addClass('btn btn-primary').css('margin-bottom','10px');
 		$('#admin_main').text('ADMIN MODE');
 		$('.box a').addClass('pointer');
-		
 	}
 	var onCreate = function() {
 		setContentView();
-		$('#public_header_brand').click(function() {
-			controller.home();
-		});
-		$('#user_header_brand').click(function() {
-			controller.move('member','main');
-		});
-		$('#admin_header_brand').click(function() {
-			controller.move('admin','main');
-		});
-		$('#nav a').click(function(e) {
-			if(e.target.getAttribute('id')!=null){
-				controller.move(e.target.getAttribute('id').split("_")[1], "main");
-			}
-		});
+		$('#public_header_brand').click(function() {controller.home();});
+		$('#user_header_brand').click(function() {controller.move('member','main');});
+		$('#admin_header_brand').click(function() {controller.move('admin','main');});
+		$('#nav a').click(function(e) {if(e.target.getAttribute('id')!=null){controller.move(e.target.getAttribute('id').split("_")[1], "main");}});
 		$('li a').click(function(e) {
 			if(e.target.getAttribute('id')!=null){
 				var aid = e.target.getAttribute('id').split("_");
@@ -61,65 +44,38 @@ var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 �
 				controller.move(aid[0],aid[1]);
 			}
 		});
-		$('#bt_bom').click(function() {
-			controller.move('douglas', 'bom')
-		});
-		$('#bt_dom').click(function() {
-			controller.move('douglas', 'dom')
-		});
-		$('#bt_kaup').click(function() {
-			controller.move('douglas', 'kaup')
-		});
-		$('#bt_account').click(function() {
-			controller.move('douglas', 'account')
-		});
+		$('#bt_bom').click(function() {controller.move('douglas', 'bom')});
+		$('#bt_dom').click(function() {controller.move('douglas', 'dom')});
+		$('#bt_kaup').click(function() {controller.move('douglas', 'kaup')});
+		$('#bt_account').click(function() {controller.move('douglas', 'account')});
 	}
 	return {
 		init : init
 	};
 })();
-
 var admin = (function() {
 	var _pass;
-	var getPass = function() {
-		return this._pass
-	};
-	var setPass = function(pass) {
-		this._pass = pass;
-	};
-	var init = function() {
-		onCreate();
-	}
+	var getPass = function() {return this._pass};
+	var setPass = function(pass) {this._pass = pass;};
+	var init = function() {onCreate();}
 	var setContentView = function() {
 		$('#admin_content').addClass('text_center');
-		$('#admin_content p:first')
-				.text(
-						'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.');
+		$('#admin_content p:first').text('Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.');
 		$('#admin_content h3:first').text('Member Management');
-		$('#admin_content p:nth-child(2)')
-				.text(
-						'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.');
+		$('#admin_content p:nth-child(2)').text('Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.');
 		$('#img_admin_account + div > h3').text('Account Management');
-		$('#admin_content p:last')
-				.text(
-						'A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.');
+		$('#admin_content p:last').text('A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.');
 		$('#admin_content h3:last').text('Grade Management');
-		$('#img_admin_home').attr('src', session.getImgPath() + '/default/home.png')
-				.attr('alt', 'home').css('width', '50').css('height', '50');
+		$('#img_admin_home').attr('src',session.getImgPath()+'/default/home.png').attr('alt','home').css('width','50').css('height','50');
 		$('#img_admin_member').attr('src',session.getImgPath()+'/default/member_mng.png').css('width','100px').css('height','100px');
 		$('#img_admin_account').attr('src',session.getImgPath()+'/default/account_mng.png').css('width','100px').css('height','100px');
 		$('#img_admin_grade').attr('src',session.getImgPath()+'/default/grade_mng.png').css('width','100px').css('height','100px');
-		$('#profile_img').attr('src',session.getImgPath()+'/member/${user.profileImg}');
-		
+	/*	$('#profile_img').attr('src',session.getImgPath()+'/member/${user.profileImg}');*/
 	}
 	var onCreate = function() {
 		setContentView();
-		$('#img_admin_home').click(function() {
-			controller.move('admin','main');
-		})
-		$('#btn_exit').click(function() {
-			controller.move('member','logout');
-		})
+		$('#img_admin_home').click(function() {controller.move('admin','main');})
+		$('#btn_exit').click(function() {controller.move('member','logout');})
 	}
 	return {
 		setPass : setPass,
@@ -142,19 +98,11 @@ var admin = (function() {
 	};
 })();
 var user = (function() {
-	var init = function() {
-		onCreate();
-	}
-	var setContentView = function() {
-		$('#img_home').attr('src', session.getImgPath() + '/default/home.png').attr(
-				'alt', 'home').css('width', '50').css('height', '50');
-	}
+	var init = function() {onCreate();}
+	var setContentView = function() {$('#img_home').attr('src', session.getImgPath() + '/default/home.png').attr('alt', 'home').css('width', '50').css('height', '50');}
 	var onCreate = function() {
 		setContentView();
-	
-		$('#img_home').click(function() {
-			controller.home();
-		})
+		$('#img_home').click(function() {controller.home();})
 	};
 	return {
 		init : init
@@ -162,23 +110,12 @@ var user = (function() {
 })();
 var account = (function() {
 	var _account_no, _money;
-	var setAccountNo = function(account_no) {
-		this._account_no = account_no;
-	}
-	var getAccountNo = function() {
-		return this._account_no;
-	}
-	var setMoney = function(money) {
-		this._money = money;
-	}
-	var getMoney = function() {
-		return this._money;
-	}
-	var init = function() {
-		onCreate();
-	}
+	var setAccountNo = function(account_no) {this._account_no = account_no;}
+	var getAccountNo = function() {return this._account_no;}
+	var setMoney = function(money) {this._money = money;}
+	var getMoney = function() {return this._money;}
+	var init = function() {onCreate();}
 	var setContentView = function() {
-		
 		$('#account_content').siblings("h1").text('ACCOUNT MANAGEMENT');
 	}
 	var onCreate = function() {
@@ -210,9 +147,7 @@ var account = (function() {
 			$(".databox #money").innerHTML = getMoney();
 		},
 		deposit : function() {
-			if (!util.isNumber(getAccountNo())) {
-				alert('통장부터 만드셈');
-			}
+			if (!util.isNumber(getAccountNo())) {alert('통장부터 만드셈');}
 			setMoney(getMoney() + Number($("input[id=money]").value));
 			$(".databox #money").innerHTML = getMoney();
 		},
@@ -234,81 +169,45 @@ var account = (function() {
 
 var member = (function() {
 	var _name = '', _ssn = '', _gender = '', _age = 0;
-	var setName = function(name) {
-		this._name = name;
-	}
-	var getName = function() {
-		return this._name;
-	}
-	var setSsn = function(ssn) {
-		this._ssn = ssn;
-	}
-	var getSsn = function() {
-		return this._ssn;
-	}
-	var setGender = function(gender) {
-		this._gender = gender;
-	}
-	var getGender = function() {
-		return this._gender;
-	}
-	var setAge = function(age) {
-		this._age = age;
-	}
-	var getAge = function() {
-		return this._age;
-	}
-	var init = function() {
-		onCreate();
-	}
+	var setName = function(name) {this._name = name;}
+	var getName = function() {return this._name;}
+	var setSsn = function(ssn) {this._ssn = ssn;}
+	var getSsn = function() {return this._ssn;}
+	var setGender = function(gender) {this._gender = gender;}
+	var getGender = function() {return this._gender;}
+	var setAge = function(age) {this._age = age;}
+	var getAge = function() {return this._age;}
+	var init = function() {onCreate();}
 	var setContentView = function() {
 		$('#member_content').siblings("h1").text('MEMBER MANAGEMENT');
-		$('#member_content_ol > li:first > a').text('SIGN UP').addClass(
-				'remove_underline');
-		$('#member_content_ol > li:nth-child(2) > a').text('LIST').addClass(
-				'remove_underline');
-		$('#member_content_ol > li:nth-child(3) > a').text('DETAIL').addClass(
-				'remove_underline');
-		$('#member_content_ol > li:nth-child(4) > a').text('UPDATE').addClass(
-				'remove_underline');
-		$('#member_content_ol > li:nth-child(5) > a').text('DELETE').addClass(
-				'remove_underline');
-		$('#member_content_ol > li:nth-child(6) > a').text('SEARCH').addClass(
-				'remove_underline');
-		$('#member_content_ol > li:nth-child(7) > a').text('COUNT').addClass(
-				'remove_underline');
+		$('#member_content_ol > li:first > a').text('SIGN UP').addClass('remove_underline');
+		$('#member_content_ol > li:nth-child(2) > a').text('LIST').addClass('remove_underline');
+		$('#member_content_ol > li:nth-child(3) > a').text('DETAIL').addClass('remove_underline');
+		$('#member_content_ol > li:nth-child(4) > a').text('UPDATE').addClass('remove_underline');
+		$('#member_content_ol > li:nth-child(5) > a').text('DELETE').addClass('remove_underline');
+		$('#member_content_ol > li:nth-child(6) > a').text('SEARCH').addClass('remove_underline');
+		$('#member_content_ol > li:nth-child(7) > a').text('COUNT').addClass('remove_underline');
 		$('article #member_regist').text('REGIST');
 		$('article #member_login').text('LOGIN');
 		$('#member_regist_content').addClass('box').css('width', '50%');
-		$('#member_regist_content span').addClass('float_left').addClass(
-				'text_left').addClass('font_bold').css('width', '200px');
-		$('#member_regist_content #bt_join').addClass('btn').addClass(
-				'btn-primary');
-		$('#member_regist_content #bt_cancel').addClass('btn').addClass(
-				'btn-danger');
+		$('#member_regist_content span').addClass('float_left').addClass('text_left').addClass('font_bold').css('width', '200px');
+		$('#member_regist_content #bt_join').addClass('btn').addClass('btn-primary');
+		$('#member_regist_content #bt_cancel').addClass('btn').addClass('btn-danger');
 		$('#member_regist_form').addClass('form-horizontal');
-		$('#member_regist_form > div:nth-child(8) > div > div').addClass(
-				'checkbox');
+		$('#member_regist_form > div:nth-child(8) > div > div').addClass('checkbox');
 		$('#member_regist_form > div').addClass('form-group');
-		$('#member_regist_form div:nth-child(7) label:gt(0)').addClass(
-				'radio-inline');
-		$('#member_regist_form div:nth-child(8) label:gt(0)').addClass(
-				'checkbox-inline');
+		$('#member_regist_form div:nth-child(7) label:gt(0)').addClass('radio-inline');
+		$('#member_regist_form div:nth-child(8) label:gt(0)').addClass('checkbox-inline');
 		$('.form-group > div').addClass('col-sm-10');
 		$('.form-group > label').addClass('col-sm-2').addClass('control-label');
 		$('.col-sm-10 > input').addClass('form-control');
 		$('#member_details').addClass('el_center').addClass('border_collapse')
-				.css('border', '3px solid gray').css('width', '70%').css(
-						'height', '300px');
-		$('#member_details tr').css('border', '1px solid gray').css('height',
-				'15%');
-		$('#member_details tr td').addClass('font_xlarge').css('border',
-				'1px solid gray');
+				.css('border', '3px solid gray').css('width', '70%').css('height', '300px');
+		$('#member_details tr').css('border', '1px solid gray').css('height','15%');
+		$('#member_details tr td').addClass('font_xlarge').css('border','1px solid gray');
 		$('#member_details tr > td:odd').addClass('bg_gray');
-		$('#member_list').addClass('border_collapse').css('witdh', '100%').css(
-				'font-family', 'arial, sans-serif');
-		$('#member_list td, th').addClass('text_left').css('border',
-				'1px solid #dddddd').css('padding', '8px');
+		$('#member_list').addClass('border_collapse').css('witdh', '100%').css('font-family', 'arial, sans-serif');
+		$('#member_list td, th').addClass('text_left').css('border','1px solid #dddddd').css('padding', '8px');
 		$('#member_list tr:nth-child(even)').css('background-color', '#dddddd');
 	}
 	var onCreate = function() {
@@ -320,24 +219,14 @@ var member = (function() {
 		$('#member_login_form > button').click(function() {
 			$('#member_login_form').submit();
 		});
-		$('#ul_grade li:eq(0)').click(function name() {
-			controller.move('grade','detail');	
-		})
-		$('#ul_grade li:eq(1)').click(function name() {
-			controller.move('grade','search');	
-		})
-		$('#ul_account li:eq(0)').click(function name() {
-			controller.move('account','detail');	
-		})
-		$('#ul_account li:eq(1)').click(function name() {
-			controller.move('account','open');	
-		})
-		$('#ul_account li:eq(2)').click(function name() {
-			controller.move('account','transaction');	
-		})
-		$('#ul_account li:eq(3)').click(function name() {
-			controller.move('account','delete');	
-		})
+		$('#ul_grade li:eq(0)').click(function name() {controller.move('grade','detail');})
+		$('#ul_grade li:eq(1)').click(function name() {controller.move('grade','search');})
+		$('#ul_account li:eq(0)').click(function name() {controller.move('account','detail');})
+		$('#ul_account li:eq(1)').click(function name() {controller.move('account','open');})
+		$('#ul_account li:eq(2)').click(function name() {controller.move('account','transaction');})
+		$('#ul_account li:eq(3)').click(function name() {controller.move('account','delete');})
+		$("#table_member_list .id").click(function() {controller.moveWithKey('member','a_detail',$(this).text());})
+		$("#table_member_list .regist,.update").click(function() {controller.moveWithKey('grade',$(this).attr('class').split(" ")[0],$(this).parent().siblings('td:first').text());})
 	}
 	return {
 		setName : setName,
@@ -358,14 +247,10 @@ var member = (function() {
 			setGender(gen);
 			var nowYear = new Date().getFullYear();
 			switch (scode) {
-			case 1:
-			case 2:
-			case 5:
-			case 6:
+			case 1:case 2:case 5:case 6:
 				setAge(nowYear - (1900 + ageYear) + 1);
 				break;
-			case 9:
-			case 0:
+			case 9:case 0:
 				setAge(nowYear - (1800 + ageYear) + 1);
 				break;
 			default:
@@ -385,28 +270,18 @@ var grade = (function() {
 	var setContentView = function() {
 		// grade style
 		$('#grade_content').siblings("h1").text('GRADE MANAGEMENT');
-		$('#grade_content_ol > li:first > a').text('REGIST').addClass(
-				'remove_underline');
-		$('#grade_content_ol > li:nth-child(2) > a').text('UPDATE').addClass(
-				'remove_underline');
-		$('#grade_content_ol > li:nth-child(3) > a').text('DELETE').addClass(
-				'remove_underline');
-		$('#grade_content_ol > li:nth-child(4) > a').text('LIST').addClass(
-				'remove_underline');
-		$('#grade_content_ol > li:nth-child(5) > a').text('COUNT').addClass(
-				'remove_underline');
-		$('#grade_content_ol > li:nth-child(6) > a').text('SEARCH').addClass(
-				'remove_underline');
+		$('#grade_content_ol > li:first > a').text('REGIST').addClass('remove_underline');
+		$('#grade_content_ol > li:nth-child(2) > a').text('UPDATE').addClass('remove_underline');
+		$('#grade_content_ol > li:nth-child(3) > a').text('DELETE').addClass('remove_underline');
+		$('#grade_content_ol > li:nth-child(4) > a').text('LIST').addClass('remove_underline');
+		$('#grade_content_ol > li:nth-child(5) > a').text('COUNT').addClass('remove_underline');
+		$('#grade_content_ol > li:nth-child(6) > a').text('SEARCH').addClass('remove_underline');
 		$('#grade_regist_content').addClass('box').css('width', '50%');
-		$('#grade_regist_content span').addClass('float_left').addClass(
-				'text_left').addClass('font_bold').css('width', '200px');
-		$('#grade_regist_content #bt_send').addClass('btn').addClass(
-				'btn-primary');
-		$('#grade_regist_content #bt_cancel').addClass('btn').addClass(
-				'btn-danger');
+		$('#grade_regist_content span').addClass('float_left').addClass('text_left').addClass('font_bold').css('width', '200px');
+		$('#grade_regist_content #bt_send').addClass('btn').addClass('btn-primary');
+		$('#grade_regist_content #bt_cancel').addClass('btn').addClass('btn-danger');
 		$('#grade_regist_form').addClass('form-horizontal');
-		$('#grade_regist_form > div:nth-child(8) > div > div').addClass(
-				'checkbox');
+		$('#grade_regist_form > div:nth-child(8) > div > div').addClass('checkbox');
 		$('#grade_regist_form > div').addClass('form-group');
 		$('.form-group > label').addClass('col-sm-2').addClass('control-label');
 	}
@@ -419,9 +294,7 @@ var grade = (function() {
 	};
 })();
 var nav = (function() {
-	var init = function() {
-		onCreate();
-	}
+	var init = function() {onCreate();}
 	var setContentView = function() {
 		$('#nav').css('width', '100%').css('padding', '0px');
 		$('#nav').css('border-bottom', '1px solid gray');
@@ -433,43 +306,28 @@ var nav = (function() {
 		init : init
 	};
 })();
-
 var controller = (function() {
 	var _page, _directory,_key;
-	var setPage = function(page) {
-		this._page = page;
-	}
-	var getPage = function() {
-		return this._page;
-	}
-	var setDirectory = function(directory) {
-		this._directory = directory;
-	}
-	var getDirectory = function() {
-		return this._directory;
-	}
-	var setKey = function(key) {
-		this._key = key;
-	}
-	var getKey = function() {
-		return this._key;
-	}
+	var setPage = function(page) {this._page = page;}
+	var getPage = function() {return this._page;}
+	var setDirectory = function(directory) {this._directory = directory;}
+	var getDirectory = function() {return this._directory;}
+	var setKey = function(key) {this._key = key;}
+	var getKey = function() {return this._key;}
 	return {
 		move : function(directory, page) {
 			setDirectory(directory);
 			setPage(page);
-			location.href = session.getContext() + '/' + getDirectory() + '/'
-					+ getPage();
+			location.href = session.getContext()+'/'+getDirectory()+'/'+getPage();
 		},
 		moveWithKey : function(directory, page, key) {
 			setDirectory(directory);
 			setPage(page);
 			setKey(key);
-			location.href = session.getContext() + '/' + getDirectory() + '/'
-					+ getPage()+'?key='+getKey();
+			location.href = session.getContext()+'/'+getDirectory()+'/'+getPage()+'?key='+getKey();
 		},
 		home : function() {
-			location.href = session.getContext() + "/";
+			location.href = session.getContext()+"/";
 		},
 		setPage : setPage,
 		getPage : getPage,
@@ -488,36 +346,20 @@ var util = (function() {
 })();
 var session = (function() {
 	var _context, _js, _css, _img;
-	var setContext = function(context) {
-		this._context = context;
-	}
-	var getContext = function() {
-		return this._context;
-	}
-	var setJsPath = function(js) {
-		this._js = js;
-	}
-	var getJsPath = function() {
-		return this._js;
-	}
-	var setCssPath = function(css) {
-		this._css = css;
-	}
-	var getCssPath = function() {
-		return this._css;
-	}
-	var setImgPath = function(img) {
-		this._img = img;
-	}
-	var getImgPath = function() {
-		return this._img;
-	}
+	var setContext = function(context) {this._context = context;}
+	var getContext = function() {return this._context;}
+	var setJsPath = function(js) {this._js = js;}
+	var getJsPath = function() {return this._js;}
+	var setCssPath = function(css) {this._css = css;}
+	var getCssPath = function() {return this._css;}
+	var setImgPath = function(img) {this._img = img;}
+	var getImgPath = function() {return this._img;}
 	return {
 		init : function(param) {
 			this.setContext(param);
-			this.setJsPath(param + '/resources/js');
-			this.setCssPath(param + '/resources/css');
-			this.setImgPath(param + '/resources/img');
+			this.setJsPath(param+'/resources/js');
+			this.setCssPath(param+'/resources/css');
+			this.setImgPath(param+'/resources/img');
 		},
 		setContext : setContext,
 		getContext : getContext,

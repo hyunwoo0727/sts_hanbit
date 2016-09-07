@@ -55,14 +55,3 @@
 	</article>
 	<a href="#"><img id="img_admin_home" /></a> 
 </section>
-<script type="text/javascript">
-$(function() {
-	$("#table_member_list .id").click(function() {
-		controller.moveWithKey('member','a_detail',$(this).text());
-	//	alert($(this).text());
-	})
-	$("#table_member_list .regist,.update").click(function() {
-		controller.moveWithKey('grade',$(this).attr('class').split(" ")[0],$(this).parent().siblings('td:first').text());
-	})
-})
-</script>
