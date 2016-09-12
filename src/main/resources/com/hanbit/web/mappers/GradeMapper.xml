@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanbit.web.mappers.GradeMapper">
+<!-- 	<resultMap type="com.hanbit.web.domains.MajorDTO" id="majorVOMap">
+		<result property="majorSeq" column="major_seq"/>
+		<result property="title" column="title"/>
+	</resultMap> -->
+<!-- 	<select id="cursortest" statementType="CALLABLE" resultType="com.hanbit.web.domains.MajorDTO">
+		{call hanbit.select_major(
+			#{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet,resultMap=majorVOMap}
+		)}
+	</select>
+	<select id="cursortest2" statementType="CALLABLE" resultType="com.hanbit.web.domains.MajorDTO">
+		{call hanbit.select_major_title(
+			#{title, mode=IN},
+			#{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet,resultMap=majorVOMap}
+		)}
+	</select> -->
+</mapper>

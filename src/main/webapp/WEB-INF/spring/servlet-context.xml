@@ -13,6 +13,7 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:task="http://www.springframework.org/schema/task"
 	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-4.3.xsd
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
@@ -28,5 +29,5 @@
 	<context:annotation-config/>
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<context:component-scan base-package="com.hanbit.web" />
-	
+	<mybatis-spring:scan base-package="com.hanbit.web.mappers"/>
 </beans>

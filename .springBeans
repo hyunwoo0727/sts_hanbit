@@ -11,8 +11,6 @@
 		<config>src/main/resources/META-INF/view-context.xml</config>
 		<config>src/main/resources/META-INF/tiles-context.xml</config>
 		<config>src/main/resources/META-INF/mybatis-context.xml</config>
-		<config>src/main/resources/mapper/member.xml</config>
-		<config>src/main/resources/config/mybatis-config.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/root-context.xml</config>

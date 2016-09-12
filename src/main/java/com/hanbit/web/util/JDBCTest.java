@@ -19,7 +19,7 @@ public class JDBCTest {
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-		String sql = "select id from test",result="";
+		String sql = "select mem_id from member",result="";
 		
 		List<String> list = new ArrayList<String>();
 		try {
@@ -30,7 +30,7 @@ public class JDBCTest {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);
 			if(rs.next()){
-				result = rs.getString("id");
+				result = rs.getString("mem_id");
 				list.add(result);
 			}
 		} catch (Exception e) {
