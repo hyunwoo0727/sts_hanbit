@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/grade")
 public class GradeController {
-	private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+	private static final Logger logger = LoggerFactory.getLogger(GradeController.class);
 
 	@RequestMapping("/main")
 	public String moveMain(Locale locale, Model model){

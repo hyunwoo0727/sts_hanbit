@@ -26,7 +26,7 @@ public class GradeServiceImpl implements GradeService{
 	@Override
 	public String insert(GradeDTO grade) {
 		// TODO Auto-generated method stub
-		grade.setGrade(getGrade(grade));
+	//	grade.setGrade(getGrade(grade));
 //		return gDao.insert(grade)!=0?"입력 완료":"입력 실패";
 		return null;
 	}
@@ -49,7 +49,7 @@ public class GradeServiceImpl implements GradeService{
 	}
 	public static String getGrade(GradeDTO bean){
 		String grade = "";
-		switch ((bean.getJava()+bean.getSql()+bean.getHtml()+bean.getJavascript())/4/10) {
+	/*	switch ((bean.getJava()+bean.getSql()+bean.getHtml()+bean.getJavascript())/4/10) {
 		case 10:
 		case 9:
 			grade = "A";
@@ -66,7 +66,7 @@ public class GradeServiceImpl implements GradeService{
 		default:
 			grade = "F";
 			break;
-		}
+		}*/
 		return grade;
 	}
 	public String numberCheck(String[] scores){

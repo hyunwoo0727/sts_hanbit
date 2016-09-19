@@ -7,13 +7,9 @@
 	</configSuffixes>
 	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
-		<config>src/main/webapp/WEB-INF/spring/servlet-context.xml</config>
-		<config>src/main/resources/META-INF/view-context.xml</config>
-		<config>src/main/resources/META-INF/tiles-context.xml</config>
-		<config>src/main/resources/META-INF/mybatis-context.xml</config>
+		<config>src/main/resources/META-INF/application-context.xml</config>
 	</configs>
 	<autoconfigs>
-		<config>src/main/webapp/WEB-INF/spring/root-context.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>
