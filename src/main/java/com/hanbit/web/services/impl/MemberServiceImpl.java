@@ -38,13 +38,13 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public MemberDTO login(MemberDTO inMem) {
-		logger.info("===LOGIN=== ID : {}",inMem.getMemId());
+	/*	logger.info("===LOGIN=== ID : {}",inMem.getMemId());
 		MemberDTO memDto = this.findByPK(inMem.getMemId());
 		if(memDto!=null && memDto.getPw().equals(inMem.getPw())){	
 			logger.info("=========LOGIN SUCCESS=========");
 			return memDto;
 		}
-		logger.info("=========LOGIN FAIL=========");
+		logger.info("=========LOGIN FAIL=========");*/
 		return null;
 	}
 	@Override
@@ -92,9 +92,9 @@ public class MemberServiceImpl implements MemberService{
 		List<MemberDTO> findList = new ArrayList<MemberDTO>();
 		while(it.hasNext()){
 			MemberDTO tempBean = (MemberDTO) map.get(it.next());
-			if(tempBean.getName().contains(word)){
+			/*if(tempBean.getName().contains(word)){
 				findList.add(tempBean);
-			}
+			}*/
 		}
 		return findList;
 	}

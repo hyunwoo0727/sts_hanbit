@@ -1,5 +1,7 @@
 package com.hanbit.web.services.impl;
 
+import static org.junit.Assert.assertEquals;
+
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +20,6 @@ public class MemberServiceImplTest{
 	@Test
 	public void testLogin() {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-	//	assertEquals(mapper.findByPK("prof_james").getName(),"제임스고슬링");
+		assertEquals(mapper.findByPK("hong").getName(),"홍길동");
 	}
 }

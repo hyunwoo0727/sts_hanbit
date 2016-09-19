@@ -27,14 +27,14 @@ public class MemberController {
 	private MemberServiceImpl mService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam("context") String ctp,@RequestParam("userid") String id,
+	public String login(@RequestParam("context") String ctp,@RequestParam("userid") String memId,
 			@RequestParam("userpw") String pw, Locale locale,Model model,
 			HttpSession session) {
 		logger.info("GO TO: {}","login");
-		logger.info("LOGIN ID : {}", id);
+		logger.info("LOGIN ID : {}", memId);
 		logger.info("LOGIN PW : {}", pw);
-		MemberDTO memDto = new MemberDTO();
-		memDto.setMemId(id);
+		MemberDTO memDto = new MemberDTO();	
+		memDto.setMemId(memId);
 		memDto.setPw(pw);
 		memDto = mService.login(memDto);
 		if(memDto!=null){
@@ -60,7 +60,7 @@ public class MemberController {
 	//	SubjectMemberVO smVO = mService.findSmById(keyword);
 		MemberDTO smVO = new MemberDTO();
 		if(smVO!=null){
-			logger.info("member name " + smVO.getName());
+		//	logger.info("member name " + smVO.getName());
 			model.addAttribute("user", smVO);
 		}else{
 			logger.info("member name 없어");
