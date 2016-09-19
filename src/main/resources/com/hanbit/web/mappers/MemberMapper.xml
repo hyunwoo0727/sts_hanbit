@@ -3,8 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanbit.web.mappers.MemberMapper">
-	<select id="findByPK" parameterType="string" resultType="com.hanbit.web.domains.MemberDTO">
-		SELECT MEM_ID AS ID,PW,NAME,GENDER,REG_DATE AS REGDATE,SSN,EMAIL,PROFILE_IMG AS PROFILEIMG,ROLE,PHONE,MAJOR_SEQ AS MAJORSEQ FROM MEMBER WHERE MEM_ID=#{pk}
+	<select id="findOne" parameterType="com.hanbit.web.domains.Command" resultType="com.hanbit.web.domains.MemberDTO">
+		SELECT MEM_ID AS ID,PW,NAME,GENDER,REG_DATE AS REGDATE,SSN,EMAIL,PROFILE_IMG AS PROFILEIMG,ROLE,PHONE,MAJOR_SEQ AS MAJORSEQ FROM MEMBER WHERE ${option}=#{keyword}
 	</select>
 <!-- 	<select id="selectAll" resultType="com.hanbit.web.domains.MemberDTO">
 		SELECT ID,PW,NAME,REGDATE,SSN,EMAIL,PROFILE_IMG AS PROFILEIMG,PHONE FROM MEMBER

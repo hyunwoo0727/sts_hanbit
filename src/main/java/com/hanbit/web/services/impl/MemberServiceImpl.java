@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hanbit.web.controllers.MemberController;
+import com.hanbit.web.domains.Command;
 import com.hanbit.web.domains.MemberDTO;
 import com.hanbit.web.mappers.MemberMapper;
 import com.hanbit.web.services.MemberService;
@@ -81,9 +82,10 @@ public class MemberServiceImpl implements MemberService{
 		return map.size();
 	}
 	@Override
-	public MemberDTO findByPK(String pk) {
-		logger.info("===FIND BY PK=== ID : {}",pk);
-		return sqlSession.getMapper(MemberMapper.class).findByPK(pk);
+	public MemberDTO findOne(Command command) {
+		logger.info("===FIND BY ONE === OPTION : {}",command.getOption());
+		logger.info("===FIND BY ONE === KEYWORD : {}",command.getKeyword());
+		return sqlSession.getMapper(MemberMapper.class).findOne(command);
 	}
 	@Override
 	public List<MemberDTO> findBy(String word) {

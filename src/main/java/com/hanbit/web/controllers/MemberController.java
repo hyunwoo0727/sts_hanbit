@@ -9,11 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.hanbit.web.domains.Command;
 import com.hanbit.web.domains.MemberDTO;
 import com.hanbit.web.services.impl.MemberServiceImpl;
 
@@ -23,9 +25,9 @@ import com.hanbit.web.services.impl.MemberServiceImpl;
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
-	@Autowired
-	private MemberServiceImpl mService;
-	
+	@Autowired private MemberServiceImpl mService;
+	@Autowired private Command command;
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam("context") String ctp,@RequestParam("userid") String memId,
 			@RequestParam("userpw") String pw, Locale locale,Model model,
@@ -50,25 +52,23 @@ public class MemberController {
 		logger.info("===LOGIN SUCCESS RETURN LOGIN===", pw);
 		return "public:member/login.tiles";
 	}
-	
-	@RequestMapping("/find")
-	public String find(@RequestParam("keyword") String keyword,
-		 	@RequestParam("select_option") String option,Model model){
+	@RequestMapping(value="/count/{condition}",method=RequestMethod.GET,consumes="application/json")
+	public String count(@PathVariable String condition, Model model){
+		logger.info("TO COUNT CONDITION IS : {}","condition");
+		model.addAttribute("count",mService.count());
+		return "admin:member/detail.tiles";
+	}
+	@RequestMapping("/search/{option}/{keyword}")
+	public MemberDTO find(@PathVariable("option") String option,
+		 	@RequestParam("keyword") String keyword,Model model){
 		logger.info("GO TO : {}","find");
 		logger.info("KEYWOD : " + keyword);
 		logger.info("OPTION : " + option );
+		command.setOption(option);
+		command.setKeyword(keyword);
 	//	SubjectMemberVO smVO = mService.findSmById(keyword);
-		MemberDTO smVO = new MemberDTO();
-		if(smVO!=null){
-		//	logger.info("member name " + smVO.getName());
-			model.addAttribute("user", smVO);
-		}else{
-			logger.info("member name 없어");
-			return "admin:member/search.tiles";
-		}
-		return "admin:member/detail.tiles";
+		return mService.findOne(command);
 	}
-	
 	@RequestMapping(value="/main", method = RequestMethod.GET)
 	public String moveMain(HttpSession session,Locale locale, Model model) {
 		logger.info("GO TO : {}","main");
