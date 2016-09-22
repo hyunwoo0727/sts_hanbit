@@ -1,6 +1,8 @@
 package com.hanbit.web.services.impl;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +27,9 @@ public class MemberServiceImpl implements MemberService{
 	private Map<String,MemberDTO> map;
 	@Autowired
 	private SqlSession sqlSession;
-	
+	@Autowired
+	private Command command;
+	@Autowired MemberDTO memDto;
 	private MemberServiceImpl() {
 		//accService=AccountServiceImp.getInstance();
 	}
@@ -39,20 +43,25 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public MemberDTO login(MemberDTO inMem) {
-	/*	logger.info("===LOGIN=== ID : {}",inMem.getMemId());
-		MemberDTO memDto = this.findByPK(inMem.getMemId());
-		if(memDto!=null && memDto.getPw().equals(inMem.getPw())){	
+		logger.info("===LOGIN=== ID : {}",inMem.getMemId());
+		command.setOption("mem_id");
+		command.setKeyword(inMem.getMemId());
+		MemberDTO temp = this.findOne(command);
+		if(temp!=null && temp.getPw().equals(inMem.getPw())){	
 			logger.info("=========LOGIN SUCCESS=========");
-			return memDto;
+			return temp;
 		}
-		logger.info("=========LOGIN FAIL=========");*/
-		return null;
+		logger.info("=========LOGIN FAIL=========");
+		memDto.setMemId("");
+		return memDto;
 	}
 	@Override
 	public Map<String, MemberDTO> map() {
 //		return mDao.selectMap();
 		return null;
 	}
+	
+	
 /*	@Override
 	public int regist(MemberDTO mVO) {
 		if(mDao.findByPK(mVO.getId())==null){
@@ -85,7 +94,14 @@ public class MemberServiceImpl implements MemberService{
 	public MemberDTO findOne(Command command) {
 		logger.info("===FIND BY ONE === OPTION : {}",command.getOption());
 		logger.info("===FIND BY ONE === KEYWORD : {}",command.getKeyword());
-		return sqlSession.getMapper(MemberMapper.class).findOne(command);
+		Map<String,Object> map = new HashMap<String,Object>();
+		ResultSet rs = null;
+		map.put("keyword", command.getKeyword());
+		map.put("result", rs);
+		sqlSession.getMapper(MemberMapper.class).findOne2(map);
+		@SuppressWarnings("unchecked")
+		List<MemberDTO> list = (ArrayList<MemberDTO>)map.get("result");
+		return list.size()==0?null:list.get(0);
 	}
 	@Override
 	public List<MemberDTO> findBy(String word) {
@@ -109,5 +125,15 @@ public class MemberServiceImpl implements MemberService{
 			findList.add((MemberDTO) this.map.get(it.next()));
 		}
 		return findList;
+	}
+	@Override
+	public int existId(String id) {
+		logger.info("===EXIST ID === ID : {}",id);
+		return sqlSession.getMapper(MemberMapper.class).existId(id);
+	}
+	@Override
+	public String regist(MemberDTO memDto) {
+		logger.info("===REGIST MEMBER === ID : {}",memDto.getMemId());
+		return sqlSession.getMapper(MemberMapper.class).insert(memDto)==-1?"success":"fail";
 	}
 }

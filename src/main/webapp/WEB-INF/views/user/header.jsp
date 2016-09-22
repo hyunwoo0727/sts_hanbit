@@ -43,19 +43,19 @@
 				</div>
 				<button type="submit" class="btn btn-default">과목별 조회</button>
 			</form>
-			<ul id="user_menu" class="nav navbar-nav navbar-right">
+			<ul id="user_menu" class="nav navbar-nav navbar-right" style="padding-top: 10px;">
 				<li>
 					<div style="font-weight: bold; font-size: x-large;height: 49px;color: white;">
  					${user.name }님 환영합니다
  					</div>
 				</li>
 				<li>
-					<button id="btn_exit" type="button" class="btn btn-default btn-lg" style="height: 40px;">
+					<button id="btn_logout" type="button" class="btn btn-default btn-lg" style="height: 40px;">
 						<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
 					</button>
 				</li>
 				<li class="dropdown" style="height: 60px;">
-					<a href="#"	class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<a href="#"	class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding: 0px 0px 0px 5px;">
 						<button type="button" class="btn btn-default btn-lg" style="height: 40px;">
 							<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 						</button>

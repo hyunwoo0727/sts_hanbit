@@ -1,11 +1,10 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<jsp:include page="${context}/WEB-INF/views/public/slider.jsp"></jsp:include>
 <section id="global_content">
 		<article>
 			<h2></h2>
 			<ul>
-				<li><a id="member_regist"></a></li>
-				<li><a id="member_login"></a></li>
+				<li><span id="member_signup"></span></li>
+				<li><span id="member_login"></span></li>
 				<li><a id="admin_main"></a></li>
 			</ul>
 		</article>

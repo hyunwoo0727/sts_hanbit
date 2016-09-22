@@ -1,5 +1,6 @@
 package com.hanbit.web.controllers;
 
+
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -10,13 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.hanbit.web.domains.Command;
 import com.hanbit.web.domains.MemberDTO;
+import com.hanbit.web.domains.Retval;
 import com.hanbit.web.services.impl.MemberServiceImpl;
 
 @Controller
@@ -25,38 +30,45 @@ import com.hanbit.web.services.impl.MemberServiceImpl;
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
-	@Autowired private MemberServiceImpl mService;
-	@Autowired private Command command;
-
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam("context") String ctp,@RequestParam("userid") String memId,
-			@RequestParam("userpw") String pw, Locale locale,Model model,
-			HttpSession session) {
-		logger.info("GO TO: {}","login");
-		logger.info("LOGIN ID : {}", memId);
-		logger.info("LOGIN PW : {}", pw);
-		MemberDTO memDto = new MemberDTO();	
-		memDto.setMemId(memId);
-		memDto.setPw(pw);
-		memDto = mService.login(memDto);
-		if(memDto!=null){
-			model.addAttribute("user", memDto);	
-			model.addAttribute("ctp", ctp);
-			model.addAttribute("img", ctp+"/resources/img");
-			model.addAttribute("css", ctp+"/resources/css");
-			model.addAttribute("js", ctp+"/resources/js");
-			model.addAttribute("font", ctp+"/resources/fonts");
-			logger.info("===LOGIN SUCCESS MOVE MAIN===", pw);
-			return "user:user/content.tiles";
-		}
-		logger.info("===LOGIN SUCCESS RETURN LOGIN===", pw);
-		return "public:member/login.tiles";
+	@Autowired MemberServiceImpl mService;
+	@Autowired Command command;
+	@Autowired MemberDTO memDto;
+	@Autowired Retval retval;
+	
+	@RequestMapping("/logined/header")
+	public String loginHeader(){
+		logger.info("GO TO: {}","LOGINED HEADER");
+		return "user/header.jsp";
 	}
-	@RequestMapping(value="/count/{condition}",method=RequestMethod.GET,consumes="application/json")
-	public String count(@PathVariable String condition, Model model){
-		logger.info("TO COUNT CONDITION IS : {}","condition");
+		
+	@RequestMapping(value = "/login",method=RequestMethod.POST)
+	public @ResponseBody MemberDTO login(@RequestParam("context") String context,@RequestParam("userid") String userid,
+			@RequestParam("userpw") String userpw, Model model) {
+		logger.info("GO TO: {}","login");
+		logger.info("LOGIN ID : {}", userid);
+		logger.info("LOGIN PW : {}", userpw);
+		memDto.setMemId(userid);
+		memDto.setPw(userpw);
+		memDto = mService.login(memDto);
+		if(!memDto.getMemId().equals("")){
+			model.addAttribute("user", memDto);	
+			model.addAttribute("ctp", context);
+			model.addAttribute("img", context+"/resources/img");
+			model.addAttribute("css", context+"/resources/css");
+			model.addAttribute("js", context+"/resources/js");
+			model.addAttribute("font", context+"/resources/fonts");
+			logger.info("===LOGIN SUCCESS MOVE MAIN===", userpw);
+			model.addAttribute("user", memDto);
+			return memDto;
+		}
+		logger.info("===LOGIN FAIL RETURN LOGIN===", userpw);
+		return memDto;
+	}
+	@RequestMapping(value="/count/{option}",consumes="application/json")
+	public Model count(@PathVariable String option, Model model){
+		logger.info("TO COUNT CONDITION IS : {}","option");
 		model.addAttribute("count",mService.count());
-		return "admin:member/detail.tiles";
+		return model;
 	}
 	@RequestMapping("/search/{option}/{keyword}")
 	public MemberDTO find(@PathVariable("option") String option,
@@ -79,11 +91,33 @@ public class MemberController {
 		model.addAttribute("font", ctp+"/resources/fonts");
 		return "user:user/content.tiles";
 	} 
-	@RequestMapping("/regist")
-	public String moveRegist(Locale locale, Model model) {
-		logger.info("GO TO : {}","regist");
-		
-		return "public:member/regist.tiles";
+	@RequestMapping(value="/signup",method=RequestMethod.POST, consumes="application/json")
+	public @ResponseBody Retval signUp(@RequestBody MemberDTO param) {
+		logger.info("SIGN UP : {}","signup");
+		logger.info("SIGN UP ID : {}",param.getMemId());
+		param.setGender("MALE");
+		param.setRegDate("2016-09-22");
+		param.setRole("STUDENT");
+		param.setProfileImg("default.jpg");
+		param.setMajorSeq(1010);
+		retval.setMessage(mService.regist(param));
+		return retval;
+	} 
+	@RequestMapping("/check_dup/{id}")
+	public @ResponseBody Retval checkDup(@PathVariable String id) {
+		logger.info("CHECK DUPL : {}","checkDup");
+		int result = mService.existId(id);
+		if(result==1){
+			logger.info("CHECK DUPL : {}","TRUE");
+			retval.setFlag("TRUE");
+			retval.setMessage("이미 존재");
+		}else{
+			logger.info("CHECK DUPL : {}","FALSE");
+			retval.setFlag("FALSE");
+			retval.setMessage("사용 가능");
+			retval.setTemp(id);
+		}
+		return retval;
 	} 
 	@RequestMapping("/detail")
 	public String moveDetail(Locale locale, Model model) {
@@ -109,16 +143,17 @@ public class MemberController {
 		logger.info("GO TO : {}","delete");
 		return "user:member/delete.tiles";
 	} 
-	@RequestMapping("/login")
+	/*@RequestMapping("/login")
 	public String login(Locale locale, Model model) {
 		logger.info("GO TO : {}","login");
 		return "public:member/login.tiles";
-	} 
+	} */
 	@RequestMapping("/logout")
-	public String moveLogout(HttpSession session, Locale locale, Model model) {
+	public String logout(SessionStatus status, Locale locale, Model model) {
 		logger.info("GO TO : {}","logout");
-		session.invalidate();
-		return "public:public/content.tiles";
+		status.setComplete();
+		logger.info("SESSION IS : {}","CLEAR");
+		return "redirect:/";
 	} 
 	@RequestMapping("/list")
 	public String moveList(Locale locale, Model model) {
@@ -130,11 +165,11 @@ public class MemberController {
 		logger.info("GO TO : {}","search");
 		return "admin:member/search.tiles";
 	} 
-	@RequestMapping("/count")
+	/*@RequestMapping("/count")
 	public String moveCount(Locale locale, Model model) {
 		logger.info("GO TO : {}","count");
 		return "admin:member/count.tiles";
-	}
+	}*/
 	@RequestMapping("/rsp")
 	public String moveRsp(Locale locale, Model model) {
 		logger.info("GO TO : {}","rsp");

@@ -31,13 +31,15 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	@RequestMapping("/public/header")
+	public String publicHeader(){
+		logger.info("GO TO: {}","PUBLIC HEADER");
+		return "public/header.jsp";
+	}
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! {}.", DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG,locale).format(new Date()));
-		
-			
-		
-		
+
 		return "public:public/content.tiles";
 	}
 	@RequestMapping("/school/main")

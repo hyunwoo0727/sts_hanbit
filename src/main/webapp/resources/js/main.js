@@ -8,12 +8,10 @@ jQuery(function($) {
 	// Window Load
 	$(window).load(function() {
 		// Preloader
-		$('.intro-tables, .parallax, header').css('opacity', '0');
+	
 		$('.preloader').addClass('animated fadeOut').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 			$('.preloader').hide();
-			$('.parallax, header').addClass('animated fadeIn').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-				$('.intro-tables').addClass('animated fadeInUp').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend');
-			});
+			
 		});
 
 		// Header Init
@@ -23,7 +21,7 @@ jQuery(function($) {
 			$('.parallax img').css('width', $('.parallax').height() * ratio + 'px');
 		}
 
-		$('header').height($(window).height() + 80);
+	
 		$('section .cut').each(function() {
 			if ($(this).hasClass('cut-top'))
 				$(this).css('border-right-width', $(this).parent().width() + "px");
@@ -77,20 +75,14 @@ jQuery(function($) {
 	});
 	// Window Scroll
 	function onScroll() {
-		if ($(window).scrollTop() > 50) {
-			$('nav.original').css('opacity', '0');
-			$('nav.navbar-fixed-top').css('opacity', '1');
-		} else {
-			$('nav.original').css('opacity', '1');
-			$('nav.navbar-fixed-top').css('opacity', '0');
-		}
+
 	}
 
 	window.addEventListener('scroll', onScroll, false);
 
 	// Window Resize
 	$(window).resize(function() {
-		$('header').height($(window).height());
+		
 	});
 
 	// Pricing Box Click Event

@@ -21,6 +21,6 @@ import lombok.Setter;
 @Data
 public class MemberDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@Getter @Setter private String memId,pw,name,gender,regDate,ssn,email,profileImg,role,phone;
+	@Getter @Setter private String memId,pw,name,gender,regDate,ssn,email,profileImg,role,phone,subjects;
 	@Getter @Setter private int majorSeq;
 }

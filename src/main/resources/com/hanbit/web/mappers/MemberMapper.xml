@@ -3,8 +3,48 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanbit.web.mappers.MemberMapper">
+	<resultMap type="com.hanbit.web.domains.MemberDTO" id="memberVOMap">
+		<id property="memId" column="mem_id"/>
+		<result property="pw" column="pw"/>
+		<result property="name" column="name"/>
+		<result property="gender" column="gender"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="ssn" column="ssn"/>
+		<result property="email" column="email"/>
+		<result property="profileImg" column="profile_img"/>
+		<result property="role" column="role"/>
+		<result property="phone" column="phone"/>
+		<result property="majorSeq" column="major_seq"/>
+	</resultMap>
+	
+	<insert id="insert" statementType="CALLABLE" parameterType="com.hanbit.web.domains.MemberDTO">
+		{call hanbit.insert_student(
+			#{memId},
+			#{pw},
+			#{name},
+			#{gender},
+			#{regDate},
+			#{ssn},
+			#{email},
+			#{profileImg},
+			#{role},
+			#{phone},
+			#{majorSeq}
+		)}	
+	</insert>
+	
 	<select id="findOne" parameterType="com.hanbit.web.domains.Command" resultType="com.hanbit.web.domains.MemberDTO">
-		SELECT MEM_ID AS ID,PW,NAME,GENDER,REG_DATE AS REGDATE,SSN,EMAIL,PROFILE_IMG AS PROFILEIMG,ROLE,PHONE,MAJOR_SEQ AS MAJORSEQ FROM MEMBER WHERE ${option}=#{keyword}
+		SELECT MEM_ID AS MEMID,PW,NAME,GENDER,REG_DATE AS REGDATE,SSN,EMAIL,PROFILE_IMG AS PROFILEIMG,ROLE,PHONE,MAJOR_SEQ AS MAJORSEQ FROM MEMBER WHERE ${option}=#{keyword}
+	</select>
+	
+	<select id="findOne2" statementType="CALLABLE" parameterType="java.util.Map">
+		{call hanbit.find_by_id_student2(
+			#{keyword, mode=IN},
+			#{result,jdbcType=CURSOR, javaType=java.sql.ResultSet, mode=OUT, resultMap=memberVOMap}
+		)}
+	</select> 
+	<select id="existId" resultType="Integer" parameterType="string">
+		SELECT COUNT(*) FROM MEMBER WHERE MEM_ID=#{id}
 	</select>
 <!-- 	<select id="selectAll" resultType="com.hanbit.web.domains.MemberDTO">
 		SELECT ID,PW,NAME,REGDATE,SSN,EMAIL,PROFILE_IMG AS PROFILEIMG,PHONE FROM MEMBER

@@ -4,9 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanbit.web.mappers.GradeMapper">
 <!-- 	<resultMap type="com.hanbit.web.domains.MajorDTO" id="majorVOMap">
-		<result property="majorSeq" column="major_seq"/>
-		<result property="title" column="title"/>
-	</resultMap> -->
+			<result property="majorSeq" column="major_seq"/>
+			<result property="title" column="title"/>
+		</resultMap> -->
 <!-- 	<select id="cursortest" statementType="CALLABLE" resultType="com.hanbit.web.domains.MajorDTO">
 		{call hanbit.select_major(
 			#{result, mode=OUT, jdbcType=CURSOR, javaType=ResultSet,resultMap=majorVOMap}
