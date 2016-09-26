@@ -5,7 +5,7 @@
 		<tr>
 			<td rowspan="6" style="width: 30%;"><img id="profile_img" width="300" height="300" src="${ctp}/resources/img/member/${user.profileImg }" /></td>
 			<td style="width: 20%;">ID</td>
-			<td style="width: 40%;">${user.id}</td>
+			<td style="width: 40%;">${user.memId}</td>
 		</tr>
 		<tr>
 			<td>NAME</td>
@@ -17,7 +17,7 @@
 		</tr>
 		<tr>
 			<td>학과</td>
-			<td>${user.major }</td>
+			<td>${user.majorSeq }</td>
 		</tr>
 		<tr>
 			<td>번호</td>
@@ -33,7 +33,7 @@
 		</tr>
 		<tr>
 			<td>생년월일</td>
-			<td colspan="2">${user.birth }</td>
+			<td colspan="2"><%-- ${user.birth } --%></td>
 		</tr>
 		<tr>
 			<td>등록일</td>

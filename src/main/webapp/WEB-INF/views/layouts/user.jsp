@@ -32,17 +32,17 @@
 	<link rel="stylesheet" type="text/css" href="${css}/animate.css">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" type="text/css"
-		href="${font}/font-awesome-4.1.0/css/font-awesome.min.css">
+		href="${context}/resources/fonts/font-awesome-4.1.0/css/font-awesome.min.css">
 	<!-- Elegant Icons -->
 	<link rel="stylesheet" type="text/css"
-		href="${font}/eleganticons/et-icons.css">
+		href="${context}/resources/fonts/eleganticons/et-icons.css">
 	<!-- Main style -->
 	<link rel="stylesheet" type="text/css" href="${css}/cardio.css">
 </head>
 <body>
 	<header>
 		<div id="user_header">
-			<%-- <tiles:insertAttribute name="header" />  --%>	
+			<tiles:insertAttribute name="header" />	
 		</div>
 	</header>
 	<section>

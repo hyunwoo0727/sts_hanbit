@@ -6,6 +6,33 @@
 @DESC : 메타
 ============================ 
 */
+var session = (function() {
+	var _context, _js, _css, _img;
+	var setContext = function(context) {this._context = context;}
+	var getContext = function() {return this._context;}
+	var setJsPath = function(js) {this._js = js;}
+	var getJsPath = function() {return this._js;}
+	var setCssPath = function(css) {this._css = css;}
+	var getCssPath = function() {return this._css;}
+	var setImgPath = function(img) {this._img = img;}
+	var getImgPath = function() {return this._img;}
+	return {
+		init : function(param) {
+			this.setContext(param);
+			this.setJsPath(param+'/resources/js');
+			this.setCssPath(param+'/resources/css');
+			this.setImgPath(param+'/resources/img');
+		},
+		setContext : setContext,
+		getContext : getContext,
+		setJsPath : setJsPath,
+		getJsPath : getJsPath,
+		setCssPath : setCssPath,
+		getCssPath : getCssPath,
+		setImgPath : setImgPath,
+		getImgPath : getImgPath
+	}
+})();
 var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 안됨.
 	var init = function(param) {
 		session.init(param);
@@ -57,7 +84,8 @@ var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 �
 	}
 	return {
 		init : init,
-		contentBox : contentBox
+		contentBox : contentBox,
+		onCreate : onCreate
 	};
 })();
 var nav = (function() {
@@ -116,33 +144,7 @@ var util = (function() {
 		}
 	};
 })();
-var session = (function() {
-	var _context, _js, _css, _img;
-	var setContext = function(context) {this._context = context;}
-	var getContext = function() {return this._context;}
-	var setJsPath = function(js) {this._js = js;}
-	var getJsPath = function() {return this._js;}
-	var setCssPath = function(css) {this._css = css;}
-	var getCssPath = function() {return this._css;}
-	var setImgPath = function(img) {this._img = img;}
-	var getImgPath = function() {return this._img;}
-	return {
-		init : function(param) {
-			this.setContext(param);
-			this.setJsPath(param+'/resources/js');
-			this.setCssPath(param+'/resources/css');
-			this.setImgPath(param+'/resources/img');
-		},
-		setContext : setContext,
-		getContext : getContext,
-		setJsPath : setJsPath,
-		getJsPath : getJsPath,
-		setCssPath : setCssPath,
-		getCssPath : getCssPath,
-		setImgPath : setImgPath,
-		getImgPath : getImgPath
-	}
-})();
+
 /*
 ===========ADMIN_JS============ 
 @QUTHOR : 2hwooo87@gmail.com
@@ -420,9 +422,6 @@ var member = (function() {
 							alert('아이디나 비밀번호를 확인해 주세요');
 						}else{
 							$('#pub_header').empty().load(session.getContext()+'/member/logined/header');	
-							$("#pub_header").on('click','#btn_logout',function(){
-								controller.move('member','logout');
-							});
 							$('#pub_article').html(STUDENT_MAIN);
 						}		
 					},
@@ -448,7 +447,6 @@ var member = (function() {
 					return;
 				}	
 				if(util.pwChecker(id_val)==='yes'){
-					
 					$.ajax({
 			               url : session.getContext()+'/member/check_dup/'+id_val,
 			               dataType : 'json',		             
@@ -482,6 +480,10 @@ var member = (function() {
 				}	
 			})
 			$('#pub_article').on('click','#bt_join',function(e){
+				
+				// 무결성 체크
+				
+				
 				e.preventDefault();
 				var subjects = '';
 				$('input[name=subject]:checked').each(function() {
@@ -504,9 +506,10 @@ var member = (function() {
 					data : JSON.stringify(join_info),
 					contentType : 'application/json',
 					dataType : 'json',
-					asynch : false,
+					async : false,
 					success : function(data) {
 						if(data.message==="success"){
+							alert('회원가입이 완료되었습니다.')
 							member.pub_login_form();
 						}else{
 							alert('회원가입 중 에러가 발생했습니다');
@@ -517,6 +520,90 @@ var member = (function() {
 					}
 				})
 			})
+		},
+		detail : function() {
+			$('#pub_header').empty().load(session.getContext()+'/member/logined/header');	
+			$('#pub_article').html(DETAIL_FORM);
+			member.init();
+			$.getJSON(session.getContext()+'/member/detail',function(data) {
+					$('#profile_img').attr('src',session.getImgPath()+'/member/'+data.profileImg);
+					$('#td_id').text(data.memId);
+					$('#td_name').text(data.name);
+					$('#td_email').text(data.email);
+					$('#td_major').text(data.majorSeq);
+					$('#td_phone').text(data.phone);
+					$('#td_gender').text(data.gender);
+					$('#td_subjects').text('아직없음');
+					$('#td_birth').text(data.ssn.substring(0,data.ssn.length-2));
+					$('#td_regdate').text(data.regDate);
+					$('#edit_detail').on('click',function() {
+						$('#td_pw').html('<input type="password" id="pw" value="'+data.pw+'" />');
+						$('#td_email').html('<input type="text" id="email" value="'+data.email+'" />');
+						$('#td_phone').html('<input type="text" id="phone" value="'+data.phone+'" />');
+						$('#td_major').html('<input type="text" id="major" value="'+data.majorSeq+'" />');
+						$('#td_subjects').html('<input type="text" id="subjects" value="'+'test'+'" />');
+						$('#div_btn').html('<span id="confirm_unregist" class="btn btn-primary">수정</span> <span id="cancel_unregist" class="btn btn-danger">취소</span>');
+					});
+			});
+			$('#unregist').on('click',function(){
+				$('#pub_article').html(UNREGIST_FORM);
+				app.contentBox();
+				$('#btn_unreg').click(function() {
+					$.ajax({
+						url : session.getContext()+'/member/unregist',
+						type : 'POST',
+						data : {'pw':$('#pw_unreg').val()},
+						dataType : 'json',
+						async : false,
+						success : function(data) {
+							if(data.flag==="UNMATCH"){
+								alert('비밀 번호가 다릅니다');
+								$('#pw_unreg').val('').focus();
+							}else{
+								if(data.flag==="SUCCESS"){
+									alert('회원 탈퇴가 완료되었습니다.');
+									controller.home();
+								}else{
+									alert('탈퇴 중 오류가 발생하였습니다 다시 시도해 주세요.')
+								}
+							}
+						},
+						error : function(xhr,status,msg) {
+							alert(msg);
+						}
+					})
+					
+				})
+			});
+			$('#pub_article').on('click','#confirm_unregist',function() {
+				var update_info = {
+						'memId' : $('#td_id').text(),
+						'pw' : $('#pw').val(),
+						'email' : $('#email').val(),
+						'phone' : $('#phone').val(),
+						'majorSeq' : $('#major').val()
+				};
+				$.ajax({
+					url : session.getContext()+'/member/update',
+					type : 'POST',
+					data : JSON.stringify(update_info),
+					contentType : 'application/json',
+					dataType : 'json',
+					async : false,
+					success : function(data) {
+						if(data.flag==="SUCCESS"){
+							alert('수정이 완료되었습니다.');
+							member.detail();
+						}else{
+							alert('수정 중 오류가 발생하였습니다 다시 시도해 주십시오.');
+						}
+					},
+					error : function(xhr,status,msg) {
+						alert(msg);
+					}
+				});
+			});
+			
 		}
 	};
 })();
@@ -606,16 +693,6 @@ var grade = (function() {
 @DESC : 시험
 ============================
 */
-
-
-
-
-
-
-
-
-
-
 
 
 var STUDENT_MAIN = '<section id="services" class="box section-padded">'
@@ -779,3 +856,34 @@ var STUDENT_MAIN = '<section id="services" class="box section-padded">'
 	+'</div>'
 	+'</div>';
 	+'</section>'
+	
+var DETAIL_FORM = '<section class="box" style="width: 70%;">'
+	+'<h1>회원 정보</h1>'
+	+'<table id="member_details">'
+	+'<tr>'
+	+'<td rowspan="7" style="width: 30%;"><img id="profile_img" width="300" height="300" /></td>'
+	+'<td style="width: 20%;">ID</td>'
+	+'<td style="width: 40%;" id="td_id"></td></tr>'
+	+'<tr><td>PW</td><td id="td_pw">******</td></tr>'
+	+'<tr><td>NAME</td><td id="td_name"></td></tr>'
+	+'<tr><td>이메일</td><td id="td_email"></td></tr>'
+	+'<tr><td>학과</td><td id="td_major"></td></tr>'
+	+'<tr><td>번호</td><td id="td_phone"></td></tr>'
+	+'<tr><td>성별</td><td id="td_gender"></td></tr>'
+	+'<tr><td>수강과목</td><td colspan="2" id="td_subjects"></td></tr>'
+	+'<tr><td>생년월일</td><td colspan="2" id="td_birth"></td></tr>'
+	+'<tr><td>등록일</td><td colspan="2" id="td_regdate"></td></tr>'
+	+'</table>'
+	+'<div id="div_btn"><span id="edit_detail" class="btn btn-primary">수정하기</span> <span id="unregist" class="btn btn-danger">회원탈퇴</span></div>'
+	+'</section>';
+
+var UNREGIST_FORM = '<article id="content">'
+	+'<h3>탈퇴하시려면 비밀번호를 입력하세요</h3>'
+	+'<div style="padding: 30px;"></div>'
+	+'<form id="member_delete_form" class="navbar-form navbar-center" role="search">'
+	+'<div class="form-group">'
+	+'<input type="password" class="form-control" placeholder="password" id="pw_unreg">'
+	+'</div>'
+	+'<span id="btn_unreg" class="btn btn-danger">탈퇴</span>'
+	+'</form>'
+	+'</div>';

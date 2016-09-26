@@ -268,6 +268,12 @@ BEGIN
   END LOOP;
   CLOSE sp_cursor;
 END;
+-- SP_DELETE_STUDENT
+CREATE OR REPLACE PROCEDURE delete_student(sp_stu_id IN Member.mem_id%TYPE) AS BEGIN DELETE FROM MEMBER WHERE role='STUDENT' AND mem_id = sp_stu_id; END delete_student;
+-- EXE_DELETE_STUDENT
+BEGIN delete_student('kim'); END;
+
+
 /*
 ===========PROFESSOR  GROUP============ 
 @QUTHOR : 2hwooo87@gmail.com

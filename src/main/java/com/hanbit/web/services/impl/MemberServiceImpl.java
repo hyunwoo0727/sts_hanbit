@@ -136,4 +136,15 @@ public class MemberServiceImpl implements MemberService{
 		logger.info("===REGIST MEMBER === ID : {}",memDto.getMemId());
 		return sqlSession.getMapper(MemberMapper.class).insert(memDto)==-1?"success":"fail";
 	}
+	@Override
+	public String deleteStudent(String memId) {
+		logger.info("===REGIST MEMBER === ID : {}",memId);
+		return sqlSession.getMapper(MemberMapper.class).deleteStudent(memId)==-1?"SUCCESS":"FAIL";
+	}
+	@Override
+	public String updateStudent(MemberDTO memDto) {
+		logger.info("===UPDATE MEMBER === ID : {}",memDto.getMemId());
+		return sqlSession.getMapper(MemberMapper.class).updateStudent(memDto)==-1?"SUCCESS":"FAIL";
+	}
+	
 }

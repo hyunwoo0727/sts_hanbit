@@ -25,7 +25,7 @@ import com.hanbit.web.domains.Retval;
 import com.hanbit.web.services.impl.MemberServiceImpl;
 
 @Controller
-@SessionAttributes({"user","ctp"})
+@SessionAttributes({"user","ctp","user_id"})
 @RequestMapping("/member")
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
@@ -52,6 +52,7 @@ public class MemberController {
 		memDto = mService.login(memDto);
 		if(!memDto.getMemId().equals("")){
 			model.addAttribute("user", memDto);	
+			model.addAttribute("user_id", memDto.getMemId());
 			model.addAttribute("ctp", context);
 			model.addAttribute("img", context+"/resources/img");
 			model.addAttribute("css", context+"/resources/css");
@@ -120,10 +121,11 @@ public class MemberController {
 		return retval;
 	} 
 	@RequestMapping("/detail")
-	public String moveDetail(Locale locale, Model model) {
-		logger.info("GO TO : {}","detail");
-		
-		return "user:member/detail.tiles";
+	public @ResponseBody MemberDTO moveDetail(HttpSession session) {
+		logger.info("SHOW USER : {}","detail");
+		MemberDTO temp = (MemberDTO) session.getAttribute("user");
+		System.out.println(temp);
+		return (MemberDTO) session.getAttribute("user");
 	} 
 	@RequestMapping("/a_detail")
 	public String moveAdminDetail(@RequestParam("key") String key, Locale locale, Model model) {
@@ -132,16 +134,26 @@ public class MemberController {
 		model.addAttribute("user", smVO);*/
 		return "admin:admin/detail.tiles";
 	} 
-	@RequestMapping("/update")
-	public String moveUpdate(Locale locale, Model model) {
-		logger.info("GO TO : {}","update");
-		
-		return "user:member/update.tiles";
+	@RequestMapping(value="/update",method=RequestMethod.POST,consumes="application/json")
+	public @ResponseBody Retval update(@RequestBody MemberDTO param,Model model) {
+		logger.info("EXEC MEMBER : {}","UPDATE");
+		retval.setFlag(mService.updateStudent(param));
+		if(retval.getFlag().equalsIgnoreCase("SUCCESS")){
+			command.setOption("mem_id");
+			command.setKeyword(param.getMemId());
+			model.addAttribute("user", mService.findOne(command));
+		}
+		return retval;
 	}
-	@RequestMapping("/delete")
-	public String moveDelete(Locale locale, Model model) {
-		logger.info("GO TO : {}","delete");
-		return "user:member/delete.tiles";
+	@RequestMapping("/unregist")
+	public @ResponseBody Retval unRegist(@RequestParam("pw") String pw,HttpSession session) {
+		logger.info("EXEC MEMBER : {}","UNREGIST");
+		memDto = (MemberDTO) session.getAttribute("user");
+		retval.setFlag("UNMATCH");
+		if(memDto.getPw().equals(pw)){
+			retval.setFlag(mService.deleteStudent(memDto.getMemId()));		
+		}
+		return retval;
 	} 
 	/*@RequestMapping("/login")
 	public String login(Locale locale, Model model) {

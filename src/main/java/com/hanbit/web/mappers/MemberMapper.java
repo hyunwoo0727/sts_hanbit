@@ -17,5 +17,7 @@ public interface MemberMapper {
 	public MemberDTO findOne2(Map<String, Object> params);
 	public int existId(String id);
 	public int insert(MemberDTO memDto);
+	public int deleteStudent(String memId);
+	public int updateStudent(MemberDTO memDto);
 /*	public Map<String, MemberDTO> selectMap();*/
 }

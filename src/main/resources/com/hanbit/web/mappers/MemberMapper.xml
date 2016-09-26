@@ -32,6 +32,20 @@
 			#{majorSeq}
 		)}	
 	</insert>
+	<update id="updateStudent" statementType="CALLABLE" parameterType="com.hanbit.web.domains.MemberDTO">
+		{call hanbit.update_student(
+			#{memId},
+			#{pw},
+			#{email},
+			#{phone}
+		)}
+	</update>
+	
+	<delete id="deleteStudent" statementType="CALLABLE" parameterType="string">
+		{call hanbit.delete_student(
+			#{memId}
+		)}
+	</delete>
 	
 	<select id="findOne" parameterType="com.hanbit.web.domains.Command" resultType="com.hanbit.web.domains.MemberDTO">
 		SELECT MEM_ID AS MEMID,PW,NAME,GENDER,REG_DATE AS REGDATE,SSN,EMAIL,PROFILE_IMG AS PROFILEIMG,ROLE,PHONE,MAJOR_SEQ AS MAJORSEQ FROM MEMBER WHERE ${option}=#{keyword}

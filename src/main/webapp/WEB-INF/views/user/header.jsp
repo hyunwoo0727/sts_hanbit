@@ -74,3 +74,11 @@
 		</div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+<script type="text/javascript">
+	$("#pub_header").on('click','#btn_logout',function(){
+		controller.move('member','logout');
+	});
+	$('#pub_header').on('click','#member_detail',function(e){
+		member.detail();
+	})
+</script>

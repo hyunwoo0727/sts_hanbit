@@ -21,6 +21,8 @@ public interface MemberService extends CommonService{
 	public int update(MemberDTO mBean);
 	public int delete(MemberDTO mBean);*/
 	public String regist(MemberDTO memDto);
+	public String deleteStudent(String memId);
+	public String updateStudent(MemberDTO memDto);
 	public MemberDTO findOne(Command command);
 	public MemberDTO login(MemberDTO memDto);
 	public int existId(String id);
