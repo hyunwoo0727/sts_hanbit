@@ -41,6 +41,7 @@
 	<link rel="stylesheet" type="text/css" href="${css}/cardio.css">
 </head>
 <body>
+
 	<header>
 		<div id="pub_header">
 			<tiles:insertAttribute name="header" /> 	

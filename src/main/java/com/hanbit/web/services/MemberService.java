@@ -3,10 +3,13 @@
  */
 package com.hanbit.web.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.hanbit.web.domains.Command;
 import com.hanbit.web.domains.MemberDTO;
+import com.hanbit.web.domains.Retval;
 import com.hanbit.web.util.CommonService;
 
 /**
@@ -16,14 +19,17 @@ import com.hanbit.web.util.CommonService;
  * @story  : 
 */
 @Repository
-public interface MemberService extends CommonService{
+public interface MemberService{
 /*	public int regist(MemberDTO mBean);
 	public int update(MemberDTO mBean);
 	public int delete(MemberDTO mBean);*/
 	public String regist(MemberDTO memDto);
 	public String deleteStudent(String memId);
 	public String updateStudent(MemberDTO memDto);
+	public List<MemberDTO> list(Command command);
+	public List<MemberDTO> find(Command command);
 	public MemberDTO findOne(Command command);
 	public MemberDTO login(MemberDTO memDto);
 	public int existId(String id);
+	public Retval studentCnt();
 }

@@ -67,7 +67,12 @@ var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 �
 		setContentView();
 		$('#public_header_brand').click(function() {controller.home();});
 		$('#admin_header_brand').click(function() {controller.move('admin','main');});
-		$('#nav a').click(function(e) {if(e.target.getAttribute('id')!=null){controller.move(e.target.getAttribute('id').split("_")[1], "main");}});
+		$('#nav a').click(function(e) {
+			if(e.target.getAttribute('id')!=null){
+				if(e.target.getAttribute('id')!=='member_list'){
+					controller.move(e.target.getAttribute('id').split("_")[1], "main");
+				}
+		}});
 		$('li a').click(function(e) {
 			if(e.target.getAttribute('id')!=null){
 				var aid = e.target.getAttribute('id').split("_");
@@ -113,7 +118,11 @@ var controller = (function() {
 		move : function(directory, page) {
 			setDirectory(directory);
 			setPage(page);
-			location.href = session.getContext()+'/'+getDirectory()+'/'+getPage();
+			if(directory==='member'&&page==='list'){
+				admin.student_list();
+			}else{
+				location.href = session.getContext()+'/'+getDirectory()+'/'+getPage();
+			}
 		},
 		moveWithKey : function(directory, page, key) {
 			setDirectory(directory);
@@ -181,6 +190,9 @@ var admin = (function() {
 		setPass : setPass,
 		getPass : getPass,
 		checkAdmin : function() {
+			return true;
+		},
+		checkAdmin2 : function() {
 			var isAdmin = confirm('관리자셈?');
 			if (!isAdmin) {
 				alert('관리자만 접근 가능');
@@ -194,7 +206,13 @@ var admin = (function() {
 				}
 			}
 		},
-		init : init
+		init : init,
+		student_list : function() {
+		/*	$('#admin_header').empty().load(session.getContext()+'/admin/header');*/
+			$('#admin_article').html(STUDENT_LIST_HEADER);
+			admin.init(session.getContext());
+			
+		}
 	};
 })();
 /* 
@@ -280,6 +298,7 @@ var SIGN_UP_FORM = '<section id="member_regist_content">'
 	+'<input id="bt_cancel" type="reset" value="취 소"/>'
 	+'</form> '
 	+'</section>';
+
 /* 
 ========== MAJOR_JS=========
 @AUTHOR : 2hwooo87@gmail.com
@@ -297,6 +316,77 @@ var SIGN_UP_FORM = '<section id="member_regist_content">'
 @DESC : 학생
 ============================
 */
+var STUDENT_LIST_HEADER = '<section class="box" style="width: 90%;">'
+	+'<article style="padding-top: 0">'
+	+'<ul class="list-group">'
+	+'<li class="list-group-item">총 학생수 ${totCount} 명</li>'
+	+'</ul>'
+	+'<div class="panel panel-primary">'
+	+'<div class="panel-heading">성적 리스트</div>'
+	+'<div class="panel-body"></div>'
+	+'<table id="member_list">'
+	+'<tr>'
+	+'<th>ID</th>'
+	+'<th>NAME</th>'
+	+'<th>REGDATE</th>'
+	+'<th>GENDER</th>'
+	+'<th>BIRTH</th>'
+	+'<th>EMAIL</th>'
+	+'<th>PHONE</th>'
+	+'<th>EDIT</th>'
+	+'</tr>'
+	+'<tbody>';
+var STUDENT_LIST_ROW = 
+/*	+'<c:forEach items="${list}" var="user">'*/
+	+'<tr>'
+	+'<td><a href="#">${user.memId}</a></td>'
+	+'<td>${user.name}</td>'
+	+'<td>${user.regDate}</td>'
+	+'<td>${user.gender}</td>'
+	+'<td>${user.ssn.substring(0,user.ssn.length())}</td>'
+	+'<td>${user.email}</td>'
+	+'<td>${user.phone}</td>'
+	+'<td><a>수정</a> / <a>삭제</a></td>'
+	+'</tr>'
+	/*+'</c:forEach>'*/
+var STUDENT_LIST_END = '';
+	+'</tbody>'
+	+'</table>'
+	+'</div>'
+	+'<nav aria-label="Page navigation" style="height: 20%;">'
+	+'<ul class="pagination">'
+	+'<c:if test="${startPg - pgSize gt 0 }">'
+	+'<li><a href="${ctp}/member/list/${startPg-pgSize}" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>'
+	+'</a></li>'
+	+'</c:if>'
+	+'<c:forEach begin="${startPg }" end="${lastPg }" step="1" varStatus="i">'
+	+'<c:choose>'
+	+'<c:when test="${i.index == pgNum }">'
+	+'<font color="red">${i.index }</font>'
+	+'</c:when>'
+	+'<c:otherwise>'
+	+'<a href="${ctp}/member/list/${i.index }">${i.index }</a>'
+	+'</c:otherwise>'
+	+'</c:choose>'
+	+'</c:forEach>'
+	+'<c:if test="${startPg + pgSize le totPg}">'
+	+'<li><a href="${ctp}/member/list/${startPg-pgSize}" aria-label="Next"> <span aria-hidden="true">&laqui;</span>'
+	+'</a></li>'
+	+'</c:if>'
+	+'</ul>'
+	+'</nav>'
+	+'<div align="center">'
+	+'<form action="${ctp}/member/search">'
+	+'<select name="keyField" id="">'
+	+'<option value="name" selected>이름</option>'
+	+'<option value="mem_id">ID</option>'
+	+'</select>'
+	+'<input type="text" name="keyword">'
+	+'<input type="submit" value="검 색">'
+	+'</form>'
+	+'</div>'
+	+'</article>'
+	+'</section>';
 
 
 
@@ -412,13 +502,19 @@ var member = (function() {
 			app.contentBox();
 			$('#member_login_form > button').click(function(e) {
 				e.preventDefault();
+				var login_info = {
+						'memId' : $('#userid').val(),
+						'pw' : $('#inputPassword').val()
+				};
 				$.ajax({
 					url : session.getContext()+'/member/login',
 					type : 'POST',
-					data : {'context':session.getContext(),'userid':$('#userid').val(),'userpw':$('#inputPassword').val()},
+					data : JSON.stringify(login_info),
+					contentType : 'application/json',
 					dataType : 'json',
+					async : false,
 					success : function(data){
-						if(data.name==null){
+						if(data.memId===null){
 							alert('아이디나 비밀번호를 확인해 주세요');
 						}else{
 							$('#pub_header').empty().load(session.getContext()+'/member/logined/header');	
@@ -435,7 +531,6 @@ var member = (function() {
 			
 		},
 		pub_sign_up_form : function() {
-			
 			$('#pub_article').empty().append(SIGN_UP_FORM);
 			$('#bt_join').prop('disabled',true);
 			$('#password,#password2').attr('maxlength','20');
@@ -480,10 +575,7 @@ var member = (function() {
 				}	
 			})
 			$('#pub_article').on('click','#bt_join',function(e){
-				
 				// 무결성 체크
-				
-				
 				e.preventDefault();
 				var subjects = '';
 				$('input[name=subject]:checked').each(function() {
@@ -605,6 +697,7 @@ var member = (function() {
 			});
 			
 		}
+		
 	};
 })();
 /* 

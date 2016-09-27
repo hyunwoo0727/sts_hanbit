@@ -1,6 +1,5 @@
 package com.hanbit.web.services.impl;
 
-import static org.junit.Assert.assertEquals;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;

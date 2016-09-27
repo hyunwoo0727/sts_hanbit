@@ -202,19 +202,29 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('학수 수: '||sp_result);
 END;
 -- SP_FIND_BY_ID_STUDENT
-CREATE OR REPLACE PROCEDURE find_by_id_student(
-    sp_stu_id IN Member.mem_id%TYPE,
-    sp_member OUT Member%ROWTYPE
-) AS
+
+CREATE OR REPLACE PROCEDURE find_student(
+    sp_option IN varchar2,
+    sp_stu_id IN Member.mem_id%TYPE, 
+    sp_stud_cursor OUT SYS_REFCURSOR
+) AS sp_sql varchar2(100) :='SELECT * FROM MEMBER WHERE ROLE=:s';
 BEGIN
-    SELECT * INTO sp_member FROM MEMBER WHERE role='STUDENT' AND mem_id=sp_stu_id;
-END find_by_id_student;
+    IF upper(sp_option)='ALL' THEN
+    OPEN sp_stud_cursor FOR
+    sp_sql USING 'STUDENT';
+    ELSE
+    sp_sql := sp_sql || ' AND mem_id = :i';
+    OPEN sp_stud_cursor FOR
+    sp_sql USING 'STUDENT',sp_stu_id;
+    END IF;
+END find_student;
 -- EXE_FIND_BY_ID_STUDENT
 DECLARE
+	sp_option VARCHAR2(20) := 'mem_id'
     sp_stu_id VARCHAR2(100) := 'hong';
     sp_student Member%ROWTYPE;
 BEGIN
-    hanbit.find_by_id_student(sp_stu_id,sp_student);
+    hanbit.find_student(sp_option,sp_stu_id,sp_student);
     DBMS_OUTPUT.PUT_LINE(sp_student.name);
 END;
 -- SP_MEMBER_COUNT
@@ -333,19 +343,27 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('교수 수: '||sp_result);
 END;
 -- SP_FIND_BY_ID_PROF
-CREATE OR REPLACE PROCEDURE find_by_id_professor(
-    sp_prof_id IN Member.mem_id%TYPE,
-    sp_prof OUT Member%ROWTYPE
-) AS
+CREATE OR REPLACE PROCEDURE find_professor(
+    sp_option IN varchar2,
+    sp_prof_id IN Member.mem_id%TYPE, 
+    sp_prof_cursor OUT SYS_REFCURSOR
+) AS sp_sql varchar2(100) :='SELECT * FROM MEMBER WHERE ROLE=:s';
 BEGIN
-    SELECT * INTO sp_prof FROM MEMBER WHERE role='PROFESSOR' AND mem_id=sp_prof_id;
-END find_by_id_professor;
+    IF upper(sp_option)='ALL' THEN
+    OPEN sp_prof_cursor FOR
+    sp_sql USING 'PROFESSOR';
+    ELSE
+    sp_sql := sp_sql || ' AND mem_id = :i';
+    OPEN sp_prof_cursor FOR
+    sp_sql USING 'PROFESSOR',sp_prof_id;
+    END IF;
+END find_professor;
 -- EXE_FIND_BY_ID_PROFFESSOR
 DECLARE
     sp_prof_id VARCHAR2(100) := 'kim';
     sp_prof Member%ROWTYPE;
 BEGIN
-    hanbit.find_by_id_professor(sp_prof_id,sp_prof);
+    hanbit.find_professor(sp_prof_id,sp_prof);
     DBMS_OUTPUT.PUT_LINE(sp_prof.name);
 END;
 -- SP_ALL_PROF

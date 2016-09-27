@@ -1,7 +1,9 @@
 package com.hanbit.web.services.impl;
 
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,6 +19,8 @@ import org.springframework.stereotype.Service;
 import com.hanbit.web.controllers.MemberController;
 import com.hanbit.web.domains.Command;
 import com.hanbit.web.domains.MemberDTO;
+import com.hanbit.web.domains.Param;
+import com.hanbit.web.domains.Retval;
 import com.hanbit.web.mappers.MemberMapper;
 import com.hanbit.web.services.MemberService;
 
@@ -24,12 +28,13 @@ import com.hanbit.web.services.MemberService;
 public class MemberServiceImpl implements MemberService{
 	private static MemberServiceImpl instance = MemberServiceImpl.getInstance();
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-	private Map<String,MemberDTO> map;
 	@Autowired
 	private SqlSession sqlSession;
 	@Autowired
 	private Command command;
-	@Autowired MemberDTO memDto;
+	@Autowired
+	private Retval retval;
+	
 	private MemberServiceImpl() {
 		//accService=AccountServiceImp.getInstance();
 	}
@@ -44,24 +49,18 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public MemberDTO login(MemberDTO inMem) {
 		logger.info("===LOGIN=== ID : {}",inMem.getMemId());
-		command.setOption("mem_id");
+		command.setKeyField("mem_id");
 		command.setKeyword(inMem.getMemId());
-		MemberDTO temp = this.findOne(command);
-		if(temp!=null && temp.getPw().equals(inMem.getPw())){	
+		MemberDTO memDto = this.findOne(command);
+		if(memDto!=null && memDto.getPw().equals(inMem.getPw())){
 			logger.info("=========LOGIN SUCCESS=========");
-			return temp;
+			return memDto;
+		}else{
+			logger.info("=========LOGIN FAIL=========");
+			return null;
 		}
-		logger.info("=========LOGIN FAIL=========");
-		memDto.setMemId("");
-		return memDto;
 	}
-	@Override
-	public Map<String, MemberDTO> map() {
-//		return mDao.selectMap();
-		return null;
-	}
-	
-	
+
 /*	@Override
 	public int regist(MemberDTO mVO) {
 		if(mDao.findByPK(mVO.getId())==null){
@@ -87,36 +86,44 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}*/
 	@Override
-	public int count() {
-		return map.size();
-	}
-	@Override
 	public MemberDTO findOne(Command command) {
-		logger.info("===FIND BY ONE === OPTION : {}",command.getOption());
+		logger.info("===FIND BY ONE === keyField : {}",command.getKeyField());
 		logger.info("===FIND BY ONE === KEYWORD : {}",command.getKeyword());
 		Map<String,Object> map = new HashMap<String,Object>();
 		ResultSet rs = null;
+		map.put("keyField", command.getKeyField());
 		map.put("keyword", command.getKeyword());
 		map.put("result", rs);
-		sqlSession.getMapper(MemberMapper.class).findOne2(map);
+		sqlSession.getMapper(MemberMapper.class).find(map);
 		@SuppressWarnings("unchecked")
 		List<MemberDTO> list = (ArrayList<MemberDTO>)map.get("result");
 		return list.size()==0?null:list.get(0);
 	}
 	@Override
-	public List<MemberDTO> findBy(String word) {
-		Set<?> keys = map.keySet();
+	public List<MemberDTO> list(Command command) {
+	/*	Set<?> keys = map.keySet();
 		Iterator<?> it = keys.iterator();
 		List<MemberDTO> findList = new ArrayList<MemberDTO>();
 		while(it.hasNext()){
 			MemberDTO tempBean = (MemberDTO) map.get(it.next());
-			/*if(tempBean.getName().contains(word)){
+			if(tempBean.getName().contains(word)){
 				findList.add(tempBean);
-			}*/
+			}
 		}
-		return findList;
+		return findList;*/
+		logger.info("===LIST === START : {}",command.getStart());
+		logger.info("===LIST === END: {}",command.getEnd());
+		Map<String,Object> map = new HashMap<String,Object>();
+		ResultSet rs = null;
+		map.put("start", command.getStart());
+		map.put("end", command.getEnd());
+		map.put("result", rs);
+		sqlSession.getMapper(MemberMapper.class).studentList(map);
+		@SuppressWarnings("unchecked")
+		List<MemberDTO> list = (ArrayList<MemberDTO>)map.get("result");
+		return list;
 	}
-	@Override
+/*	@Override
 	public List<MemberDTO> list() {
 		Set<?> keys = map.keySet();
 		Iterator<?> it = keys.iterator();
@@ -125,7 +132,7 @@ public class MemberServiceImpl implements MemberService{
 			findList.add((MemberDTO) this.map.get(it.next()));
 		}
 		return findList;
-	}
+	}*/
 	@Override
 	public int existId(String id) {
 		logger.info("===EXIST ID === ID : {}",id);
@@ -134,6 +141,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public String regist(MemberDTO memDto) {
 		logger.info("===REGIST MEMBER === ID : {}",memDto.getMemId());
+		memDto.setGender(this.getGender(memDto.getSsn()));
+		memDto.setRegDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis())));
+		memDto.setRole("STUDENT");
+		memDto.setProfileImg("default.jpg");
+		memDto.setMajorSeq(1011);
 		return sqlSession.getMapper(MemberMapper.class).insert(memDto)==-1?"success":"fail";
 	}
 	@Override
@@ -146,5 +158,24 @@ public class MemberServiceImpl implements MemberService{
 		logger.info("===UPDATE MEMBER === ID : {}",memDto.getMemId());
 		return sqlSession.getMapper(MemberMapper.class).updateStudent(memDto)==-1?"SUCCESS":"FAIL";
 	}
-	
+	public String getGender(String ssn){
+		return (Integer.parseInt(ssn.split("-")[1])+10)%2==1?"MALE":"FEMALE";
+	}
+	@Override
+	public Retval studentCnt() {
+		logger.info("===STUDENT COUNT ===");
+		sqlSession.getMapper(MemberMapper.class).countStudent(retval);
+		return retval;
+	}
+	@Override
+	public List<MemberDTO> find(Command command) {
+		logger.info("===STUDENT FIND ===");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("keyword", command.getKeyword());
+		map.put("keyField", command.getKeyField());
+		ResultSet rs = null;
+		map.put("result", rs);
+		sqlSession.getMapper(MemberMapper.class).find(map);
+		return (List<MemberDTO>) map.get("result");
+	}
 }
