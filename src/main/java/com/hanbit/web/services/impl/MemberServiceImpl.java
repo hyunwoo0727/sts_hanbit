@@ -93,6 +93,8 @@ public class MemberServiceImpl implements MemberService{
 		ResultSet rs = null;
 		map.put("keyField", command.getKeyField());
 		map.put("keyword", command.getKeyword());
+		map.put("start", 1);
+		map.put("end", 1);
 		map.put("result", rs);
 		sqlSession.getMapper(MemberMapper.class).find(map);
 		@SuppressWarnings("unchecked")
@@ -173,9 +175,20 @@ public class MemberServiceImpl implements MemberService{
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("keyword", command.getKeyword());
 		map.put("keyField", command.getKeyField());
+		map.put("start", command.getStart());
+		map.put("end", command.getEnd());
 		ResultSet rs = null;
 		map.put("result", rs);
 		sqlSession.getMapper(MemberMapper.class).find(map);
 		return (List<MemberDTO>) map.get("result");
+	}
+	@Override
+	public Retval searchCnt(Command command) {
+		logger.info("===STUDENT COUNT ===");
+		retval.setFlag(command.getKeyField());
+		retval.setMessage(command.getKeyword());
+		System.out.println(retval);
+		sqlSession.getMapper(MemberMapper.class).searchCount(retval);
+		return retval;
 	}
 }

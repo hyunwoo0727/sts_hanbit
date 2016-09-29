@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-   	  <img id="user_header_brand"/>
+   	  <img id="user_header_brand" alt="hanbit" />
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
@@ -75,6 +75,7 @@
   </div><!-- /.container-fluid -->
 </nav>
 <script type="text/javascript">
+	$('#user_header_brand').addClass('pointer').attr('src',session.getImgPath()+'/default/hanbit.png').attr('alt','hanbit').css('width','80px').css('height','70px').css('padding-bottom','5px');
 	$("#pub_header").on('click','#btn_logout',function(){
 		controller.move('member','logout');
 	});

@@ -22,4 +22,5 @@ public interface MemberMapper {
 	public int updateStudent(MemberDTO memDto);
 	public Retval countStudent(Retval retval);
 /*	public Map<String, MemberDTO> selectMap();*/
+	public Retval searchCount(Retval retval);
 }

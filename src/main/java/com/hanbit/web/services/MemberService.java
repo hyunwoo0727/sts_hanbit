@@ -32,4 +32,5 @@ public interface MemberService{
 	public MemberDTO login(MemberDTO memDto);
 	public int existId(String id);
 	public Retval studentCnt();
+	public Retval searchCnt(Command command);
 }

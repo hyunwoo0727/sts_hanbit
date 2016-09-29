@@ -67,21 +67,6 @@ var app = (function() { // ( ) 안에서만 살 수 있음.. 밖에선 인식 �
 		setContentView();
 		$('#public_header_brand').click(function() {controller.home();});
 		$('#admin_header_brand').click(function() {controller.move('admin','main');});
-		$('#nav a').click(function(e) {
-			if(e.target.getAttribute('id')!=null){
-				if(e.target.getAttribute('id')!=='member_list'){
-					controller.move(e.target.getAttribute('id').split("_")[1], "main");
-				}
-		}});
-		$('li a').click(function(e) {
-			if(e.target.getAttribute('id')!=null){
-				var aid = e.target.getAttribute('id').split("_");
-				if (aid.includes("admin") && !admin.checkAdmin()) {
-					return;
-				}
-				controller.move(aid[0],aid[1]);
-			}
-		});
 		$('#bt_bom').click(function() {controller.move('douglas', 'bom')});
 		$('#bt_dom').click(function() {controller.move('douglas', 'dom')});
 		$('#bt_kaup').click(function() {controller.move('douglas', 'kaup')});
@@ -101,6 +86,18 @@ var nav = (function() {
 	}
 	var onCreate = function() {
 		setContentView();
+		$('#public_freeboard').click(function() {
+			controller.move('public','freeboard');
+		});
+		$('#public_contact').click(function() {
+			controller.move('public','contact');
+		});
+		$('#school_main').click(function() {
+			controller.move('school','main');
+		});
+		$('#member_list').click(function(){
+			admin.student_list('list','all',1);
+		});
 	}
 	return {
 		init : init
@@ -118,11 +115,7 @@ var controller = (function() {
 		move : function(directory, page) {
 			setDirectory(directory);
 			setPage(page);
-			if(directory==='member'&&page==='list'){
-				admin.student_list();
-			}else{
-				location.href = session.getContext()+'/'+getDirectory()+'/'+getPage();
-			}
+			location.href = session.getContext()+'/'+getDirectory()+'/'+getPage();
 		},
 		moveWithKey : function(directory, page, key) {
 			setDirectory(directory);
@@ -183,8 +176,7 @@ var admin = (function() {
 	}
 	var onCreate = function() {
 		setContentView();
-		$('#img_admin_home').click(function() {controller.move('admin','main');})
-		
+		$('#img_admin_home,#admin_main').click(function() {controller.move('admin','main');})
 	}
 	return {
 		setPass : setPass,
@@ -207,11 +199,149 @@ var admin = (function() {
 			}
 		},
 		init : init,
-		student_list : function() {
-		/*	$('#admin_header').empty().load(session.getContext()+'/admin/header');*/
-			$('#admin_article').html(STUDENT_LIST_HEADER);
-			admin.init(session.getContext());
+		// pgNum도 받아서 검색시도 리스트 페이지 되게 해야 함
+		student_list : function(keyField,keyword,pgNum) {
+			$('#admin_header').empty().load(session.getContext()+'/admin/header');
+			$('#admin_nav').empty().load(session.getContext()+'/admin/nav');
+			$('#admin_article').empty();
+			var list_url = '';
+			if(keyField==='list'){
+				list_url = session.getContext()+'/member/list/'+pgNum;
+			}else{
+				list_url = session.getContext()+'/member/search/'+keyField+'/'+keyword+'/'+pgNum;
+			}
+			$.getJSON(list_url, function(data) {
+				var frame = '';
+				var startPg = data.startPg;
+				var lastPg = data.lastPg;
+				var pgSize = data.pgSize;
+				var totPg = data.totPg;
+				var groupSize = data.groupSize;
+				var totCount = data.totCount;
+				console.log('startPg' + startPg);
+				console.log('lastPg' + lastPg);
+				console.log('pgSize' + pgSize);
+				console.log('totPg' + totPg);
+				console.log('groupSize' + groupSize);
+				
+				var student_list_form = '<section class="box" style="width: 90%;">'
+					+'<article style="padding-top: 0">'
+					+'<ul class="list-group">';
+				student_list_form += '<li class="list-group-item">총 학생수 '+totCount+' 명</li>'
+				student_list_form += '</ul>'
+					+'<div class="panel panel-primary">'
+					+'<div class="panel-heading">성적 리스트</div>'
+					+'<div class="panel-body"></div>'
+					+'<table id="member_list">'
+					+'<tr>'
+					+'<th>ID</th>'
+					+'<th>NAME</th>'
+					+'<th>REGDATE</th>'
+					+'<th>GENDER</th>'
+					+'<th>BIRTH</th>'
+					+'<th>EMAIL</th>'
+					+'<th>PHONE</th>'
+					+'<th>EDIT</th>'
+					+'</tr>'
+					+'<tbody>';
+				if(totCount == 0){
+					student_list_form += '<tr><td colspan=7>등록된 학생이 없습니다</td></tr>';
+				}else{
+					$.each(data.list, function(i,member) {
+						student_list_form +=
+							'<tr>'
+							+'<td><a href="#">'+member.memId+'</a></td>'
+							+'<td>'+member.name+'</td>'
+							+'<td>'+member.regDate+'</td>'
+							+'<td>'+member.gender+'</td>'
+							+'<td>'+member.ssn.substring(0,member.ssn.length)+'</td>'
+							+'<td>'+member.email+'/td>'
+							+'<td>'+member.phone+'</td>'
+							+'<td><a class="list_regist">등록</a> / <a class="list_update">수정</a></td>'
+							+'</tr>'
+					})
+				}
+				student_list_form += '</tbody>'
+				+'</table>'
+				+'</div>';
+				
+				
+				var pagination = '<nav aria-label="Page navigation" align="center" style="height: 20%;">'
+					+'<ul class="pagination">';
+				// 여기서부터 검색과 리스트 구분해야 함..
+				
+				if(startPg-groupSize > 0){
+					if(typeof data.keyField ==='undefined'){
+						pagination += '<li><a href="#" onClick="admin.student_list(\'list\',\'all\','+(startPg-1)+')"  aria-label="Previous"> <span aria-hidden="true">&laquo;</span>'
+						+'</a></li>';
+					}else{
+						pagination += '<li><a href="#" onClick="admin.find_student(\'search\','+data.keyField+','+data.keyword+','+(startPg-1)+')"  aria-label="Previous"> <span aria-hidden="true">&laquo;</span>'
+						+'</a></li>';
+					}
+				}
 			
+				for(var i=startPg; i<=lastPg; i++){
+					if(i==pgNum){
+						if(typeof data.keyField ==='undefined'){
+							pagination+='<li><a href="#" onClick="admin.student_list(\'list\',\'all\','+i+')" style="color: red;">'+i+'</a></li>';
+						}else{
+							pagination+='<li><a href="#" onClick="admin.find_student(\'search\','+data.keyField+','+data.keyword+','+i+')" style="color: red;">'+i+'</a></li>';
+						}
+					}else{
+						if(typeof data.keyField ==='undefined'){
+							pagination+='<li><a href="#" onClick="admin.student_list(\'list\',\'all\','+i+')">'+i+'</a></li>';
+						}else{
+							pagination+='<li><a href="#" onClick="admin.find_student(\'search\','+data.keyField+','+data.keyword+','+i+')">'+i+'</a></li>';
+						}
+						/*pagination+='<a href="#" onClick="'+admin.student_list(i)+'">'+i+'</a>'*/
+					}
+				}
+				if(lastPg+1 <= totPg){
+					if(typeof data.keyField ==='undefined'){
+						pagination += '<li><a href="#" onClick="admin.student_list(\'list\',\'all\','+(lastPg+1)+')" aria-label="Next"> <span aria-hidden="true">&raquo;</span>'
+						+'</a></li>';
+					}else{
+						pagination += '<li><a href="#" onClick="admin.find_student(\'search\','+data.keyField+','+data.keyword+','+(lastPg+1)+')" aria-label="Next"> <span aria-hidden="true">&raquo;</span>'
+						+'</a></li>';
+					}
+				}
+				
+				// 여기까지
+				pagination += '</ul>'
+					+'</nav>'
+					+'<div align="center">'
+					+'<select name="keyField" id="keyField">'
+					+'<option value="name" selected>이름</option>'
+					+'<option value="mem_id">ID</option>'
+					+'</select>'
+					+'<input type="text" id="keyword" name="keyword">'
+					+'<input type="button" id="btn_search" value="검 색">'
+					+'</div>'
+					+'</article>'
+					+'</section>'
+				
+					$('#admin_article').on('click','#btn_search',function() {
+						if($('#keyword').val().length>0){
+							admin.find_student($('#keyField').val(),$('#keyword').val(),1);
+						}else{
+							alert('검색어를 입력해주세요');
+							$('#keyword').focus();
+							return false;
+						}
+					})	
+				
+					
+				$('#admin_article').html(student_list_form).append(pagination);
+			})
+			$('#admin_header').on('click','#admin_header_brand',function(){controller.move('admin','main')});
+			$('#admin_nav').on('click','#member_list',function(){
+				admin.student_list('list','all',1);
+				/*location.href = session.getContext()+'/member/list/1';*/
+			})
+			
+		},
+		find_student : function(keyField,keyword,pgNum) {
+			admin.student_list(keyField,keyword,pgNum);
 		}
 	};
 })();
@@ -436,13 +566,7 @@ var member = (function() {
 	}
 	var onCreate = function() {
 		setContentView();
-	/*	$('#member_find_form input[type=hidden').attr('name','context').attr('value',session.getContext());*/
-		$('#btn_search').attr('formaction',session.getContext()+'/member/find');
-	//	$('#member_login_form').attr('method','post').attr('action',session.getContext()+'/member/login');
 		$('#member_login_form input[type=hidden]').attr('name','context').attr('value',session.getContext());
-	/*	$('#member_login_form > button').click(function() {
-		//	$('#member_login_form').submit();
-		});*/
 		$('#ul_grade li:eq(0)').click(function name() {controller.move('grade','detail');})
 		$('#ul_grade li:eq(1)').click(function name() {controller.move('grade','search');})
 		$('#ul_account li:eq(0)').click(function name() {controller.move('account','detail');})

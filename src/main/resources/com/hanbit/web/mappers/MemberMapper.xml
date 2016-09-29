@@ -42,6 +42,8 @@
 		{call hanbit.find_student(
 			#{keyField, mode=IN},
 			#{keyword, mode=IN},
+			#{start, mode=IN},
+			#{end, mode=IN},
 			#{result,jdbcType=CURSOR, javaType=java.sql.ResultSet, mode=OUT, resultMap=memberVOMap}
 		)}
 	</select> 
@@ -58,6 +60,13 @@
 	<select id="countStudent" parameterType="com.hanbit.web.domains.Retval" statementType="CALLABLE">
 		{call hanbit.count_student(
 			#{count,jdbcType=INTEGER, mode=OUT}
+		)}
+	</select>
+	<select id="searchCount" parameterType="com.hanbit.web.domains.Retval" statementType="CALLABLE">
+		{call hanbit.count_student_search(
+			#{count,jdbcType=INTEGER, mode=OUT},
+			#{flag, mode=IN},
+			#{message, mode=IN}
 		)}
 	</select>
 <!-- 	<select id="selectAll" resultType="com.hanbit.web.domains.MemberDTO">

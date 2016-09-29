@@ -9,5 +9,6 @@ public class Values {
 	public final static String MYSQL_DRIVER = null;
 	public final static String USER_ID = "hanbit";
 	public final static String USER_PW = "hanbit";
-	public static int PG_SIZE = 5;
+	public static int PG_SIZE = 3;
+	public static int GROUP_SIZE = 2;
 }

@@ -1,7 +1,7 @@
 package com.hanbit.web.controllers;
 
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -72,18 +72,6 @@ public class MemberController {
 		logger.info("TO COUNT CONDITION IS : {}","keyField");
 	//	model.addAttribute("count",mService.count());
 		return model;
-	}
-	@RequestMapping("/search/{keyField}/{keyword}")
-	public MemberDTO find(@PathVariable("keyField") String keyField,
-		 	@RequestParam("keyword") String keyword,Model model){
-		logger.info("GO TO : {}","find");
-		logger.info("KEYWOD : " + keyword);
-		logger.info("keyField : " + keyField );
-		command.setKeyField(keyField);
-		command.setKeyword(keyword);
-	//	SubjectMemberVO smVO = mService.findSmById(keyword);
-		
-		return mService.findOne(command);
 	}
 	@RequestMapping(value="/main", method = RequestMethod.GET)
 	public String moveMain(HttpSession session,Locale locale, Model model) {
@@ -160,8 +148,10 @@ public class MemberController {
 		return "redirect:/";
 	} 
 	@RequestMapping(value="/list/{strPgNum}",method=RequestMethod.GET)
-	public String studentList(@PathVariable String strPgNum,Model model) {
+	public @ResponseBody HashMap<String,Object> studentList(@PathVariable String strPgNum,Model model) {
 		logger.info("EXEC MEMBER : {}","SHOW STUDENT LIST");
+		logger.info("strPgNum : {}",strPgNum);
+		HashMap<String, Object> map = new HashMap<String,Object>();
 		int pgNum = Integer.parseInt(strPgNum);
 		int totCount = mService.studentCnt().getCount();
 		int totPg = Pagination.getTotPg(totCount);
@@ -170,41 +160,52 @@ public class MemberController {
 		int[] rows = Pagination.getStartEndRow(totCount, pgNum, Values.PG_SIZE);
 		command.setStart(rows[0]);
 		command.setEnd(rows[1]);
-		model.addAttribute("totCount", totCount);
-		model.addAttribute("pgSize", Values.PG_SIZE);
-		model.addAttribute("pgNum", pgNum);
-		model.addAttribute("startPg",startPg);
-		model.addAttribute("lastPg",lasgPg);
-		model.addAttribute("totPg",totPg);
-		model.addAttribute("list", mService.list(command));
-		return "admin:user/list.tiles";
+		map.put("totCount", totCount);
+		map.put("pgSize", Values.PG_SIZE);
+		map.put("pgNum", pgNum);
+		map.put("startPg",startPg);
+		map.put("lastPg",lasgPg);
+		map.put("totPg",totPg);
+		map.put("list", mService.list(command));
+		map.put("groupSize",Values.GROUP_SIZE);
+		logger.info("strPgNum : {}",Values.GROUP_SIZE);
+		return map;
 	}
-	@RequestMapping("/search")
-	public String search(@RequestParam("keyField") String keyField,
-			@RequestParam("keyword") String keyword,Model model) {
+	@RequestMapping("/search/{keyField}/{keyword}/{strPgNum}")
+	public @ResponseBody HashMap<String, Object> search(@PathVariable("keyField") String keyField,
+			@PathVariable("keyword") String keyword,@PathVariable("strPgNum") String strPgNum) {
+		// pgnum 으로 리스트처럼 start end 구해야 되넹...
 		logger.info("EXEC MEMBER : {}","search");
+		logger.info("SEARCH KEYFIELD : {}",keyField);
+		logger.info("SEARCH KEYWORD : {}",keyword);
+		logger.info("SEARCH STRPGNUM : {}",strPgNum);
+		int pgNum = Integer.parseInt(strPgNum);
 		command.setKeyword(keyword);
 		command.setKeyField(keyField);
-		List<MemberDTO> list = mService.find(command);
-		int pgNum = 1;
-		int totCount = list.size();
+		int totCount = mService.searchCnt(command).getCount();
 		int totPg = Pagination.getTotPg(totCount);
 		int startPg = Pagination.getStartPg(pgNum);
 		int lasgPg = Pagination.getLastPg(totPg, startPg);
-		model.addAttribute("totCount", totCount);
-		model.addAttribute("pgSize", Values.PG_SIZE);
-		model.addAttribute("pgNum", pgNum);
-		model.addAttribute("startPg",startPg);
-		model.addAttribute("lastPg",lasgPg);
-		model.addAttribute("totPg",totPg);
-		model.addAttribute("list", list);
-		return "admin:user/list.tiles";
+		int[] rows = Pagination.getStartEndRow(totCount, pgNum, Values.PG_SIZE);
+		command.setStart(rows[0]);
+		command.setEnd(rows[1]);
+		
+		System.out.println(totCount + " : 검색 리스트 숫자");
+		// page에 따라 start end 구해야 함
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		List<MemberDTO> list = mService.find(command);
+		map.put("totCount", totCount);
+		map.put("pgSize", Values.PG_SIZE);
+		map.put("pgNum", pgNum);
+		map.put("startPg",startPg);
+		map.put("lastPg",lasgPg);
+		map.put("totPg",totPg);
+		map.put("list", list);
+		map.put("groupSize", Values.GROUP_SIZE);
+		map.put("keyField", keyField);
+		map.put("keyword", keyword);
+		return map;
 	} 
-	/*@RequestMapping("/count")
-	public String moveCount(Locale locale, Model model) {
-		logger.info("GO TO : {}","count");
-		return "admin:member/count.tiles";
-	}*/
 	@RequestMapping("/rsp")
 	public String moveRsp(Locale locale, Model model) {
 		logger.info("GO TO : {}","rsp");

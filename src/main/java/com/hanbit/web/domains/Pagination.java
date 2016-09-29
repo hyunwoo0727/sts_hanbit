@@ -8,10 +8,10 @@ public class Pagination {
 		return rows;
 	}
 	public static int getLastPg(int totPg, int startPg) {
-		return startPg+Values.PG_SIZE-1 <= totPg ? startPg+Values.PG_SIZE-1 : totPg;
+		return startPg+Values.GROUP_SIZE-1 <= totPg ? startPg+Values.GROUP_SIZE-1 : totPg;
 	}
 	public static int getStartPg(int pgNum) {
-		return  pgNum-((pgNum-1)%Values.PG_SIZE);
+		return  pgNum-((pgNum-1)%Values.GROUP_SIZE);
 	}
 	public static int getTotPg(int totCount) {
 		return totCount%Values.PG_SIZE==0?totCount/Values.PG_SIZE:totCount/Values.PG_SIZE+1;
